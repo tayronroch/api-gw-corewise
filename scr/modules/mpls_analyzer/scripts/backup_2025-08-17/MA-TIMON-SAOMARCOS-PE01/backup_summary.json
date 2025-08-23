@@ -1,0 +1,28 @@
+{
+  "device": {
+    "name": "MA-TIMON-SAOMARCOS-PE01",
+    "ip": "10.254.254.49",
+    "interfaces": [
+      {
+        "interface": "MA-TIMON-SOF-CE01",
+        "ip": "4012",
+        "state": "active"
+      },
+      {
+        "interface": "PI-THE-DIGITALNET-MARCELO-CE03",
+        "ip": "4011",
+        "state": "active"
+      }
+    ]
+  },
+  "backup_timestamp": "2025-08-17T17:23:58.172352",
+  "backup_date": "2025-08-17",
+  "command_executed": {
+    "command": "show running-config | display json | nomore",
+    "status": "success",
+    "raw_size": 47856,
+    "json_keys": [
+      "data"
+    ]
+  }
+}

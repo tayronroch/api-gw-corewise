@@ -1,0 +1,16 @@
+{
+  "device": {
+    "name": "PI-CAMURUPIM-PE01",
+    "ip": "10.254.254.87",
+    "interfaces": []
+  },
+  "backup_timestamp": "2025-08-17T17:27:51.298524",
+  "backup_date": "2025-08-17",
+  "command_executed": {
+    "command": "show running-config | display json | nomore",
+    "status": "failed",
+    "error": "JSON inválido ou incompleto",
+    "raw_size": 15640,
+    "stderr": null
+  }
+}

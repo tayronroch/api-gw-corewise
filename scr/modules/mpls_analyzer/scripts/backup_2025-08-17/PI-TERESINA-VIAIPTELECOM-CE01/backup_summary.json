@@ -1,0 +1,17 @@
+{
+  "device": {
+    "name": "PI-TERESINA-VIAIPTELECOM-CE01",
+    "ip": "10.254.254.9",
+    "interfaces": []
+  },
+  "backup_timestamp": "2025-08-17T17:18:20.949566",
+  "backup_date": "2025-08-17",
+  "command_executed": {
+    "command": "show running-config | display json | nomore",
+    "status": "success",
+    "raw_size": 22064,
+    "json_keys": [
+      "data"
+    ]
+  }
+}

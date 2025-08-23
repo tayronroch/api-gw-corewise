@@ -1,0 +1,17 @@
+{
+  "device": {
+    "name": "PI-TERESINA-DIGITALNET-RENATO-CE01",
+    "ip": "10.254.254.15",
+    "interfaces": []
+  },
+  "backup_timestamp": "2025-08-17T17:18:56.135858",
+  "backup_date": "2025-08-17",
+  "command_executed": {
+    "command": "show running-config | display json | nomore",
+    "status": "success",
+    "raw_size": 21219,
+    "json_keys": [
+      "data"
+    ]
+  }
+}

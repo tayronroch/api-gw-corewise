@@ -1,0 +1,22 @@
+{
+  "device": {
+    "name": "PI-JOAQUIMPIRES-PE01",
+    "ip": "10.254.254.68",
+    "interfaces": [
+      {
+        "interface": "PI-TERESINA-PICARRA-PE02-VIA-MEGALINK",
+        "ip": "1281",
+        "state": "active"
+      }
+    ]
+  },
+  "backup_timestamp": "2025-08-17T17:25:41.882476",
+  "backup_date": "2025-08-17",
+  "command_executed": {
+    "command": "show running-config | display json | nomore",
+    "status": "failed",
+    "error": "JSON inválido ou incompleto",
+    "raw_size": 24128,
+    "stderr": null
+  }
+}

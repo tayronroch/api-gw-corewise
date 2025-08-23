@@ -1,0 +1,17 @@
+{
+  "device": {
+    "name": "PI-JOSEDEFREITAS-TELEGONET-CE01",
+    "ip": "10.254.254.161",
+    "interfaces": []
+  },
+  "backup_timestamp": "2025-08-17T17:28:39.557198",
+  "backup_date": "2025-08-17",
+  "command_executed": {
+    "command": "show running-config | display json | nomore",
+    "status": "success",
+    "raw_size": 33093,
+    "json_keys": [
+      "data"
+    ]
+  }
+}

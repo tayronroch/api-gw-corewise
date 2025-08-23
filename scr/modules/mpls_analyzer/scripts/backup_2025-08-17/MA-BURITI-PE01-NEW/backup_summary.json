@@ -1,0 +1,17 @@
+{
+  "device": {
+    "name": "MA-BURITI-PE01-NEW",
+    "ip": "10.254.254.85",
+    "interfaces": []
+  },
+  "backup_timestamp": "2025-08-17T17:27:40.601090",
+  "backup_date": "2025-08-17",
+  "command_executed": {
+    "command": "show running-config | display json | nomore",
+    "status": "success",
+    "raw_size": 20568,
+    "json_keys": [
+      "data"
+    ]
+  }
+}

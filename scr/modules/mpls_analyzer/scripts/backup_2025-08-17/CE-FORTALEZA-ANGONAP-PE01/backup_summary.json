@@ -1,0 +1,23 @@
+{
+  "device": {
+    "name": "CE-FORTALEZA-ANGONAP-PE01",
+    "ip": "10.254.254.50",
+    "interfaces": [
+      {
+        "interface": "PI-TERESINA-ELETRONET-PE01",
+        "ip": "1900",
+        "state": "active"
+      }
+    ]
+  },
+  "backup_timestamp": "2025-08-17T17:24:00.479392",
+  "backup_date": "2025-08-17",
+  "command_executed": {
+    "command": "show running-config | display json | nomore",
+    "status": "success",
+    "raw_size": 32602,
+    "json_keys": [
+      "data"
+    ]
+  }
+}

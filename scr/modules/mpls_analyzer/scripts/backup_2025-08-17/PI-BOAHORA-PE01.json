@@ -1,0 +1,795 @@
+{
+  "data": {
+    "tailf-aaa:aaa": {
+      "authentication": {
+        "users": {
+          "user": [
+            {
+              "name": "direct.noc.cgr",
+              "password": "$1$h2ybh1Y4$SCeTm0w0KEmzL2a4XOUA81",
+              "dmos-aaa:group": "admin"
+            }
+          ]
+        },
+        "dmos-aaa:authentication-order": "local tacacs"
+      },
+      "dmos-aaa:server": {
+        "tacacs": [
+          {
+            "name": "TACACS-SERVER",
+            "host": "170.84.145.15",
+            "enable": {
+              "authentication": [
+                null
+              ],
+              "authorization": [
+                null
+              ],
+              "accounting": [
+                null
+              ]
+            },
+            "shared-secret": "$7$n6lWidoyGaGFeegVu4rL04CcIaIDTNvU",
+            "source": {
+              "interface": "loopback-0"
+            }
+          }
+        ]
+      }
+    },
+    "lacp:link-aggregation": {
+      "system": {},
+      "global": {
+        "load-balance": {}
+      },
+      "interface": {
+        "lag": [
+          {
+            "lag-id": 1,
+            "interface-lag-config": {
+              "mode": "active",
+              "description": "PI-BOQUEIRAODOPI-PE01"
+            },
+            "lag": {
+              "minimum-active": {}
+            },
+            "interface-config": [
+              {
+                "interface-name": "hundred-gigabit-ethernet-1/1/1"
+              }
+            ]
+          },
+          {
+            "lag-id": 2,
+            "interface-lag-config": {
+              "mode": "active",
+              "description": "PI-BARRAS-PE01"
+            },
+            "lag": {
+              "minimum-active": {}
+            },
+            "interface-config": [
+              {
+                "interface-name": "hundred-gigabit-ethernet-1/1/2"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "router-mpls:mpls": {
+      "ldp-config": {
+        "ldp": {
+          "lsr-id": [
+            {
+              "interface-name": "loopback-0",
+              "interface": [
+                {
+                  "interface-name": "l3-PI-BARRAS-PE01"
+                },
+                {
+                  "interface-name": "l3-PI-BOQUEIRAODOPI-PE01"
+                }
+              ],
+              "neighbor": [
+                {
+                  "targeted": "10.254.254.1"
+                },
+                {
+                  "targeted": "10.254.254.2"
+                },
+                {
+                  "targeted": "10.254.254.22"
+                },
+                {
+                  "targeted": "10.254.254.30"
+                },
+                {
+                  "targeted": "10.254.254.32"
+                },
+                {
+                  "targeted": "10.254.254.57"
+                },
+                {
+                  "targeted": "10.254.254.58"
+                },
+                {
+                  "targeted": "10.254.254.6"
+                },
+                {
+                  "targeted": "10.254.254.0"
+                },
+                {
+                  "targeted": "10.254.254.24"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "l2-vpn:l2vpn-config": {
+        "l2vpn": {
+          "logging": {},
+          "vpws-group": [
+            {
+              "group-name": "PI-BOQUEIRAODOPI-PE01"
+            },
+            {
+              "group-name": "PI-CABECEIRAS-PE01"
+            },
+            {
+              "group-name": "PI-CAPITAODECAMPOS-PE01",
+              "vpn": [
+                {
+                  "vpn-name": "2023",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.24",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 2023
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 2023
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "ten-gigabit-ethernet-1/1/6",
+                      "dot1q": 2023,
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {}
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "group-name": "PI-NOSSASENHORADENAZARE-PE01"
+            },
+            {
+              "group-name": "PI-TERESINA-PICARRA-PE00"
+            },
+            {
+              "group-name": "PI-TERESINA-PICARRA-PE01"
+            },
+            {
+              "group-name": "PI-TERESINA-PICARRA-PE02",
+              "vpn": [
+                {
+                  "vpn-name": "2664",
+                  "description": "L2L-EQUIPENET-PCR02-LAG19",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.2",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 2664
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 2664
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "ten-gigabit-ethernet-1/1/1",
+                      "dot1q": 2664,
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {}
+                    }
+                  ]
+                },
+                {
+                  "vpn-name": "2665",
+                  "description": "L2L-EQUIPENET-PCR02-LAG19",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.2",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 2665
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 2665
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "ten-gigabit-ethernet-1/1/1",
+                      "dot1q": 2665,
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {}
+                    }
+                  ]
+                },
+                {
+                  "vpn-name": "2666",
+                  "description": "L2L-EQUIPENET-PCR02-LAG19",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.2",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 2666
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 2666
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "ten-gigabit-ethernet-1/1/1",
+                      "dot1q": 2666,
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {}
+                    }
+                  ]
+                },
+                {
+                  "vpn-name": "2667",
+                  "description": "L2L-EQUIPENET-PCR02-LAG19",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.2",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 2667
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 2667
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "ten-gigabit-ethernet-1/1/1",
+                      "dot1q": 2667,
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {}
+                    }
+                  ]
+                },
+                {
+                  "vpn-name": "3444",
+                  "qinq": [
+                    null
+                  ],
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.2",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 3444
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 3444
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "ten-gigabit-ethernet-1/1/2",
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {
+                        "dot1q": "200 201 202 203 204 205 206 207 208 209 210 211 212 213 214 215 216 217 218 219 220 700 701 702 703 704 705 706 707 708 709 710 711 712 713 714 715 716 717 718 719 720 2448 2449 2450"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "group-name": "PI-TERESINA-PICARRA-PE03"
+            },
+            {
+              "group-name": "PI-TERESINA-PLANALTO-PE01"
+            }
+          ]
+        }
+      },
+      "dmos-mpls-rsvp-te:rsvp": {
+        "interface": [
+          {
+            "interface-name": "l3-PI-BARRAS-PE01"
+          },
+          {
+            "interface-name": "l3-PI-BOQUEIRAODOPI-PE01"
+          }
+        ]
+      }
+    },
+    "router-dcl:multicast": {},
+    "snmp:snmp": {
+      "agent": {
+        "enabled": true,
+        "ip": "10.254.254.59",
+        "version": {
+          "v2c": [
+            null
+          ]
+        }
+      },
+      "system": {
+        "contact": "flavio@directtelecom.com.br",
+        "location": "PI-BOAHORA"
+      },
+      "community": [
+        {
+          "index": "MwSolucoes",
+          "sec-name": "MwSolucoes"
+        }
+      ],
+      "notify": [
+        {
+          "name": "std_v1_trap",
+          "tag": "std_v1_trap"
+        },
+        {
+          "name": "std_v2_inform",
+          "tag": "std_v2_inform",
+          "type": "inform"
+        },
+        {
+          "name": "std_v2_trap",
+          "tag": "std_v2_trap"
+        },
+        {
+          "name": "std_v3_inform",
+          "tag": "std_v3_inform",
+          "type": "inform"
+        },
+        {
+          "name": "std_v3_trap",
+          "tag": "std_v3_trap"
+        }
+      ],
+      "vacm": {
+        "group": [
+          {
+            "name": "MwSolucoes",
+            "member": [
+              {
+                "sec-name": "MwSolucoes",
+                "sec-model": "v2c"
+              }
+            ],
+            "access": [
+              {
+                "context": "",
+                "sec-model": "v2c",
+                "sec-level": "no-auth-no-priv",
+                "read-view": "root",
+                "write-view": "root"
+              }
+            ]
+          }
+        ],
+        "view": [
+          {
+            "name": "root",
+            "subtree": [
+              {
+                "oids": "1.3",
+                "included": [
+                  null
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "usm": {
+        "local": {}
+      }
+    },
+    "stp:stp-config": {},
+    "dmos-base:config": {
+      "dmos-clock:clock": {
+        "timezone": {
+          "name": "BRA",
+          "offset": -3
+        }
+      },
+      "dmos-sys-config:system": {
+        "hostname": "PI-BOAHORA-PE01"
+      },
+      "dmos-sntp-interface:sntp": {
+        "client": [
+          null
+        ],
+        "server": [
+          {
+            "address": "170.84.145.7"
+          }
+        ]
+      },
+      "dmos-ssh-server:ssh-server": {
+        "port": 5620
+      },
+      "switchport-native-vlan:switchport": {
+        "interface": [
+          {
+            "interface-name": "lag-1",
+            "native-vlan": {
+              "vlan-id": 4000
+            }
+          },
+          {
+            "interface-name": "lag-2",
+            "native-vlan": {
+              "vlan-id": 4001
+            }
+          }
+        ]
+      },
+      "dmos-vrf-app:vrf-node-config": {
+        "vrf": [
+          {
+            "name": "global",
+            "description": "System VRF for global entries"
+          },
+          {
+            "name": "mgmt",
+            "description": "System VRF for mgmt interface"
+          }
+        ]
+      },
+      "interface": {
+        "dmos-interface-ethernet:ten-gigabit-ethernet": [
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 1,
+            "description": "CUSTOMER-EQUIPNET-L2L-VL2664-2667",
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "advertising-abilities": "10Mfull 100Mfull 1Gfull",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 2,
+            "description": "CUSTOMER-CONNECTBOAHORA-VL3444",
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "advertising-abilities": "10Mfull 100Mfull 1Gfull",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 3,
+            "shutdown": false,
+            "negotiation": true,
+            "duplex": "full",
+            "speed": "1G",
+            "advertising-abilities": "10Mfull 100Mfull 1Gfull",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 4,
+            "shutdown": false,
+            "negotiation": true,
+            "duplex": "full",
+            "speed": "1G",
+            "advertising-abilities": "10Mfull 100Mfull 1Gfull",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 5,
+            "shutdown": false,
+            "negotiation": true,
+            "duplex": "full",
+            "speed": "1G",
+            "advertising-abilities": "10Mfull 100Mfull 1Gfull",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 6,
+            "description": "CUSTOMER-LINKMNET-L2L-VL2023-fase_ativacao",
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "advertising-abilities": "10Mfull 100Mfull 1Gfull",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 7,
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "advertising-abilities": "10Mfull 100Mfull 1Gfull",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 8,
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "advertising-abilities": "10Mfull 100Mfull 1Gfull",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 9,
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "advertising-abilities": "10Mfull 100Mfull 1Gfull",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 10,
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "advertising-abilities": "10Mfull 100Mfull 1Gfull",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 11,
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "advertising-abilities": "10Mfull 100Mfull 1Gfull",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 12,
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "advertising-abilities": "10Mfull 100Mfull 1Gfull",
+            "mdix": "normal"
+          }
+        ],
+        "dmos-interface-ethernet:hundred-gigabit-ethernet": [
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 1,
+            "description": "PI-BOQUEIRAODOPI-PE01-100GE-01",
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "100G",
+            "mdix": "normal",
+            "fec": "cl91"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 2,
+            "description": "PI-BARRAS-PE01-100GE-01",
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "100G",
+            "mdix": "normal",
+            "fec": "cl91"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 3,
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "100G",
+            "mdix": "normal"
+          }
+        ],
+        "dmos-ip-application:l3": [
+          {
+            "name": "PI-BARRAS-PE01",
+            "ip-mtu": 9000,
+            "lower-layer-if": {
+              "vlan": 4001
+            },
+            "ipv4": {
+              "address": {
+                "ip": "10.254.251.189/30"
+              }
+            }
+          },
+          {
+            "name": "PI-BOQUEIRAODOPI-PE01",
+            "ip-mtu": 9000,
+            "lower-layer-if": {
+              "vlan": 4000
+            },
+            "ipv4": {
+              "address": {
+                "ip": "10.254.251.186/30"
+              }
+            }
+          }
+        ],
+        "dmos-ip-application:mgmt": [
+          {
+            "id": "1/1/1",
+            "vrf": "mgmt",
+            "ipv4": {
+              "address": {
+                "ip": "192.168.0.25/24"
+              }
+            }
+          }
+        ],
+        "dmos-ip-application:loopback": [
+          {
+            "id": "0",
+            "ipv4": {
+              "address": [
+                {
+                  "ip": "10.254.254.59/32"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "dmos-base:router": {
+      "router-ospf:ospf": [
+        {
+          "process-id": 1,
+          "vrf": "global",
+          "mpls-te": {
+            "router-id": "loopback-0"
+          },
+          "redistribute": [
+            {
+              "protocol": "connected"
+            }
+          ],
+          "area": [
+            {
+              "area-id": "0",
+              "interface": [
+                {
+                  "interface-name": "l3-PI-BARRAS-PE01",
+                  "authentication": {},
+                  "dead-interval": {
+                    "minimal": {}
+                  },
+                  "bfd": {},
+                  "network-type": "point-to-point"
+                },
+                {
+                  "interface-name": "l3-PI-BOQUEIRAODOPI-PE01",
+                  "authentication": {},
+                  "dead-interval": {
+                    "minimal": {}
+                  },
+                  "bfd": {},
+                  "network-type": "point-to-point"
+                },
+                {
+                  "interface-name": "loopback-0",
+                  "authentication": {},
+                  "dead-interval": {
+                    "minimal": {}
+                  },
+                  "bfd": {}
+                }
+              ]
+            }
+          ],
+          "router-id": "10.254.254.59",
+          "timers": {
+            "lsa-arrival": {},
+            "throttle": {
+              "lsa-originate": {}
+            }
+          },
+          "maximum": {}
+        }
+      ],
+      "router-rtm:static": {
+        "address-family": {
+          "ipv4": {}
+        }
+      }
+    },
+    "dmos-base:ip": {},
+    "dmos-cpu-dos-protect:cpu-dos-protect": {},
+    "dmos-assistant-task:assistant-task": [
+      {
+        "task-name": "backup",
+        "action": {
+          "cli-file": "backup.cli"
+        },
+        "schedule": {
+          "recursive": {
+            "hour": "4"
+          }
+        }
+      }
+    ],
+    "dmos-dot1q:dot1q": {
+      "vlan": [
+        {
+          "vlan-id": 4000,
+          "name": "PI-BOQUEIRAODOPI-PE01",
+          "interface": [
+            {
+              "interface-name": "lag-1",
+              "tagged-untagged": "untagged"
+            }
+          ]
+        },
+        {
+          "vlan-id": 4001,
+          "name": "PI-BARRAS-PE01",
+          "interface": [
+            {
+              "interface-name": "lag-2",
+              "tagged-untagged": "untagged"
+            }
+          ]
+        }
+      ]
+    },
+    "dmos-licensing-app:license": [
+      {
+        "name": "mpls",
+        "enabled": true,
+        "key": "***"
+      }
+    ]
+  }
+}

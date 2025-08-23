@@ -1,0 +1,23 @@
+{
+  "device": {
+    "name": "PI-TERESINA-PICARRA-PE02",
+    "ip": "10.254.254.2",
+    "interfaces": [
+      {
+        "interface": "GERENCIA-CRS-COMPANY-NETWORK",
+        "ip": "742",
+        "state": "active"
+      }
+    ]
+  },
+  "backup_timestamp": "2025-08-17T17:17:11.545042",
+  "backup_date": "2025-08-17",
+  "command_executed": {
+    "command": "show running-config | display json | nomore",
+    "status": "success",
+    "raw_size": 221402,
+    "json_keys": [
+      "data"
+    ]
+  }
+}

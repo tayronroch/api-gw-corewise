@@ -1,0 +1,33 @@
+{
+  "device": {
+    "name": "PI-TERESINA-SANTAFE-PE01",
+    "ip": "10.254.254.20",
+    "interfaces": [
+      {
+        "interface": "PI-TERESINA-HIITECH-CE01",
+        "ip": "4008",
+        "state": "active"
+      },
+      {
+        "interface": "PI-TERESINA-MYINTERNET-CE01",
+        "ip": "4005",
+        "state": "active"
+      },
+      {
+        "interface": "PI-TERESINA-VIAIPTELECOM-CE01",
+        "ip": "4006",
+        "state": "active"
+      }
+    ]
+  },
+  "backup_timestamp": "2025-08-17T17:19:30.082299",
+  "backup_date": "2025-08-17",
+  "command_executed": {
+    "command": "show running-config | display json | nomore",
+    "status": "success",
+    "raw_size": 41931,
+    "json_keys": [
+      "data"
+    ]
+  }
+}

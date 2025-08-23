@@ -1,0 +1,16 @@
+{
+  "device": {
+    "name": "MA-BURITI-PE01",
+    "ip": "10.254.254.69",
+    "interfaces": []
+  },
+  "backup_timestamp": "2025-08-17T17:25:47.058934",
+  "backup_date": "2025-08-17",
+  "command_executed": {
+    "command": "show running-config | display json | nomore",
+    "status": "failed",
+    "error": "JSON inválido ou incompleto",
+    "raw_size": 16828,
+    "stderr": null
+  }
+}

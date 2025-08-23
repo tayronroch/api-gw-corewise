@@ -1,0 +1,26 @@
+Relatório de Análise - MA-BURITI-PE01
+==================================================
+
+Problemas identificados: 19
+
+Linha 1: ['MISSING_COMMA'] - '{'
+Linha 2: ['PREV_LINE_NO_COMMA'] - '"data": {'
+Linha 4: ['MISSING_COMMA', 'PREV_LINE_NO_COMMA'] - '"tailf-aaa:aaa": {'
+Linha 5: ['MISSING_COMMA', 'PREV_LINE_NO_COMMA'] - '"authentication": {'
+Linha 6: ['MISSING_COMMA', 'PREV_LINE_NO_COMMA'] - '"users": {'
+Linha 8: ['MISSING_COMMA'] - '{'
+Linha 17: ['MISSING_COMMA'] - '"dmos-aaa:server": {'
+Linha 19: ['MISSING_COMMA'] - '{'
+Linha 22: ['MISSING_COMMA'] - '"enable": {'
+Linha 28: ['MISSING_COMMA'] - '"source": {'
+Linha 34: ['MISSING_COMMA'] - '}'
+Linha 35: ['MISSING_COMMA', 'PREV_LINE_NO_COMMA'] - '"lacp:link-aggregation": {'
+Linha 36: ['PREV_LINE_NO_COMMA'] - '"system": {'
+Linha 38: ['MISSING_COMMA'] - '"global": {'
+Linha 39: ['PREV_LINE_NO_COMMA'] - '"load-balance": {'
+Linha 42: ['MISSING_COMMA'] - '"interface": {'
+Linha 44: ['MISSING_COMMA'] - '{'
+Linha 46: ['MISSING_COMMA'] - '"interface-lag-config": {'
+Linha 50: ['MISSING_COMMA'] - '"lag": {'
+
+Erro JSON final: Expecting ',' delimiter: line 625 column 5 (char 15909)

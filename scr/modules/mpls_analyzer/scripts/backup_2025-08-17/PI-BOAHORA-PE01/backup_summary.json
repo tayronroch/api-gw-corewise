@@ -1,0 +1,17 @@
+{
+  "device": {
+    "name": "PI-BOAHORA-PE01",
+    "ip": "10.254.254.59",
+    "interfaces": []
+  },
+  "backup_timestamp": "2025-08-17T17:24:29.180963",
+  "backup_date": "2025-08-17",
+  "command_executed": {
+    "command": "show running-config | display json | nomore",
+    "status": "success",
+    "raw_size": 21770,
+    "json_keys": [
+      "data"
+    ]
+  }
+}

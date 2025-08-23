@@ -1,0 +1,16 @@
+{
+  "device": {
+    "name": "PI-SAOJOAOARRAIAL-IPCONNECT-CE01",
+    "ip": "10.254.254.163",
+    "interfaces": []
+  },
+  "backup_timestamp": "2025-08-17T17:28:50.486317",
+  "backup_date": "2025-08-17",
+  "command_executed": {
+    "command": "show running-config | display json | nomore",
+    "status": "failed",
+    "error": "JSON inválido ou incompleto",
+    "raw_size": 19913,
+    "stderr": null
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "device": {
+    "name": "PI-TERESINA-SAOVICENTE-PE01",
+    "ip": "10.254.254.3",
+    "interfaces": [
+      {
+        "interface": "POP-CAMERAS",
+        "ip": "99",
+        "state": "active"
+      }
+    ]
+  },
+  "backup_timestamp": "2025-08-17T17:17:18.289966",
+  "backup_date": "2025-08-17",
+  "command_executed": {
+    "command": "show running-config | display json | nomore",
+    "status": "success",
+    "raw_size": 34400,
+    "json_keys": [
+      "data"
+    ]
+  }
+}

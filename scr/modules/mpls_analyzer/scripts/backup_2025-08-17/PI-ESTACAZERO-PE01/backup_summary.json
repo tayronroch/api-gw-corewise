@@ -1,0 +1,17 @@
+{
+  "device": {
+    "name": "PI-ESTACAZERO-PE01",
+    "ip": "10.254.254.72",
+    "interfaces": []
+  },
+  "backup_timestamp": "2025-08-17T17:26:08.019558",
+  "backup_date": "2025-08-17",
+  "command_executed": {
+    "command": "show running-config | display json | nomore",
+    "status": "success",
+    "raw_size": 21753,
+    "json_keys": [
+      "data"
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "device": {
+    "name": "SP-SAOPAULO-EQUINIX-SP4-PE01",
+    "ip": "10.254.254.56",
+    "interfaces": []
+  },
+  "backup_timestamp": "2025-08-17T17:24:10.982235",
+  "backup_date": "2025-08-17",
+  "command_executed": {
+    "command": "show running-config | display json | nomore",
+    "status": "success",
+    "raw_size": 28066,
+    "json_keys": [
+      "data"
+    ]
+  }
+}

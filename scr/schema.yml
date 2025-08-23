@@ -1,0 +1,4073 @@
+openapi: 3.0.3
+info:
+  title: CoreWise Engineering API
+  version: 1.0.0
+  description: API completa para gerenciamento de infraestrutura de rede, topologia
+    e engenharia de sistemas
+  contact:
+    name: CoreWise Team
+    email: support@corewise.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+paths:
+  /api/topology/api/connections/save/:
+    post:
+      operationId: topology_api_connections_save_create
+      description: Salva apenas as conexões de topologia para um projeto existente
+      tags:
+      - topology
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/topology/api/nodes/save/:
+    post:
+      operationId: topology_api_nodes_save_create
+      description: Salva apenas os nós de topologia para um projeto existente
+      tags:
+      - topology
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/topology/api/projects/:
+    get:
+      operationId: topology_api_projects_retrieve
+      description: Lista todos os projetos de topologia do usuário
+      tags:
+      - topology
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/topology/api/projects/{project_id}/:
+    get:
+      operationId: topology_api_projects_retrieve_2
+      description: Obtém um projeto específico com todos os seus dados
+      parameters:
+      - in: path
+        name: project_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - topology
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/topology/api/projects/{project_id}/delete/:
+    delete:
+      operationId: topology_api_projects_delete_destroy
+      description: Deleta um projeto de topologia
+      parameters:
+      - in: path
+        name: project_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - topology
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '204':
+          description: No response body
+  /api/topology/api/projects/save/:
+    post:
+      operationId: topology_api_projects_save_create
+      description: Salva um projeto completo de topologia
+      tags:
+      - topology
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/topology/api/simple/devices/nearby/:
+    get:
+      operationId: topology_api_simple_devices_nearby_retrieve
+      description: Encontra dispositivos próximos a um ponto
+      tags:
+      - topology
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/topology/api/simple/projects/{project_id}/connections/create/:
+    post:
+      operationId: topology_api_simple_projects_connections_create_create
+      description: Cria conexão entre dispositivos
+      parameters:
+      - in: path
+        name: project_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - topology
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/topology/api/simple/projects/{project_id}/devices/add/:
+    post:
+      operationId: topology_api_simple_projects_devices_add_create
+      description: Adiciona dispositivo de rede ao projeto
+      parameters:
+      - in: path
+        name: project_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - topology
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/topology/api/simple/projects/{project_id}/geojson/:
+    get:
+      operationId: topology_api_simple_projects_geojson_retrieve
+      description: Retorna projeto em formato GeoJSON
+      parameters:
+      - in: path
+        name: project_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - topology
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/topology/api/simple/projects/{project_id}/summary/:
+    get:
+      operationId: topology_api_simple_projects_summary_retrieve
+      description: Retorna resumo do projeto
+      parameters:
+      - in: path
+        name: project_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - topology
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/topology/api/simple/projects/create/:
+    post:
+      operationId: topology_api_simple_projects_create_create
+      description: Cria um novo projeto de topologia simplificado
+      tags:
+      - topology
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/topology/api/simple/projects/list/:
+    get:
+      operationId: topology_api_simple_projects_list_retrieve
+      description: Lista todos os projetos
+      tags:
+      - topology
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/topology/api/simple/test/:
+    get:
+      operationId: topology_api_simple_test_retrieve
+      description: Endpoint de teste para verificar conectividade
+      tags:
+      - topology
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/topology/api/v1/network-map/:
+    get:
+      operationId: topology_api_v1_network_map_retrieve
+      tags:
+      - topology
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '200':
+          description: No response body
+  /api/topology/api/v1/topology/:
+    get:
+      operationId: topology_api_v1_topology_retrieve
+      tags:
+      - topology
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '200':
+          description: No response body
+  /api/topology/connections/:
+    get:
+      operationId: topology_connections_list
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - topology
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedTopologyConnectionList'
+          description: ''
+    post:
+      operationId: topology_connections_create
+      tags:
+      - topology
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TopologyConnectionRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TopologyConnectionRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TopologyConnectionRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopologyConnection'
+          description: ''
+  /api/topology/connections/{id}/:
+    get:
+      operationId: topology_connections_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        description: A unique value identifying this topology connection.
+        required: true
+      tags:
+      - topology
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopologyConnection'
+          description: ''
+    put:
+      operationId: topology_connections_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        description: A unique value identifying this topology connection.
+        required: true
+      tags:
+      - topology
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TopologyConnectionRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TopologyConnectionRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TopologyConnectionRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopologyConnection'
+          description: ''
+    patch:
+      operationId: topology_connections_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        description: A unique value identifying this topology connection.
+        required: true
+      tags:
+      - topology
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedTopologyConnectionRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedTopologyConnectionRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedTopologyConnectionRequest'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopologyConnection'
+          description: ''
+    delete:
+      operationId: topology_connections_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        description: A unique value identifying this topology connection.
+        required: true
+      tags:
+      - topology
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '204':
+          description: No response body
+  /api/topology/equipments/:
+    get:
+      operationId: topology_equipments_list
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - topology
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedEquipmentList'
+          description: ''
+    post:
+      operationId: topology_equipments_create
+      tags:
+      - topology
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EquipmentRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/EquipmentRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/EquipmentRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Equipment'
+          description: ''
+  /api/topology/equipments/{id}/:
+    get:
+      operationId: topology_equipments_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this equipment.
+        required: true
+      tags:
+      - topology
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Equipment'
+          description: ''
+    put:
+      operationId: topology_equipments_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this equipment.
+        required: true
+      tags:
+      - topology
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EquipmentRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/EquipmentRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/EquipmentRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Equipment'
+          description: ''
+    patch:
+      operationId: topology_equipments_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this equipment.
+        required: true
+      tags:
+      - topology
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedEquipmentRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedEquipmentRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedEquipmentRequest'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Equipment'
+          description: ''
+    delete:
+      operationId: topology_equipments_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this equipment.
+        required: true
+      tags:
+      - topology
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '204':
+          description: No response body
+  /api/topology/link-traffic-history/:
+    get:
+      operationId: topology_link_traffic_history_list
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - topology
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedLinkTrafficHistoryList'
+          description: ''
+    post:
+      operationId: topology_link_traffic_history_create
+      tags:
+      - topology
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LinkTrafficHistoryRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LinkTrafficHistoryRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/LinkTrafficHistoryRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LinkTrafficHistory'
+          description: ''
+  /api/topology/link-traffic-history/{id}/:
+    get:
+      operationId: topology_link_traffic_history_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this link traffic history.
+        required: true
+      tags:
+      - topology
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LinkTrafficHistory'
+          description: ''
+    put:
+      operationId: topology_link_traffic_history_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this link traffic history.
+        required: true
+      tags:
+      - topology
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LinkTrafficHistoryRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LinkTrafficHistoryRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/LinkTrafficHistoryRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LinkTrafficHistory'
+          description: ''
+    patch:
+      operationId: topology_link_traffic_history_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this link traffic history.
+        required: true
+      tags:
+      - topology
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedLinkTrafficHistoryRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedLinkTrafficHistoryRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedLinkTrafficHistoryRequest'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LinkTrafficHistory'
+          description: ''
+    delete:
+      operationId: topology_link_traffic_history_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this link traffic history.
+        required: true
+      tags:
+      - topology
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '204':
+          description: No response body
+  /api/topology/links/:
+    get:
+      operationId: topology_links_list
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - topology
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedLinkList'
+          description: ''
+    post:
+      operationId: topology_links_create
+      tags:
+      - topology
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LinkRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LinkRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/LinkRequest'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Link'
+          description: ''
+  /api/topology/links/{id}/:
+    get:
+      operationId: topology_links_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this link.
+        required: true
+      tags:
+      - topology
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Link'
+          description: ''
+    put:
+      operationId: topology_links_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this link.
+        required: true
+      tags:
+      - topology
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LinkRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LinkRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/LinkRequest'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Link'
+          description: ''
+    patch:
+      operationId: topology_links_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this link.
+        required: true
+      tags:
+      - topology
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedLinkRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedLinkRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedLinkRequest'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Link'
+          description: ''
+    delete:
+      operationId: topology_links_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this link.
+        required: true
+      tags:
+      - topology
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '204':
+          description: No response body
+  /api/topology/nodes/:
+    get:
+      operationId: topology_nodes_list
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - topology
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedTopologyNodeList'
+          description: ''
+    post:
+      operationId: topology_nodes_create
+      tags:
+      - topology
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TopologyNodeRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TopologyNodeRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TopologyNodeRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopologyNode'
+          description: ''
+  /api/topology/nodes/{id}/:
+    get:
+      operationId: topology_nodes_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        description: A unique value identifying this topology node.
+        required: true
+      tags:
+      - topology
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopologyNode'
+          description: ''
+    put:
+      operationId: topology_nodes_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        description: A unique value identifying this topology node.
+        required: true
+      tags:
+      - topology
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TopologyNodeRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TopologyNodeRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TopologyNodeRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopologyNode'
+          description: ''
+    patch:
+      operationId: topology_nodes_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        description: A unique value identifying this topology node.
+        required: true
+      tags:
+      - topology
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedTopologyNodeRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedTopologyNodeRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedTopologyNodeRequest'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopologyNode'
+          description: ''
+    delete:
+      operationId: topology_nodes_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        description: A unique value identifying this topology node.
+        required: true
+      tags:
+      - topology
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '204':
+          description: No response body
+  /api/topology/projects/:
+    get:
+      operationId: topology_projects_list
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - topology
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedTopologyProjectList'
+          description: ''
+    post:
+      operationId: topology_projects_create
+      tags:
+      - topology
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TopologyProjectCreateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TopologyProjectCreateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TopologyProjectCreateRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopologyProjectCreate'
+          description: ''
+  /api/topology/projects/{id}/:
+    get:
+      operationId: topology_projects_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        description: A unique value identifying this topology project.
+        required: true
+      tags:
+      - topology
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopologyProject'
+          description: ''
+    put:
+      operationId: topology_projects_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        description: A unique value identifying this topology project.
+        required: true
+      tags:
+      - topology
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TopologyProjectCreateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TopologyProjectCreateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TopologyProjectCreateRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopologyProjectCreate'
+          description: ''
+    patch:
+      operationId: topology_projects_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        description: A unique value identifying this topology project.
+        required: true
+      tags:
+      - topology
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedTopologyProjectCreateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedTopologyProjectCreateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedTopologyProjectCreateRequest'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopologyProjectCreate'
+          description: ''
+    delete:
+      operationId: topology_projects_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        description: A unique value identifying this topology project.
+        required: true
+      tags:
+      - topology
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '204':
+          description: No response body
+  /api/topology/simple/simple/connections/:
+    get:
+      operationId: topology_simple_simple_connections_list
+      description: ViewSet para conexões de rede simplificadas
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - topology
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedNetworkConnectionSimpleList'
+          description: ''
+    post:
+      operationId: topology_simple_simple_connections_create
+      description: ViewSet para conexões de rede simplificadas
+      tags:
+      - topology
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NetworkConnectionSimpleRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/NetworkConnectionSimpleRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/NetworkConnectionSimpleRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetworkConnectionSimple'
+          description: ''
+  /api/topology/simple/simple/connections/{id}/:
+    get:
+      operationId: topology_simple_simple_connections_retrieve
+      description: ViewSet para conexões de rede simplificadas
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this network connection simple.
+        required: true
+      tags:
+      - topology
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetworkConnectionSimple'
+          description: ''
+    put:
+      operationId: topology_simple_simple_connections_update
+      description: ViewSet para conexões de rede simplificadas
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this network connection simple.
+        required: true
+      tags:
+      - topology
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NetworkConnectionSimpleRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/NetworkConnectionSimpleRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/NetworkConnectionSimpleRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetworkConnectionSimple'
+          description: ''
+    patch:
+      operationId: topology_simple_simple_connections_partial_update
+      description: ViewSet para conexões de rede simplificadas
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this network connection simple.
+        required: true
+      tags:
+      - topology
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedNetworkConnectionSimpleRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedNetworkConnectionSimpleRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedNetworkConnectionSimpleRequest'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetworkConnectionSimple'
+          description: ''
+    delete:
+      operationId: topology_simple_simple_connections_destroy
+      description: ViewSet para conexões de rede simplificadas
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this network connection simple.
+        required: true
+      tags:
+      - topology
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '204':
+          description: No response body
+  /api/topology/simple/simple/devices/:
+    get:
+      operationId: topology_simple_simple_devices_list
+      description: ViewSet para dispositivos de rede simplificados
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - topology
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedNetworkDeviceSimpleList'
+          description: ''
+    post:
+      operationId: topology_simple_simple_devices_create
+      description: ViewSet para dispositivos de rede simplificados
+      tags:
+      - topology
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NetworkDeviceSimpleRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/NetworkDeviceSimpleRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/NetworkDeviceSimpleRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetworkDeviceSimple'
+          description: ''
+  /api/topology/simple/simple/devices/{id}/:
+    get:
+      operationId: topology_simple_simple_devices_retrieve
+      description: ViewSet para dispositivos de rede simplificados
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this network device simple.
+        required: true
+      tags:
+      - topology
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetworkDeviceSimple'
+          description: ''
+    put:
+      operationId: topology_simple_simple_devices_update
+      description: ViewSet para dispositivos de rede simplificados
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this network device simple.
+        required: true
+      tags:
+      - topology
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NetworkDeviceSimpleRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/NetworkDeviceSimpleRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/NetworkDeviceSimpleRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetworkDeviceSimple'
+          description: ''
+    patch:
+      operationId: topology_simple_simple_devices_partial_update
+      description: ViewSet para dispositivos de rede simplificados
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this network device simple.
+        required: true
+      tags:
+      - topology
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedNetworkDeviceSimpleRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedNetworkDeviceSimpleRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedNetworkDeviceSimpleRequest'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetworkDeviceSimple'
+          description: ''
+    delete:
+      operationId: topology_simple_simple_devices_destroy
+      description: ViewSet para dispositivos de rede simplificados
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this network device simple.
+        required: true
+      tags:
+      - topology
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '204':
+          description: No response body
+  /api/topology/simple/simple/projects/:
+    get:
+      operationId: topology_simple_simple_projects_list
+      description: ViewSet para projetos de topologia simplificados
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - topology
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedTopologyProjectSimpleList'
+          description: ''
+    post:
+      operationId: topology_simple_simple_projects_create
+      description: ViewSet para projetos de topologia simplificados
+      tags:
+      - topology
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TopologyProjectSimpleRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TopologyProjectSimpleRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TopologyProjectSimpleRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopologyProjectSimple'
+          description: ''
+  /api/topology/simple/simple/projects/{id}/:
+    get:
+      operationId: topology_simple_simple_projects_retrieve
+      description: ViewSet para projetos de topologia simplificados
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this topology project simple.
+        required: true
+      tags:
+      - topology
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopologyProjectSimple'
+          description: ''
+    put:
+      operationId: topology_simple_simple_projects_update
+      description: ViewSet para projetos de topologia simplificados
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this topology project simple.
+        required: true
+      tags:
+      - topology
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TopologyProjectSimpleRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TopologyProjectSimpleRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TopologyProjectSimpleRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopologyProjectSimple'
+          description: ''
+    patch:
+      operationId: topology_simple_simple_projects_partial_update
+      description: ViewSet para projetos de topologia simplificados
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this topology project simple.
+        required: true
+      tags:
+      - topology
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedTopologyProjectSimpleRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedTopologyProjectSimpleRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedTopologyProjectSimpleRequest'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopologyProjectSimple'
+          description: ''
+    delete:
+      operationId: topology_simple_simple_projects_destroy
+      description: ViewSet para projetos de topologia simplificados
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this topology project simple.
+        required: true
+      tags:
+      - topology
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '204':
+          description: No response body
+  /api/users/login/:
+    post:
+      operationId: user_login
+      description: Autentica um usuário e retorna tokens JWT para acesso à API
+      summary: Login de usuário
+      tags:
+      - authentication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: Nome de usuário
+                password:
+                  type: string
+                  description: Senha do usuário
+              required:
+              - username
+              - password
+            examples:
+              LoginExample:
+                value:
+                  username: admin
+                  password: senha123
+                summary: Exemplo de login
+                description: Exemplo de dados para login de usuário
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: Login realizado com sucesso
+                content:
+                  application/json:
+                    example:
+                      success: true
+                      message: Login realizado com sucesso
+                      user:
+                        id: 1
+                        username: admin
+                        email: admin@corewise.com
+                        first_name: Admin
+                        last_name: User
+                      tokens:
+                        access: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...
+                        refresh: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                description: Dados de entrada inválidos
+                content:
+                  application/json:
+                    example:
+                      error: Username e password são obrigatórios
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                description: Credenciais inválidas
+                content:
+                  application/json:
+                    example:
+                      error: Credenciais inválidas
+          description: ''
+  /api/users/logout/:
+    post:
+      operationId: user_logout
+      description: Invalida o token de refresh do usuário para realizar logout seguro
+      summary: Logout de usuário
+      tags:
+      - authentication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refresh:
+                  type: string
+                  description: Token de refresh para invalidar
+              required:
+              - refresh
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                description: Logout realizado com sucesso
+                content:
+                  application/json:
+                    example:
+                      success: true
+                      message: Logout realizado com sucesso
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                description: Erro interno do servidor
+                content:
+                  application/json:
+                    example:
+                      error: 'Erro interno do servidor: ...'
+          description: ''
+  /api/users/token/:
+    post:
+      operationId: users_token_create
+      description: |-
+        Takes a set of user credentials and returns an access and refresh JSON web
+        token pair to prove the authentication of those credentials.
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPairRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPairRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPairRequest'
+        required: true
+      security:
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenObtainPair'
+          description: ''
+  /api/users/token/refresh/:
+    post:
+      operationId: users_token_refresh_create
+      description: |-
+        Takes a refresh type JSON web token and returns an access type JSON web
+        token if the refresh token is valid.
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefreshRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefreshRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefreshRequest'
+        required: true
+      security:
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+  /api/users/token/verify/:
+    post:
+      operationId: users_token_verify_create
+      description: |-
+        Takes a token and indicates if it is valid.  This view provides no
+        information about a token's fitness for a particular use.
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenVerifyRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenVerifyRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenVerifyRequest'
+        required: true
+      security:
+      - type: http
+        scheme: bearer
+        bearerFormat: JWT
+      - type: apiKey
+        in: header
+        name: Authorization
+      responses:
+        '200':
+          description: No response body
+components:
+  schemas:
+    CalculationMethodEnum:
+      enum:
+      - manual
+      - straight_line
+      - custom_algorithm
+      type: string
+      description: |-
+        * `manual` - Manual
+        * `straight_line` - Linha Reta
+        * `custom_algorithm` - Algoritmo Personalizado
+    ConnectionType486Enum:
+      enum:
+      - fiber
+      - wireless
+      - ethernet
+      - logical
+      type: string
+      description: |-
+        * `fiber` - Fibra Óptica
+        * `wireless` - Wireless
+        * `ethernet` - Ethernet
+        * `logical` - Lógica
+    DeviceTypeEnum:
+      enum:
+      - router
+      - switch
+      - server
+      - host
+      - antenna
+      - building
+      - datacenter
+      - pop
+      type: string
+      description: |-
+        * `router` - Roteador
+        * `switch` - Switch
+        * `server` - Servidor
+        * `host` - Host
+        * `antenna` - Antena
+        * `building` - Prédio
+        * `datacenter` - Data Center
+        * `pop` - Ponto de Presença
+    Equipment:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        ip_address:
+          type: string
+        description:
+          type: string
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - ip_address
+      - name
+    EquipmentRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        ip_address:
+          type: string
+          minLength: 1
+        description:
+          type: string
+          nullable: true
+      required:
+      - ip_address
+      - name
+    Link:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        source:
+          allOf:
+          - $ref: '#/components/schemas/Equipment'
+          readOnly: true
+        target:
+          allOf:
+          - $ref: '#/components/schemas/Equipment'
+          readOnly: true
+        description:
+          type: string
+          nullable: true
+        ptp_ip:
+          type: string
+          nullable: true
+          description: IP ponto a ponto da interface
+        capacity_mbps:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+          nullable: true
+          description: Capacidade do enlace em Mbps
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+    LinkRequest:
+      type: object
+      properties:
+        description:
+          type: string
+          nullable: true
+        ptp_ip:
+          type: string
+          nullable: true
+          minLength: 1
+          description: IP ponto a ponto da interface
+        capacity_mbps:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+          nullable: true
+          description: Capacidade do enlace em Mbps
+    LinkTrafficHistory:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        timestamp:
+          type: string
+          format: date-time
+          readOnly: true
+        traffic_in_bps:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+          description: Tráfego de entrada em bps
+        traffic_out_bps:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+          description: Tráfego de saída em bps
+        link:
+          type: integer
+      required:
+      - link
+      - traffic_in_bps
+      - traffic_out_bps
+    LinkTrafficHistoryRequest:
+      type: object
+      properties:
+        traffic_in_bps:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+          description: Tráfego de entrada em bps
+        traffic_out_bps:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+          description: Tráfego de saída em bps
+        link:
+          type: integer
+      required:
+      - link
+      - traffic_in_bps
+      - traffic_out_bps
+    NetworkConnectionSimple:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        connection_type:
+          $ref: '#/components/schemas/NetworkConnectionSimpleConnectionTypeEnum'
+        properties:
+          description: Propriedades técnicas da conexão
+        path_coordinates:
+          description: Array de coordenadas do caminho
+        is_calculated:
+          type: boolean
+          description: Se o caminho foi calculado automaticamente
+        calculation_method:
+          $ref: '#/components/schemas/CalculationMethodEnum'
+        calculation_metadata:
+          description: Metadados do cálculo do caminho
+        style_properties:
+          description: Propriedades de estilo visual
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        project:
+          type: string
+          format: uuid
+        source_device:
+          type: string
+          format: uuid
+        target_device:
+          type: string
+          format: uuid
+      required:
+      - connection_type
+      - project
+      - source_device
+      - target_device
+    NetworkConnectionSimpleConnectionTypeEnum:
+      enum:
+      - fiber
+      - wireless
+      - ethernet
+      - satellite
+      - microwave
+      - logical
+      type: string
+      description: |-
+        * `fiber` - Fibra Óptica
+        * `wireless` - Wireless
+        * `ethernet` - Ethernet
+        * `satellite` - Satélite
+        * `microwave` - Microondas
+        * `logical` - Lógica
+    NetworkConnectionSimpleRequest:
+      type: object
+      properties:
+        connection_type:
+          $ref: '#/components/schemas/NetworkConnectionSimpleConnectionTypeEnum'
+        properties:
+          description: Propriedades técnicas da conexão
+        path_coordinates:
+          description: Array de coordenadas do caminho
+        is_calculated:
+          type: boolean
+          description: Se o caminho foi calculado automaticamente
+        calculation_method:
+          $ref: '#/components/schemas/CalculationMethodEnum'
+        calculation_metadata:
+          description: Metadados do cálculo do caminho
+        style_properties:
+          description: Propriedades de estilo visual
+        project:
+          type: string
+          format: uuid
+        source_device:
+          type: string
+          format: uuid
+        target_device:
+          type: string
+          format: uuid
+      required:
+      - connection_type
+      - project
+      - source_device
+      - target_device
+    NetworkDeviceSimple:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        device_type:
+          $ref: '#/components/schemas/DeviceTypeEnum'
+        latitude:
+          type: number
+          format: double
+          description: Latitude do dispositivo
+        longitude:
+          type: number
+          format: double
+          description: Longitude do dispositivo
+        altitude:
+          type: number
+          format: double
+          nullable: true
+          description: Altitude em metros
+        properties:
+          description: Propriedades técnicas do dispositivo
+        status:
+          $ref: '#/components/schemas/NetworkDeviceSimpleStatusEnum'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        project:
+          type: string
+          format: uuid
+      required:
+      - device_type
+      - latitude
+      - longitude
+      - name
+      - project
+    NetworkDeviceSimpleRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 255
+        device_type:
+          $ref: '#/components/schemas/DeviceTypeEnum'
+        latitude:
+          type: number
+          format: double
+          description: Latitude do dispositivo
+        longitude:
+          type: number
+          format: double
+          description: Longitude do dispositivo
+        altitude:
+          type: number
+          format: double
+          nullable: true
+          description: Altitude em metros
+        properties:
+          description: Propriedades técnicas do dispositivo
+        status:
+          $ref: '#/components/schemas/NetworkDeviceSimpleStatusEnum'
+        project:
+          type: string
+          format: uuid
+      required:
+      - device_type
+      - latitude
+      - longitude
+      - name
+      - project
+    NetworkDeviceSimpleStatusEnum:
+      enum:
+      - active
+      - inactive
+      - maintenance
+      - failure
+      type: string
+      description: |-
+        * `active` - Ativo
+        * `inactive` - Inativo
+        * `maintenance` - Manutenção
+        * `failure` - Falha
+    NodeTypeEnum:
+      enum:
+      - router
+      - switch
+      - server
+      - host
+      - antenna
+      - building
+      type: string
+      description: |-
+        * `router` - Roteador
+        * `switch` - Switch
+        * `server` - Servidor
+        * `host` - Host
+        * `antenna` - Antena
+        * `building` - Prédio
+    PaginatedEquipmentList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Equipment'
+    PaginatedLinkList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+    PaginatedLinkTrafficHistoryList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/LinkTrafficHistory'
+    PaginatedNetworkConnectionSimpleList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/NetworkConnectionSimple'
+    PaginatedNetworkDeviceSimpleList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/NetworkDeviceSimple'
+    PaginatedTopologyConnectionList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/TopologyConnection'
+    PaginatedTopologyNodeList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/TopologyNode'
+    PaginatedTopologyProjectList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/TopologyProject'
+    PaginatedTopologyProjectSimpleList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/TopologyProjectSimple'
+    PatchedEquipmentRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        ip_address:
+          type: string
+          minLength: 1
+        description:
+          type: string
+          nullable: true
+    PatchedLinkRequest:
+      type: object
+      properties:
+        description:
+          type: string
+          nullable: true
+        ptp_ip:
+          type: string
+          nullable: true
+          minLength: 1
+          description: IP ponto a ponto da interface
+        capacity_mbps:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+          nullable: true
+          description: Capacidade do enlace em Mbps
+    PatchedLinkTrafficHistoryRequest:
+      type: object
+      properties:
+        traffic_in_bps:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+          description: Tráfego de entrada em bps
+        traffic_out_bps:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+          description: Tráfego de saída em bps
+        link:
+          type: integer
+    PatchedNetworkConnectionSimpleRequest:
+      type: object
+      properties:
+        connection_type:
+          $ref: '#/components/schemas/NetworkConnectionSimpleConnectionTypeEnum'
+        properties:
+          description: Propriedades técnicas da conexão
+        path_coordinates:
+          description: Array de coordenadas do caminho
+        is_calculated:
+          type: boolean
+          description: Se o caminho foi calculado automaticamente
+        calculation_method:
+          $ref: '#/components/schemas/CalculationMethodEnum'
+        calculation_metadata:
+          description: Metadados do cálculo do caminho
+        style_properties:
+          description: Propriedades de estilo visual
+        project:
+          type: string
+          format: uuid
+        source_device:
+          type: string
+          format: uuid
+        target_device:
+          type: string
+          format: uuid
+    PatchedNetworkDeviceSimpleRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 255
+        device_type:
+          $ref: '#/components/schemas/DeviceTypeEnum'
+        latitude:
+          type: number
+          format: double
+          description: Latitude do dispositivo
+        longitude:
+          type: number
+          format: double
+          description: Longitude do dispositivo
+        altitude:
+          type: number
+          format: double
+          nullable: true
+          description: Altitude em metros
+        properties:
+          description: Propriedades técnicas do dispositivo
+        status:
+          $ref: '#/components/schemas/NetworkDeviceSimpleStatusEnum'
+        project:
+          type: string
+          format: uuid
+    PatchedTopologyConnectionRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          minLength: 1
+          maxLength: 50
+        connection_type:
+          $ref: '#/components/schemas/ConnectionType486Enum'
+        bandwidth:
+          type: string
+          nullable: true
+          maxLength: 50
+        path: {}
+        is_calculated:
+          type: boolean
+        distance:
+          type: number
+          format: double
+          nullable: true
+        length:
+          type: number
+          format: double
+          nullable: true
+        latency:
+          type: number
+          format: double
+          nullable: true
+        utilization:
+          type: number
+          format: double
+          nullable: true
+        traffic_inbound:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+          nullable: true
+        traffic_outbound:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+          nullable: true
+        traffic_latency:
+          type: number
+          format: double
+          nullable: true
+        color:
+          type: string
+          minLength: 1
+          maxLength: 7
+        width:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        opacity:
+          type: number
+          format: double
+        dash_array:
+          type: string
+          nullable: true
+          maxLength: 20
+        project:
+          type: string
+          minLength: 1
+    PatchedTopologyNodeRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          minLength: 1
+          maxLength: 50
+        name:
+          type: string
+          minLength: 1
+          maxLength: 200
+        node_type:
+          $ref: '#/components/schemas/NodeTypeEnum'
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double
+        ip_address:
+          type: string
+          nullable: true
+          minLength: 1
+        model:
+          type: string
+          nullable: true
+          maxLength: 100
+        vendor:
+          type: string
+          nullable: true
+          maxLength: 100
+        capacity:
+          type: string
+          nullable: true
+          maxLength: 50
+        status:
+          $ref: '#/components/schemas/StatusB0cEnum'
+        connections: {}
+        project:
+          type: string
+          minLength: 1
+    PatchedTopologyProjectCreateRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          minLength: 1
+          maxLength: 50
+        nodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/TopologyNodeCreateRequest'
+        connections:
+          type: array
+          items:
+            $ref: '#/components/schemas/TopologyConnectionCreateRequest'
+        name:
+          type: string
+          minLength: 1
+          maxLength: 200
+        description:
+          type: string
+          nullable: true
+        center_latitude:
+          type: number
+          format: double
+        center_longitude:
+          type: number
+          format: double
+        zoom:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+    PatchedTopologyProjectSimpleRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 255
+        description:
+          type: string
+          nullable: true
+        center_latitude:
+          type: number
+          format: double
+          description: Latitude central do projeto
+        center_longitude:
+          type: number
+          format: double
+          description: Longitude central do projeto
+        zoom_level:
+          allOf:
+          - $ref: '#/components/schemas/ZoomLevelEnum'
+          minimum: -9223372036854775808
+          maximum: 9223372036854775807
+    StatusB0cEnum:
+      enum:
+      - online
+      - offline
+      - warning
+      type: string
+      description: |-
+        * `online` - Online
+        * `offline` - Offline
+        * `warning` - Warning
+    TokenObtainPair:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          readOnly: true
+    TokenObtainPairRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          writeOnly: true
+          minLength: 1
+        password:
+          type: string
+          writeOnly: true
+          minLength: 1
+      required:
+      - password
+      - username
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+      required:
+      - refresh
+    TokenRefreshRequest:
+      type: object
+      properties:
+        refresh:
+          type: string
+          minLength: 1
+      required:
+      - refresh
+    TokenVerifyRequest:
+      type: object
+      properties:
+        token:
+          type: string
+          writeOnly: true
+          minLength: 1
+      required:
+      - token
+    TopologyConnection:
+      type: object
+      properties:
+        id:
+          type: string
+          maxLength: 50
+        source_node:
+          allOf:
+          - $ref: '#/components/schemas/TopologyNode'
+          readOnly: true
+        target_node:
+          allOf:
+          - $ref: '#/components/schemas/TopologyNode'
+          readOnly: true
+        connection_type:
+          $ref: '#/components/schemas/ConnectionType486Enum'
+        bandwidth:
+          type: string
+          nullable: true
+          maxLength: 50
+        path: {}
+        is_calculated:
+          type: boolean
+        distance:
+          type: number
+          format: double
+          nullable: true
+        length:
+          type: number
+          format: double
+          nullable: true
+        latency:
+          type: number
+          format: double
+          nullable: true
+        utilization:
+          type: number
+          format: double
+          nullable: true
+        traffic_inbound:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+          nullable: true
+        traffic_outbound:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+          nullable: true
+        traffic_latency:
+          type: number
+          format: double
+          nullable: true
+        color:
+          type: string
+          maxLength: 7
+        width:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        opacity:
+          type: number
+          format: double
+        dash_array:
+          type: string
+          nullable: true
+          maxLength: 20
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        project:
+          type: string
+      required:
+      - connection_type
+      - id
+      - path
+      - project
+    TopologyConnectionCreate:
+      type: object
+      properties:
+        id:
+          type: string
+          maxLength: 50
+        source_node:
+          type: string
+        target_node:
+          type: string
+        connection_type:
+          $ref: '#/components/schemas/ConnectionType486Enum'
+        bandwidth:
+          type: string
+          nullable: true
+          maxLength: 50
+        path: {}
+        is_calculated:
+          type: boolean
+        distance:
+          type: number
+          format: double
+          nullable: true
+        length:
+          type: number
+          format: double
+          nullable: true
+        latency:
+          type: number
+          format: double
+          nullable: true
+        utilization:
+          type: number
+          format: double
+          nullable: true
+        traffic_inbound:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+          nullable: true
+        traffic_outbound:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+          nullable: true
+        traffic_latency:
+          type: number
+          format: double
+          nullable: true
+        color:
+          type: string
+          maxLength: 7
+        width:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        opacity:
+          type: number
+          format: double
+        dash_array:
+          type: string
+          nullable: true
+          maxLength: 20
+      required:
+      - connection_type
+      - id
+      - path
+    TopologyConnectionCreateRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          minLength: 1
+          maxLength: 50
+        source_node:
+          type: string
+          minLength: 1
+        target_node:
+          type: string
+          minLength: 1
+        connection_type:
+          $ref: '#/components/schemas/ConnectionType486Enum'
+        bandwidth:
+          type: string
+          nullable: true
+          maxLength: 50
+        path: {}
+        is_calculated:
+          type: boolean
+        distance:
+          type: number
+          format: double
+          nullable: true
+        length:
+          type: number
+          format: double
+          nullable: true
+        latency:
+          type: number
+          format: double
+          nullable: true
+        utilization:
+          type: number
+          format: double
+          nullable: true
+        traffic_inbound:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+          nullable: true
+        traffic_outbound:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+          nullable: true
+        traffic_latency:
+          type: number
+          format: double
+          nullable: true
+        color:
+          type: string
+          minLength: 1
+          maxLength: 7
+        width:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        opacity:
+          type: number
+          format: double
+        dash_array:
+          type: string
+          nullable: true
+          maxLength: 20
+      required:
+      - connection_type
+      - id
+      - path
+    TopologyConnectionRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          minLength: 1
+          maxLength: 50
+        connection_type:
+          $ref: '#/components/schemas/ConnectionType486Enum'
+        bandwidth:
+          type: string
+          nullable: true
+          maxLength: 50
+        path: {}
+        is_calculated:
+          type: boolean
+        distance:
+          type: number
+          format: double
+          nullable: true
+        length:
+          type: number
+          format: double
+          nullable: true
+        latency:
+          type: number
+          format: double
+          nullable: true
+        utilization:
+          type: number
+          format: double
+          nullable: true
+        traffic_inbound:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+          nullable: true
+        traffic_outbound:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+          nullable: true
+        traffic_latency:
+          type: number
+          format: double
+          nullable: true
+        color:
+          type: string
+          minLength: 1
+          maxLength: 7
+        width:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        opacity:
+          type: number
+          format: double
+        dash_array:
+          type: string
+          nullable: true
+          maxLength: 20
+        project:
+          type: string
+          minLength: 1
+      required:
+      - connection_type
+      - id
+      - path
+      - project
+    TopologyNode:
+      type: object
+      properties:
+        id:
+          type: string
+          maxLength: 50
+        name:
+          type: string
+          maxLength: 200
+        node_type:
+          $ref: '#/components/schemas/NodeTypeEnum'
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double
+        ip_address:
+          type: string
+          nullable: true
+        model:
+          type: string
+          nullable: true
+          maxLength: 100
+        vendor:
+          type: string
+          nullable: true
+          maxLength: 100
+        capacity:
+          type: string
+          nullable: true
+          maxLength: 50
+        status:
+          $ref: '#/components/schemas/StatusB0cEnum'
+        connections: {}
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        project:
+          type: string
+      required:
+      - id
+      - latitude
+      - longitude
+      - name
+      - node_type
+      - project
+    TopologyNodeCreate:
+      type: object
+      properties:
+        id:
+          type: string
+          maxLength: 50
+        name:
+          type: string
+          maxLength: 200
+        node_type:
+          $ref: '#/components/schemas/NodeTypeEnum'
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double
+        ip_address:
+          type: string
+          nullable: true
+        model:
+          type: string
+          nullable: true
+          maxLength: 100
+        vendor:
+          type: string
+          nullable: true
+          maxLength: 100
+        capacity:
+          type: string
+          nullable: true
+          maxLength: 50
+        status:
+          $ref: '#/components/schemas/StatusB0cEnum'
+        connections: {}
+      required:
+      - id
+      - latitude
+      - longitude
+      - name
+      - node_type
+    TopologyNodeCreateRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          minLength: 1
+          maxLength: 50
+        name:
+          type: string
+          minLength: 1
+          maxLength: 200
+        node_type:
+          $ref: '#/components/schemas/NodeTypeEnum'
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double
+        ip_address:
+          type: string
+          nullable: true
+          minLength: 1
+        model:
+          type: string
+          nullable: true
+          maxLength: 100
+        vendor:
+          type: string
+          nullable: true
+          maxLength: 100
+        capacity:
+          type: string
+          nullable: true
+          maxLength: 50
+        status:
+          $ref: '#/components/schemas/StatusB0cEnum'
+        connections: {}
+      required:
+      - id
+      - latitude
+      - longitude
+      - name
+      - node_type
+    TopologyNodeRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          minLength: 1
+          maxLength: 50
+        name:
+          type: string
+          minLength: 1
+          maxLength: 200
+        node_type:
+          $ref: '#/components/schemas/NodeTypeEnum'
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double
+        ip_address:
+          type: string
+          nullable: true
+          minLength: 1
+        model:
+          type: string
+          nullable: true
+          maxLength: 100
+        vendor:
+          type: string
+          nullable: true
+          maxLength: 100
+        capacity:
+          type: string
+          nullable: true
+          maxLength: 50
+        status:
+          $ref: '#/components/schemas/StatusB0cEnum'
+        connections: {}
+        project:
+          type: string
+          minLength: 1
+      required:
+      - id
+      - latitude
+      - longitude
+      - name
+      - node_type
+      - project
+    TopologyProject:
+      type: object
+      properties:
+        id:
+          type: string
+          maxLength: 50
+        nodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/TopologyNode'
+          readOnly: true
+        connections:
+          type: array
+          items:
+            $ref: '#/components/schemas/TopologyConnection'
+          readOnly: true
+        name:
+          type: string
+          maxLength: 200
+        description:
+          type: string
+          nullable: true
+        center_latitude:
+          type: number
+          format: double
+        center_longitude:
+          type: number
+          format: double
+        zoom:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - center_latitude
+      - center_longitude
+      - id
+      - name
+    TopologyProjectCreate:
+      type: object
+      properties:
+        id:
+          type: string
+          maxLength: 50
+        nodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/TopologyNodeCreate'
+        connections:
+          type: array
+          items:
+            $ref: '#/components/schemas/TopologyConnectionCreate'
+        name:
+          type: string
+          maxLength: 200
+        description:
+          type: string
+          nullable: true
+        center_latitude:
+          type: number
+          format: double
+        center_longitude:
+          type: number
+          format: double
+        zoom:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - center_latitude
+      - center_longitude
+      - id
+      - name
+    TopologyProjectCreateRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          minLength: 1
+          maxLength: 50
+        nodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/TopologyNodeCreateRequest'
+        connections:
+          type: array
+          items:
+            $ref: '#/components/schemas/TopologyConnectionCreateRequest'
+        name:
+          type: string
+          minLength: 1
+          maxLength: 200
+        description:
+          type: string
+          nullable: true
+        center_latitude:
+          type: number
+          format: double
+        center_longitude:
+          type: number
+          format: double
+        zoom:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+      required:
+      - center_latitude
+      - center_longitude
+      - id
+      - name
+    TopologyProjectSimple:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+          nullable: true
+        center_latitude:
+          type: number
+          format: double
+          description: Latitude central do projeto
+        center_longitude:
+          type: number
+          format: double
+          description: Longitude central do projeto
+        zoom_level:
+          allOf:
+          - $ref: '#/components/schemas/ZoomLevelEnum'
+          minimum: -9223372036854775808
+          maximum: 9223372036854775807
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - center_latitude
+      - center_longitude
+      - name
+    TopologyProjectSimpleRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 255
+        description:
+          type: string
+          nullable: true
+        center_latitude:
+          type: number
+          format: double
+          description: Latitude central do projeto
+        center_longitude:
+          type: number
+          format: double
+          description: Longitude central do projeto
+        zoom_level:
+          allOf:
+          - $ref: '#/components/schemas/ZoomLevelEnum'
+          minimum: -9223372036854775808
+          maximum: 9223372036854775807
+      required:
+      - center_latitude
+      - center_longitude
+      - name
+    ZoomLevelEnum:
+      enum:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 10
+      - 11
+      - 12
+      - 13
+      - 14
+      - 15
+      - 16
+      - 17
+      - 18
+      type: integer
+      description: |-
+        * `1` - 1
+        * `2` - 2
+        * `3` - 3
+        * `4` - 4
+        * `5` - 5
+        * `6` - 6
+        * `7` - 7
+        * `8` - 8
+        * `9` - 9
+        * `10` - 10
+        * `11` - 11
+        * `12` - 12
+        * `13` - 13
+        * `14` - 14
+        * `15` - 15
+        * `16` - 16
+        * `17` - 17
+        * `18` - 18
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+tags:
+- name: authentication
+  description: Operações de autenticação e autorização
+- name: users
+  description: Gerenciamento de usuários
+- name: topology
+  description: Topologia de rede e dispositivos
+- name: engineering
+  description: Operações de engenharia
+- name: security
+  description: Segurança e monitoramento
+externalDocs:
+  description: Documentação completa do CoreWise
+  url: https://github.com/your-org/CoreWise

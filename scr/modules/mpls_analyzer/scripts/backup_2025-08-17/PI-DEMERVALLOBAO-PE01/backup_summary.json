@@ -1,0 +1,17 @@
+{
+  "device": {
+    "name": "PI-DEMERVALLOBAO-PE01",
+    "ip": "10.254.254.70",
+    "interfaces": []
+  },
+  "backup_timestamp": "2025-08-17T17:25:54.491040",
+  "backup_date": "2025-08-17",
+  "command_executed": {
+    "command": "show running-config | display json | nomore",
+    "status": "success",
+    "raw_size": 25088,
+    "json_keys": [
+      "data"
+    ]
+  }
+}

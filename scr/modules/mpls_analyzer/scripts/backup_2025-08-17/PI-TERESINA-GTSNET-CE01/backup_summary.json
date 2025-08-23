@@ -1,0 +1,16 @@
+{
+  "device": {
+    "name": "PI-TERESINA-GTSNET-CE01",
+    "ip": "10.254.254.164",
+    "interfaces": []
+  },
+  "backup_timestamp": "2025-08-17T17:28:54.538009",
+  "backup_date": "2025-08-17",
+  "command_executed": {
+    "command": "show running-config | display json | nomore",
+    "status": "failed",
+    "error": "JSON inválido ou incompleto",
+    "raw_size": 16128,
+    "stderr": null
+  }
+}

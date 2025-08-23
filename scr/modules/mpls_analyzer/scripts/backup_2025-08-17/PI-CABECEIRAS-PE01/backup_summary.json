@@ -1,0 +1,17 @@
+{
+  "device": {
+    "name": "PI-CABECEIRAS-PE01",
+    "ip": "10.254.254.32",
+    "interfaces": []
+  },
+  "backup_timestamp": "2025-08-17T17:21:16.915544",
+  "backup_date": "2025-08-17",
+  "command_executed": {
+    "command": "show running-config | display json | nomore",
+    "status": "success",
+    "raw_size": 26362,
+    "json_keys": [
+      "data"
+    ]
+  }
+}

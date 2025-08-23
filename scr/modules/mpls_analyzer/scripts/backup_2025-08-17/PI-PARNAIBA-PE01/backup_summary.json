@@ -1,0 +1,28 @@
+{
+  "device": {
+    "name": "PI-PARNAIBA-PE01",
+    "ip": "10.254.254.29",
+    "interfaces": [
+      {
+        "interface": "GERENCIA-CRS-ASANET",
+        "ip": "101",
+        "state": "active"
+      },
+      {
+        "interface": "PI-TERESINA-PICARRA-PE01-VIA-MEGALINK",
+        "ip": "1280",
+        "state": "active"
+      }
+    ]
+  },
+  "backup_timestamp": "2025-08-17T17:20:47.691706",
+  "backup_date": "2025-08-17",
+  "command_executed": {
+    "command": "show running-config | display json | nomore",
+    "status": "success",
+    "raw_size": 68599,
+    "json_keys": [
+      "data"
+    ]
+  }
+}

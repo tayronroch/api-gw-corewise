@@ -1,0 +1,687 @@
+[
+    {
+        "name": "PI-TERESINA-PICARRA-PE02",
+        "ip": "10.254.254.2",
+        "interfaces": [
+            {
+                "interface": "GERENCIA-CRS-COMPANY-NETWORK",
+                "ip": "742",
+                "state": "active"
+            }
+        ]
+    },
+    {
+        "name": "PI-TERESINA-SAOVICENTE-PE01",
+        "ip": "10.254.254.3",
+        "interfaces": [
+            {
+                "interface": "POP-CAMERAS",
+                "ip": "99",
+                "state": "active"
+            }
+        ]
+    },
+    {
+        "name": "PI-TERESINA-PARQUESUL-PE01",
+        "ip": "10.254.254.4",
+        "interfaces": []
+    },
+    {
+        "name": "PI-TERESINA-PORTOALEGRE-PE01",
+        "ip": "10.254.254.5",
+        "interfaces": []
+    },
+    {
+        "name": "PI-TERESINA-PICARRA-PE03",
+        "ip": "10.254.254.6",
+        "interfaces": [
+            {
+                "interface": "PI-TERESINA-PIAUILINK-CE01",
+                "ip": "4005",
+                "state": "active"
+            },
+            {
+                "interface": "PI-TERESINA-PIAUILINK-CE02",
+                "ip": "4006",
+                "state": "active"
+            }
+        ]
+    },
+    {
+        "name": "PI-TERESINA-TECNET-CE01",
+        "ip": "10.254.254.8",
+        "interfaces": []
+    },
+    {
+        "name": "PI-TERESINA-VIAIPTELECOM-CE01",
+        "ip": "10.254.254.9",
+        "interfaces": []
+    },
+    {
+        "name": "MA-TIMON-PORTALRR-CE01",
+        "ip": "10.254.254.10",
+        "interfaces": []
+    },
+    {
+        "name": "MA-TIMON-SOF-CE01",
+        "ip": "10.254.254.11",
+        "interfaces": []
+    },
+    {
+        "name": "PI-TERESINA-PEDRAMOLE-PE01",
+        "ip": "10.254.254.13",
+        "interfaces": [
+            {
+                "interface": "PI-TERESINA-GTSNET-CE01",
+                "ip": "4011",
+                "state": "active"
+            }
+        ]
+    },
+    {
+        "name": "DIRECT-DIGITALNET-MARCELO-CE01",
+        "ip": "10.254.254.14",
+        "interfaces": []
+    },
+    {
+        "name": "PI-TERESINA-DIGITALNET-RENATO-CE01",
+        "ip": "10.254.254.15",
+        "interfaces": []
+    },
+    {
+        "name": "DIRECT-DIGITALNET-MARCELO-CE02",
+        "ip": "10.254.254.16",
+        "interfaces": []
+    },
+    {
+        "name": "DIRECT-DIGITALNET-MARCELO-CE03",
+        "ip": "10.254.254.17",
+        "interfaces": []
+    },
+    {
+        "name": "DIRECT-JRNETDIGITAL-CE01",
+        "ip": "10.254.254.18",
+        "interfaces": []
+    },
+    {
+        "name": "PI-TERESINA-FORTINET-PE01",
+        "ip": "10.254.254.19",
+        "interfaces": []
+    },
+    {
+        "name": "PI-TERESINA-SANTAFE-PE01",
+        "ip": "10.254.254.20",
+        "interfaces": [
+            {
+                "interface": "PI-TERESINA-HIITECH-CE01",
+                "ip": "4008",
+                "state": "active"
+            },
+            {
+                "interface": "PI-TERESINA-MYINTERNET-CE01",
+                "ip": "4005",
+                "state": "active"
+            },
+            {
+                "interface": "PI-TERESINA-VIAIPTELECOM-CE01",
+                "ip": "4006",
+                "state": "active"
+            }
+        ]
+    },
+    {
+        "name": "PI-ALTOS-PE01",
+        "ip": "10.254.254.21",
+        "interfaces": [
+            {
+                "interface": "PI-JUAZEIRODOPIAUI-via-LOOP-PE01",
+                "ip": "460",
+                "state": "active"
+            }
+        ]
+    },
+    {
+        "name": "PI-CAMPOMAIOR-PE01",
+        "ip": "10.254.254.22",
+        "interfaces": [
+            {
+                "interface": "PI-PIRIPIRI-PE01",
+                "ip": "4004",
+                "state": "inactive"
+            }
+        ]
+    },
+    {
+        "name": "PI-COCALDETELHA-PE01",
+        "ip": "10.254.254.23",
+        "interfaces": []
+    },
+    {
+        "name": "PI-CAPITAODECAMPOS-PE01",
+        "ip": "10.254.254.24",
+        "interfaces": []
+    },
+    {
+        "name": "PI-PIRIPIRI-PE01",
+        "ip": "10.254.254.25",
+        "interfaces": []
+    },
+    {
+        "name": "PI-PIRACURUCA-PE01",
+        "ip": "10.254.254.26",
+        "interfaces": [
+            {
+                "interface": "PI-PIRACURUCA-NETCOM-CE01",
+                "ip": "4010",
+                "state": "active"
+            }
+        ]
+    },
+    {
+        "name": "PI-VOLTADAJUREMA-PE01",
+        "ip": "10.254.254.27",
+        "interfaces": []
+    },
+    {
+        "name": "PI-BURITIDOSLOPES-PE01",
+        "ip": "10.254.254.28",
+        "interfaces": []
+    },
+    {
+        "name": "PI-PARNAIBA-PE01",
+        "ip": "10.254.254.29",
+        "interfaces": [
+            {
+                "interface": "GERENCIA-CRS-ASANET",
+                "ip": "101",
+                "state": "active"
+            },
+            {
+                "interface": "PI-TERESINA-PICARRA-PE01-VIA-MEGALINK",
+                "ip": "1280",
+                "state": "active"
+            }
+        ]
+    },
+    {
+        "name": "PI-TERESINA-PLANALTO-PE01",
+        "ip": "10.254.254.30",
+        "interfaces": [
+            {
+                "interface": "PI-TERESINA-GTSNET-CE01",
+                "ip": "4011",
+                "state": "active"
+            },
+            {
+                "interface": "PI-TERESINA-JRNETDIGITAL-CE01",
+                "ip": "4010",
+                "state": "active"
+            },
+            {
+                "interface": "PI-TERESINA-MONAHOTEL-CE01",
+                "ip": "4023",
+                "state": "active"
+            }
+        ]
+    },
+    {
+        "name": "PI-JOSEDEFREITAS-PE01",
+        "ip": "10.254.254.31",
+        "interfaces": [
+            {
+                "interface": "PI-JOSEDEFREITAS-TELEGONET-CE01",
+                "ip": "4004",
+                "state": "active"
+            }
+        ]
+    },
+    {
+        "name": "PI-CABECEIRAS-PE01",
+        "ip": "10.254.254.32",
+        "interfaces": []
+    },
+    {
+        "name": "PI-BARRAS-PE01",
+        "ip": "10.254.254.33",
+        "interfaces": []
+    },
+    {
+        "name": "PI-BATALHA-PE01",
+        "ip": "10.254.254.34",
+        "interfaces": []
+    },
+    {
+        "name": "PI-ESPERANTINA-PE01",
+        "ip": "10.254.254.35",
+        "interfaces": [
+            {
+                "interface": "PI-SAOJOAOARRAIAL-IPCONNECT-CE01",
+                "ip": "4011",
+                "state": "active"
+            }
+        ]
+    },
+    {
+        "name": "PI-MATIASOLIMPIO-PE01",
+        "ip": "10.254.254.36",
+        "interfaces": [
+            {
+                "interface": "PI-SAOJOAOARRAIAL-IPCONNECT-CE01",
+                "ip": "4011",
+                "state": "active"
+            }
+        ]
+    },
+    {
+        "name": "MA-BREJO-PE01",
+        "ip": "10.254.254.37",
+        "interfaces": []
+    },
+    {
+        "name": "MA-SANTAQUITERIA-PE01",
+        "ip": "10.254.254.38",
+        "interfaces": []
+    },
+    {
+        "name": "MA-SAOBERNARDO-PE01",
+        "ip": "10.254.254.39",
+        "interfaces": []
+    },
+    {
+        "name": "PI-LUZILANDIA-PE01",
+        "ip": "10.254.254.40",
+        "interfaces": []
+    },
+    {
+        "name": "PI-UNIAO-PE01",
+        "ip": "10.254.254.41",
+        "interfaces": []
+    },
+    {
+        "name": "PI-MIGUELALVES-PE01",
+        "ip": "10.254.254.42",
+        "interfaces": []
+    },
+    {
+        "name": "PI-LAGOAALEGRE-PE01",
+        "ip": "10.254.254.43",
+        "interfaces": []
+    },
+    {
+        "name": "PI-PORTO-PE01",
+        "ip": "10.254.254.44",
+        "interfaces": []
+    },
+    {
+        "name": "PI-TERESINA-GURUPI-PE01",
+        "ip": "10.254.254.45",
+        "interfaces": [
+            {
+                "interface": "GERENCIA-CRS-NETSYSTEM",
+                "ip": "99",
+                "state": "active"
+            },
+            {
+                "interface": "GERENCIA-CRS305-MELO",
+                "ip": "40",
+                "state": "active"
+            },
+            {
+                "interface": "PI-TERESINA-TECNET-CE01",
+                "ip": "4011",
+                "state": "active"
+            },
+            {
+                "interface": "PI-THE-DIGITALNET-RENATO-CE01",
+                "ip": "4012",
+                "state": "active"
+            }
+        ]
+    },
+    {
+        "name": "MA-SANTANADOMARANHAO-PE01",
+        "ip": "10.254.254.46",
+        "interfaces": []
+    },
+    {
+        "name": "MA-CANABRAVA-PE01",
+        "ip": "10.254.254.47",
+        "interfaces": []
+    },
+    {
+        "name": "MA-PLACAS-PE01",
+        "ip": "10.254.254.48",
+        "interfaces": []
+    },
+    {
+        "name": "MA-TIMON-SAOMARCOS-PE01",
+        "ip": "10.254.254.49",
+        "interfaces": [
+            {
+                "interface": "MA-TIMON-SOF-CE01",
+                "ip": "4012",
+                "state": "active"
+            },
+            {
+                "interface": "PI-THE-DIGITALNET-MARCELO-CE03",
+                "ip": "4011",
+                "state": "active"
+            }
+        ]
+    },
+    {
+        "name": "CE-FORTALEZA-ANGONAP-PE01",
+        "ip": "10.254.254.50",
+        "interfaces": [
+            {
+                "interface": "PI-TERESINA-ELETRONET-PE01",
+                "ip": "1900",
+                "state": "active"
+            }
+        ]
+    },
+    {
+        "name": "CE-FORTALEZA-GLOBENET-PE01",
+        "ip": "10.254.254.51",
+        "interfaces": []
+    },
+    {
+        "name": "PI-SAOJOAODAFRONTEIRA-PE01",
+        "ip": "10.254.254.53",
+        "interfaces": []
+    },
+    {
+        "name": "CE-TIANGUA-PE01",
+        "ip": "10.254.254.54",
+        "interfaces": [
+            {
+                "interface": "mgmt",
+                "ip": "mgmt-1/1/1",
+                "state": "active"
+            }
+        ]
+    },
+    {
+        "name": "PI-TERESINA-ELETRONET-PE01",
+        "ip": "10.254.254.55",
+        "interfaces": [
+            {
+                "interface": "CE-FORTALEZA-ANGONAP-PE01",
+                "ip": "1900",
+                "state": "active"
+            }
+        ]
+    },
+    {
+        "name": "SP-SAOPAULO-EQUINIX-SP4-PE01",
+        "ip": "10.254.254.56",
+        "interfaces": []
+    },
+    {
+        "name": "PI-NOSSASENHORADENAZARE-PE01",
+        "ip": "10.254.254.57",
+        "interfaces": []
+    },
+    {
+        "name": "PI-BOQUEIRAODOPI-PE01",
+        "ip": "10.254.254.58",
+        "interfaces": []
+    },
+    {
+        "name": "PI-BOAHORA-PE01",
+        "ip": "10.254.254.59",
+        "interfaces": []
+    },
+    {
+        "name": "PI-TERESINA-LOOP-PE01",
+        "ip": "10.254.254.60",
+        "interfaces": []
+    },
+    {
+        "name": "PI-JATOBADOPIAUI-PE01",
+        "ip": "10.254.254.61",
+        "interfaces": []
+    },
+    {
+        "name": "PI-SIGEFREDOPACHECO-PE01",
+        "ip": "10.254.254.62",
+        "interfaces": []
+    },
+    {
+        "name": "PI-JUAZEIRODOPIAUI-PE01",
+        "ip": "10.254.254.63",
+        "interfaces": [
+            {
+                "interface": "PI-ALTOS-via-LOOP-PE01",
+                "ip": "460",
+                "state": "active"
+            }
+        ]
+    },
+    {
+        "name": "PI-CAMPOLARGO-PE01",
+        "ip": "10.254.254.64",
+        "interfaces": []
+    },
+    {
+        "name": "PI-MADEIRO-PE01",
+        "ip": "10.254.254.65",
+        "interfaces": []
+    },
+    {
+        "name": "PI-JOCAMARQUES-PE01",
+        "ip": "10.254.254.66",
+        "interfaces": []
+    },
+    {
+        "name": "PI-NOSSASENHORADOSREMEDIOS-PE01",
+        "ip": "10.254.254.67",
+        "interfaces": []
+    },
+    {
+        "name": "PI-JOAQUIMPIRES-PE01",
+        "ip": "10.254.254.68",
+        "interfaces": [
+            {
+                "interface": "PI-TERESINA-PICARRA-PE02-VIA-MEGALINK",
+                "ip": "1281",
+                "state": "active"
+            }
+        ]
+    },
+    {
+        "name": "MA-BURITI-PE01",
+        "ip": "10.254.254.69",
+        "interfaces": []
+    },
+    {
+        "name": "PI-DEMERVALLOBAO-PE01",
+        "ip": "10.254.254.70",
+        "interfaces": []
+    },
+    {
+        "name": "PI-MONSENHORGIL-PE01",
+        "ip": "10.254.254.71",
+        "interfaces": []
+    },
+    {
+        "name": "PI-ESTACAZERO-PE01",
+        "ip": "10.254.254.72",
+        "interfaces": []
+    },
+    {
+        "name": "PI-AGUABRANCA-PE01",
+        "ip": "10.254.254.73",
+        "interfaces": []
+    },
+    {
+        "name": "PI-SAOPEDRODOPIAUI-PE01",
+        "ip": "10.254.254.74",
+        "interfaces": []
+    },
+    {
+        "name": "PI-ANGICALDOPIAUI-PE01",
+        "ip": "10.254.254.75",
+        "interfaces": []
+    },
+    {
+        "name": "PI-AMARANTE-PE01",
+        "ip": "10.254.254.76",
+        "interfaces": []
+    },
+    {
+        "name": "PI-PALMEIRAIS-PE01",
+        "ip": "10.254.254.77",
+        "interfaces": []
+    },
+    {
+        "name": "MA-PARNARAMA-PE01",
+        "ip": "10.254.254.78",
+        "interfaces": []
+    },
+    {
+        "name": "PI-CAITITUS-PE01",
+        "ip": "10.254.254.79",
+        "interfaces": []
+    },
+    {
+        "name": "PI-CERAMICACIL-PE01",
+        "ip": "10.254.254.80",
+        "interfaces": []
+    },
+    {
+        "name": "PI-NAZARIA-PE01",
+        "ip": "10.254.254.81",
+        "interfaces": []
+    },
+    {
+        "name": "MA-MATOES-PE01",
+        "ip": "10.254.254.82",
+        "interfaces": []
+    },
+    {
+        "name": "PI-COCAL-PE01",
+        "ip": "10.254.254.83",
+        "interfaces": []
+    },
+    {
+        "name": "PI-BOMPRINCIPIO-PE01",
+        "ip": "10.254.254.84",
+        "interfaces": []
+    },
+    {
+        "name": "MA-BURITI-PE01-NEW",
+        "ip": "10.254.254.85",
+        "interfaces": []
+    },
+    {
+        "name": "PI-CASTELODOPIAUI-PE01",
+        "ip": "10.254.254.86",
+        "interfaces": []
+    },
+    {
+        "name": "PI-CAMURUPIM-PE01",
+        "ip": "10.254.254.87",
+        "interfaces": []
+    },
+    {
+        "name": "PI-MILTONBRANDAO-PE01",
+        "ip": "10.254.254.88",
+        "interfaces": []
+    },
+    {
+        "name": "PI-MORRODOCHAPEU-PE01",
+        "ip": "10.254.254.89",
+        "interfaces": []
+    },
+    {
+        "name": "PI-CIPO-PE01",
+        "ip": "10.254.254.131",
+        "interfaces": []
+    },
+    {
+        "name": "PI-ALTOLONGA-PE01",
+        "ip": "10.254.254.132",
+        "interfaces": []
+    },
+    {
+        "name": "PI-NOVOSANTOANTONIO-PE01",
+        "ip": "10.254.254.133",
+        "interfaces": []
+    },
+    {
+        "name": "PI-BENEDITINOS-PE01",
+        "ip": "10.254.254.134",
+        "interfaces": []
+    },
+    {
+        "name": "PI-PRATADOPIAUI-PE01",
+        "ip": "10.254.254.135",
+        "interfaces": []
+    },
+    {
+        "name": "PI-SAOFELIXDOPIAUI-PE01",
+        "ip": "10.254.254.136",
+        "interfaces": []
+    },
+    {
+        "name": "PI-ALAGOADO-PE01",
+        "ip": "10.254.254.137",
+        "interfaces": []
+    },
+    {
+        "name": "PI-PASSAGEMFRANCA-PE01",
+        "ip": "10.254.254.138",
+        "interfaces": []
+    },
+    {
+        "name": "PI-PIRACURUCA-NETCOM-CE01",
+        "ip": "10.254.254.160",
+        "interfaces": []
+    },
+    {
+        "name": "PI-JOSEDEFREITAS-TELEGONET-CE01",
+        "ip": "10.254.254.161",
+        "interfaces": []
+    },
+    {
+        "name": "PI-TERESINA-MYINTERNET-CE01",
+        "ip": "10.254.254.162",
+        "interfaces": []
+    },
+    {
+        "name": "PI-SAOJOAOARRAIAL-IPCONNECT-CE01",
+        "ip": "10.254.254.163",
+        "interfaces": []
+    },
+    {
+        "name": "PI-TERESINA-GTSNET-CE01",
+        "ip": "10.254.254.164",
+        "interfaces": []
+    },
+    {
+        "name": "PI-TERESINA-PIAUILINK-CE01",
+        "ip": "10.254.254.165",
+        "interfaces": []
+    },
+    {
+        "name": "PI-TERESINA-PIAUILINK-CE02",
+        "ip": "10.254.254.166",
+        "interfaces": []
+    },
+    {
+        "name": "PI-TERESINA-MONAHOTEL-CE01",
+        "ip": "10.254.254.167",
+        "interfaces": []
+    },
+    {
+        "name": "PI-TERESINA-VELOCINET-CE01",
+        "ip": "10.254.254.168",
+        "interfaces": []
+    },
+    {
+        "name": "PI-TERESINA-HIITECH-CE01",
+        "ip": "10.254.254.169",
+        "interfaces": []
+    }
+]

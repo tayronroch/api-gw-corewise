@@ -1,0 +1,16 @@
+{
+  "device": {
+    "name": "PI-TERESINA-VELOCINET-CE01",
+    "ip": "10.254.254.168",
+    "interfaces": []
+  },
+  "backup_timestamp": "2025-08-17T17:29:13.821769",
+  "backup_date": "2025-08-17",
+  "command_executed": {
+    "command": "show running-config | display json | nomore",
+    "status": "failed",
+    "error": "JSON inválido ou incompleto",
+    "raw_size": 13998,
+    "stderr": null
+  }
+}

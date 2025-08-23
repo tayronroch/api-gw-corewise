@@ -1,0 +1,2285 @@
+{
+  "data": {
+    "tailf-aaa:aaa": {
+      "authentication": {
+        "users": {
+          "user": [
+            {
+              "name": "direct.noc.cgr",
+              "password": "$1$CcIX4HQe$FlCE46Kh6O5x6obm3IakV1",
+              "dmos-aaa:group": "admin"
+            }
+          ]
+        },
+        "dmos-aaa:authentication-order": "local tacacs"
+      },
+      "dmos-aaa:server": {
+        "tacacs": [
+          {
+            "name": "TACACS-SERVER",
+            "host": "170.84.145.15",
+            "enable": {
+              "authentication": [
+                null
+              ],
+              "authorization": [
+                null
+              ],
+              "accounting": [
+                null
+              ]
+            },
+            "shared-secret": "$7$n6lWidoyGaGFeegVu4rL04CcIaIDTNvU",
+            "source": {
+              "interface": "loopback-0"
+            }
+          }
+        ]
+      }
+    },
+    "router-mpls:mpls": {
+      "ldp-config": {
+        "ldp": {
+          "lsr-id": [
+            {
+              "interface-name": "loopback-0",
+              "interface": [
+                {
+                  "interface-name": "l3-PI-ALTOS-PE01"
+                },
+                {
+                  "interface-name": "l3-PI-TERESINA-PICARRA-PE01"
+                },
+                {
+                  "interface-name": "l3-PI-TERESINA-TECNET-CE01"
+                },
+                {
+                  "interface-name": "l3-PI-THE-DIGITALNET-RENATO-CE01"
+                }
+              ],
+              "neighbor": [
+                {
+                  "targeted": "10.254.254.0"
+                },
+                {
+                  "targeted": "10.254.254.1"
+                },
+                {
+                  "targeted": "10.254.254.2"
+                },
+                {
+                  "targeted": "10.254.254.4"
+                },
+                {
+                  "targeted": "10.254.254.6"
+                },
+                {
+                  "targeted": "10.254.254.8"
+                },
+                {
+                  "targeted": "10.254.254.14"
+                },
+                {
+                  "targeted": "10.254.254.15"
+                },
+                {
+                  "targeted": "10.254.254.16"
+                },
+                {
+                  "targeted": "10.254.254.19"
+                },
+                {
+                  "targeted": "10.254.254.20"
+                },
+                {
+                  "targeted": "10.254.254.21"
+                },
+                {
+                  "targeted": "10.254.254.30"
+                },
+                {
+                  "targeted": "10.254.254.35"
+                },
+                {
+                  "targeted": "10.254.254.40"
+                },
+                {
+                  "targeted": "10.254.254.60"
+                },
+                {
+                  "targeted": "10.254.254.65"
+                },
+                {
+                  "targeted": "10.254.254.68"
+                },
+                {
+                  "targeted": "10.254.254.71"
+                },
+                {
+                  "targeted": "10.254.254.161"
+                },
+                {
+                  "targeted": "10.254.254.162"
+                },
+                {
+                  "targeted": "10.254.254.164"
+                },
+                {
+                  "targeted": "10.254.254.169"
+                },
+                {
+                  "targeted": "10.254.254.163"
+                },
+                {
+                  "targeted": "10.254.254.89"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "l2-vpn:l2vpn-config": {
+        "l2vpn": {
+          "logging": {},
+          "vpws-group": [
+            {
+              "group-name": "DIRECT-DIGITALNET-MARCELO-CE01",
+              "vpn": [
+                {
+                  "vpn-name": "2552",
+                  "description": "PI-POV-DIRCEUMELO-PE-01",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.14",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 2552
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 2552
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "ten-gigabit-ethernet-1/1/11",
+                      "dot1q": 2552,
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {}
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "group-name": "DIRECT-DIGITALNET-MARCELO-CE02",
+              "vpn": [
+                {
+                  "vpn-name": "2538",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.16",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 2538
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 2538
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "ten-gigabit-ethernet-1/1/11",
+                      "dot1q": 2538,
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {}
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "group-name": "PI-ALTOS-PE01",
+              "vpn": [
+                {
+                  "vpn-name": "2033",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.21",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 2033
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 2033
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "lag-32",
+                      "dot1q": 2033,
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {}
+                    }
+                  ]
+                },
+                {
+                  "vpn-name": "2557",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.21",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 2557
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 2557
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "lag-32",
+                      "dot1q": 2557,
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {}
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "group-name": "PI-ESPERANTINA-PE01",
+              "vpn": [
+                {
+                  "vpn-name": "2023",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.35",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 2023
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 2023
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "lag-32",
+                      "dot1q": 2023,
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {}
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "group-name": "PI-JOAQUIMPIRES-PE01",
+              "vpn": [
+                {
+                  "vpn-name": "2030",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.68",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 2030
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 2030
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "lag-32",
+                      "dot1q": 2030,
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {}
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "group-name": "PI-LUZILANDIA-PE01",
+              "vpn": [
+                {
+                  "vpn-name": "2031",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.40",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 2031
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 2031
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "lag-32",
+                      "dot1q": 2031,
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {}
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "group-name": "PI-MADEIRO-PE01",
+              "vpn": [
+                {
+                  "vpn-name": "2032",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.65",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 2032
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 2032
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "lag-32",
+                      "dot1q": 2032,
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {}
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "group-name": "PI-MORRODOCHAPEU-PE01",
+              "vpn": [
+                {
+                  "vpn-name": "2028",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.89",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 2028
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 2028
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "lag-32",
+                      "dot1q": 2028,
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {}
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "group-name": "PI-SAOJOAOARRAIAL-IPCONNECT-CE01",
+              "vpn": [
+                {
+                  "vpn-name": "2029",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.163",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 2029
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 2029
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "lag-32",
+                      "dot1q": 2029,
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {}
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "group-name": "PI-TERESINA-FORTINET-PE01",
+              "vpn": [
+                {
+                  "vpn-name": "2313",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.19",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 2313
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 2313
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "ten-gigabit-ethernet-1/1/15",
+                      "dot1q": 2313,
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {}
+                    }
+                  ]
+                },
+                {
+                  "vpn-name": "2314",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.19",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 2314
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 2314
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "ten-gigabit-ethernet-1/1/15",
+                      "dot1q": 2314,
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {}
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "group-name": "PI-TERESINA-GTSNET-CE01",
+              "vpn": [
+                {
+                  "vpn-name": "112",
+                  "description": "L2L-GTSNET-GTSNET-CE01-GIGA1/1/5",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.164",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 112
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 112
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "ten-gigabit-ethernet-1/1/10",
+                      "dot1q": 112,
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {}
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "group-name": "PI-TERESINA-HIITECH-CE01",
+              "vpn": [
+                {
+                  "vpn-name": "2331",
+                  "description": "L2L-HIITECH-GURUPI",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.169",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 2331
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 2331
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "ten-gigabit-ethernet-1/1/6",
+                      "dot1q": 2331,
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {}
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "group-name": "PI-TERESINA-LOOP-PE01",
+              "vpn": [
+                {
+                  "vpn-name": "245",
+                  "description": "L2L-LOOP-LAG29"
+                },
+                {
+                  "vpn-name": "2453",
+                  "description": "L2L-LOOP-LAG29",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.60",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 2453
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 2453
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "ten-gigabit-ethernet-1/1/7",
+                      "dot1q": 2453,
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {}
+                    }
+                  ]
+                },
+                {
+                  "vpn-name": "2454",
+                  "description": "L2L-LOOP-LAG29",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.60",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 2454
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 2454
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "ten-gigabit-ethernet-1/1/8",
+                      "dot1q": 2454,
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {}
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "group-name": "PI-TERESINA-MYINTERNET-CE01",
+              "vpn": [
+                {
+                  "vpn-name": "2613",
+                  "description": "L2L-MYINTERNET-TEN1/1/4",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.162",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 2613
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 2613
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "ten-gigabit-ethernet-1/1/12",
+                      "dot1q": 2613,
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {}
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "group-name": "PI-TERESINA-PARQUESUL-PE01",
+              "vpn": [
+                {
+                  "vpn-name": "2551",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.4",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 2551
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 2551
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "ten-gigabit-ethernet-1/1/11",
+                      "dot1q": 2551,
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {}
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "group-name": "PI-TERESINA-PICARRA-PE00",
+              "vpn": [
+                {
+                  "vpn-name": "546",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.0",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 546
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 546
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "lag-32",
+                      "dot1q": 546,
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {}
+                    }
+                  ]
+                },
+                {
+                  "vpn-name": "688",
+                  "description": "LINK-02-HGBS",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.0",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 688
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 688
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "ten-gigabit-ethernet-1/1/21",
+                      "dot1q": 688,
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {}
+                    }
+                  ]
+                },
+                {
+                  "vpn-name": "689",
+                  "description": "LINK-02-HGBS",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.0",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 689
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 689
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "ten-gigabit-ethernet-1/1/21",
+                      "dot1q": 689,
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {}
+                    }
+                  ]
+                },
+                {
+                  "vpn-name": "695",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.0",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 695
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 695
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "lag-11",
+                      "dot1q": 695,
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {}
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "group-name": "PI-TERESINA-PICARRA-PE02",
+              "vpn": [
+                {
+                  "vpn-name": "1843",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.2",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 1843
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 1843
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "ten-gigabit-ethernet-1/1/48",
+                      "dot1q": 1843,
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {}
+                    }
+                  ]
+                },
+                {
+                  "vpn-name": "2200",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.2",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 2200
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 2200
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "ten-gigabit-ethernet-1/1/48",
+                      "dot1q": 2200,
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {}
+                    }
+                  ]
+                },
+                {
+                  "vpn-name": "2505",
+                  "qinq": [
+                    null
+                  ],
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.2",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 2505
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 2505
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "ten-gigabit-ethernet-1/1/11",
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {
+                        "dot1q": "2505 2519 2520 2526 2528 2530"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "vpn-name": "2535",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.2",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 2535
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 2535
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "ten-gigabit-ethernet-1/1/11",
+                      "dot1q": 2535,
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {}
+                    }
+                  ]
+                },
+                {
+                  "vpn-name": "2546",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.2",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 2546
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 2546
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "ten-gigabit-ethernet-1/1/11",
+                      "dot1q": 2546,
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {}
+                    }
+                  ]
+                },
+                {
+                  "vpn-name": "2549",
+                  "description": "PI-DIGITALNET-MELO-PE-01",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.2",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 2549
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 2549
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "ten-gigabit-ethernet-1/1/11",
+                      "dot1q": 2549,
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {}
+                    }
+                  ]
+                },
+                {
+                  "vpn-name": "2704",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.2",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 2704
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 2704
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "ten-gigabit-ethernet-1/1/48",
+                      "dot1q": 2704,
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {}
+                    }
+                  ]
+                },
+                {
+                  "vpn-name": "3098",
+                  "qinq": [
+                    null
+                  ],
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.2",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 3098
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 3098
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "lag-32",
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {
+                        "dot1q": "2041 2042 2043 2044 2045 2046 2047 2048 2049 2050"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "group-name": "PI-TERESINA-PICARRA-PE03",
+              "vpn": [
+                {
+                  "vpn-name": "1300",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.6",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 1300
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 1300
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "lag-11",
+                      "dot1q": 1300,
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {}
+                    }
+                  ]
+                },
+                {
+                  "vpn-name": "3107",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.6",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 3107
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 3107
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "ten-gigabit-ethernet-1/1/48",
+                      "dot1q": 3107,
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {}
+                    }
+                  ]
+                },
+                {
+                  "vpn-name": "340",
+                  "qinq": [
+                    null
+                  ],
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.6",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 340
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 340
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "ten-gigabit-ethernet-1/1/48",
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {
+                        "dot1q": "100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "vpn-name": "520",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.6",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 520
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 520
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "ten-gigabit-ethernet-1/1/48",
+                      "dot1q": 520,
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {}
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "group-name": "PI-TERESINA-PLANALTO-PE01",
+              "vpn": [
+                {
+                  "vpn-name": "2534",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.30",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 2534
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 2534
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "ten-gigabit-ethernet-1/1/11",
+                      "dot1q": 2534,
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {}
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "group-name": "PI-TERESINA-SANTAFE-PE01",
+              "vpn": [
+                {
+                  "vpn-name": "2575",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.20",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 2575
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 2575
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "ten-gigabit-ethernet-1/1/14",
+                      "dot1q": 2575,
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {}
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "group-name": "PI-TERESINA-TECNET-CE01",
+              "vpn": [
+                {
+                  "vpn-name": "2621",
+                  "description": "L2L-TECNETCE-TEN1/1/5",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.8",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 2621
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 2621
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "ten-gigabit-ethernet-1/1/5",
+                      "dot1q": 2621,
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {}
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "group-name": "PI-THE-DIGITALNET-MARCELO-CE01",
+              "vpn": [
+                {
+                  "vpn-name": "2531",
+                  "qinq": [
+                    null
+                  ],
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.14",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 2531
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 2531
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "ten-gigabit-ethernet-1/1/11",
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {
+                        "dot1q": "2531 2533"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "group-name": "PI-THE-DIGITALNET-RENATO-CE01",
+              "vpn": [
+                {
+                  "vpn-name": "2529",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.15",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 2529
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 2529
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "ten-gigabit-ethernet-1/1/4",
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {}
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "dmos-mpls-rsvp-te:rsvp": {
+        "interface": [
+          {
+            "interface-name": "l3-PI-ALTOS-PE01"
+          },
+          {
+            "interface-name": "l3-PI-TERESINA-PICARRA-PE01"
+          },
+          {
+            "interface-name": "l3-PI-TERESINA-TECNET-CE01"
+          },
+          {
+            "interface-name": "l3-PI-THE-DIGITALNET-RENATO-CE01"
+          }
+        ]
+      }
+    },
+    "router-dcl:multicast": {},
+    "snmp:snmp": {
+      "agent": {
+        "enabled": true,
+        "ip": "10.254.254.45",
+        "version": {
+          "v2c": [
+            null
+          ]
+        }
+      },
+      "system": {
+        "contact": "flavio@directtelecom.com.br",
+        "location": "PI-TERESINA-GURUPI"
+      },
+      "community": [
+        {
+          "index": "MwSolucoes",
+          "sec-name": "MwSolucoes"
+        }
+      ],
+      "notify": [
+        {
+          "name": "std_v1_trap",
+          "tag": "std_v1_trap"
+        },
+        {
+          "name": "std_v2_inform",
+          "tag": "std_v2_inform",
+          "type": "inform"
+        },
+        {
+          "name": "std_v2_trap",
+          "tag": "std_v2_trap"
+        },
+        {
+          "name": "std_v3_inform",
+          "tag": "std_v3_inform",
+          "type": "inform"
+        },
+        {
+          "name": "std_v3_trap",
+          "tag": "std_v3_trap"
+        }
+      ],
+      "vacm": {
+        "group": [
+          {
+            "name": "MwSolucoes",
+            "member": [
+              {
+                "sec-name": "MwSolucoes",
+                "sec-model": "v2c"
+              }
+            ],
+            "access": [
+              {
+                "context": "",
+                "sec-model": "v2c",
+                "sec-level": "no-auth-no-priv",
+                "read-view": "root",
+                "write-view": "root"
+              }
+            ]
+          }
+        ],
+        "view": [
+          {
+            "name": "root",
+            "subtree": [
+              {
+                "oids": "1.3",
+                "included": [
+                  null
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "usm": {
+        "local": {}
+      }
+    },
+    "stp:stp-config": {},
+    "dmos-base:config": {
+      "dmos-clock:clock": {
+        "timezone": {
+          "name": "BRA",
+          "offset": -3
+        }
+      },
+      "dmos-sys-config:system": {
+        "hostname": "PI-TERESINA-GURUPI-PE01"
+      },
+      "dmos-lldp:lldp": {},
+      "dmos-sntp-interface:sntp": {
+        "client": [
+          null
+        ],
+        "server": [
+          {
+            "address": "170.84.145.7"
+          }
+        ]
+      },
+      "dmos-ssh-server:ssh-server": {
+        "port": 5620
+      },
+      "switchport-native-vlan:switchport": {
+        "interface": [
+          {
+            "interface-name": "lag-1",
+            "native-vlan": {
+              "vlan-id": 4000
+            }
+          },
+          {
+            "interface-name": "lag-10",
+            "native-vlan": {
+              "vlan-id": 4011
+            }
+          },
+          {
+            "interface-name": "lag-2",
+            "native-vlan": {
+              "vlan-id": 4001
+            }
+          },
+          {
+            "interface-name": "ten-gigabit-ethernet-1/1/3",
+            "native-vlan": {
+              "vlan-id": 4012
+            }
+          }
+        ]
+      },
+      "dmos-vrf-app:vrf-node-config": {
+        "vrf": [
+          {
+            "name": "global",
+            "description": "System VRF for global entries"
+          },
+          {
+            "name": "mgmt",
+            "description": "System VRF for mgmt interface"
+          }
+        ]
+      },
+      "interface": {
+        "dmos-interface-ethernet:ten-gigabit-ethernet": [
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 1,
+            "description": "PI-TERESINA-TECNET-CE01-10GE-01",
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 2,
+            "description": "PI-TERESINA-TECNET-CE01-10GE-02",
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 3,
+            "description": "PI-THE-DIGITALNET-RENATO-CE01",
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 4,
+            "description": "CUSTOMER-DIGITALNET-ARPEX-PEDROBALSI-L2L-VL2529",
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 5,
+            "description": "CUSTOMER-TECNET-ZEQUINHAFREIRE-L2L-VL2621",
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 6,
+            "description": "CUSTOMER-HIITECH-LOURIVAL-ZEQUINHAFREIRE-L2L-VL2331",
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 7,
+            "description": "CUSTOMER-LOOP-JOAQUIMNELSON-L2L-VL2453",
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 8,
+            "description": "CUSTOMER-LOOP-SEDEDIRCEU-VL2454",
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 9,
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 10,
+            "description": "CUSTOMER-GTSNET-DIRCEU-L2L-VL112",
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 11,
+            "description": "CUSTOMER-DIGITALNET-MARCELO-CRS-MELO-L2L-VL2535",
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 12,
+            "description": "CUSTOMER-MYINTERNET-SANTAFE-L2L-VL2613",
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 13,
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 14,
+            "description": "CUSTOMER-IT3SOLUTIONS-JACO-L2L-VL2575",
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 15,
+            "description": "CUSTOMER-FORTINET-VIA-FORT-L2L-VL2313",
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 16,
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 17,
+            "description": "CUSTOMER-ISP-PORTALNETSYSTEM-GRP-P2-LAG11-VL695",
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 18,
+            "description": "CUSTOMER-ISP-PORTALNETSYSTEM-GRP-P1-LAG11-VL695",
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 19,
+            "description": "CUSTOMER-ISP-ULTRANET-RODOLFO-P1-LAG32-VL546-ROTA-FREIDAMIAO",
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 20,
+            "description": "CUSTOMER-ISP-ULTRANET-RODOLFO-P2-LAG32-VL546-ROTA-DIRCEU",
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 21,
+            "description": "CUSTOMER-ISP-HGBS-VL688-689",
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 22,
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 23,
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 24,
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 25,
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 26,
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 27,
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 28,
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 29,
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 30,
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 31,
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 32,
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 33,
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 34,
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 35,
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 36,
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 37,
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 38,
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 39,
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 40,
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 41,
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 42,
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 43,
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 44,
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 45,
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 46,
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 47,
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 48,
+            "description": "UPLINK-UNIWEB-OLT-GRP",
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          }
+        ],
+        "dmos-interface-ethernet:hundred-gigabit-ethernet": [
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 1,
+            "description": "PI-TERESINA-PICARRA-PE01-100GE-01-VIA-DRC",
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "100G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 2,
+            "description": "PI-TERESINA-PICARRA-PE01-100GE-02-VIA-DRC",
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "100G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 3,
+            "description": "PI-TERESINA-PICARRA-PE01-100GE-03-VIA-PWF",
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "100G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 4,
+            "description": "PI-TERESINA-PICARRA-PE01-100GE-04-VIA-PWF",
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "100G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 5,
+            "description": "PI-ALTOS-PE01-100GE-01",
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "100G",
+            "mdix": "normal",
+            "fec": "cl91"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 6,
+            "description": "PI-ALTOS-PE01-100GE-02",
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "100G",
+            "mdix": "normal",
+            "fec": "cl91"
+          }
+        ],
+        "dmos-ip-application:l3": [
+          {
+            "name": "GERENCIA-CRS-NETSYSTEM",
+            "lower-layer-if": {
+              "vlan": 99
+            },
+            "ipv4": {
+              "address": {
+                "ip": "10.254.50.13/30"
+              }
+            }
+          },
+          {
+            "name": "GERENCIA-CRS305-MELO",
+            "ip-mtu": 9000,
+            "lower-layer-if": {
+              "vlan": 40
+            },
+            "ipv4": {
+              "address": {
+                "ip": "10.254.50.1/30"
+              }
+            }
+          },
+          {
+            "name": "PI-ALTOS-PE01",
+            "ip-mtu": 9000,
+            "lower-layer-if": {
+              "vlan": 4001
+            },
+            "ipv4": {
+              "address": {
+                "ip": "10.254.250.49/30"
+              }
+            }
+          },
+          {
+            "name": "PI-TERESINA-PICARRA-PE01",
+            "ip-mtu": 9000,
+            "lower-layer-if": {
+              "vlan": 4000
+            },
+            "ipv4": {
+              "address": {
+                "ip": "10.254.251.66/30"
+              }
+            }
+          },
+          {
+            "name": "PI-TERESINA-TECNET-CE01",
+            "ip-mtu": 9000,
+            "lower-layer-if": {
+              "vlan": 4011
+            },
+            "ipv4": {
+              "address": {
+                "ip": "10.254.250.45/30"
+              }
+            }
+          },
+          {
+            "name": "PI-THE-DIGITALNET-RENATO-CE01",
+            "ip-mtu": 9000,
+            "lower-layer-if": {
+              "vlan": 4012
+            },
+            "ipv4": {
+              "address": {
+                "ip": "10.254.250.42/30"
+              }
+            }
+          }
+        ],
+        "dmos-ip-application:mgmt": [
+          {
+            "id": "1/1/1",
+            "vrf": "mgmt",
+            "ipv4": {
+              "address": {
+                "ip": "192.168.0.25/24"
+              }
+            }
+          }
+        ],
+        "dmos-ip-application:loopback": [
+          {
+            "id": "0",
+            "ipv4": {
+              "address": [
+                {
+                  "ip": "10.254.254.45/32"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "dmos-base:router": {
+      "router-ospf:ospf": [
+        {
+          "process-id": 1,
+          "vrf": "global",
+          "max-metric": {},
+          "mpls-te": {
+            "router-id": "loopback-0"
+          },
+          "redistribute": [
+            {
+              "protocol": "connected"
+            }
+          ],
+          "area": [
+            {
+              "area-id": "0",
+              "interface": [
+                {
+                  "interface-name": "l3-PI-ALTOS-PE01",
+                  "authentication": {},
+                  "dead-interval": {
+                    "minimal": {}
+                  },
+                  "bfd": {},
+                  "network-type": "point-to-point"
+                },
+                {
+                  "interface-name": "l3-PI-TERESINA-PICARRA-PE01",
+                  "authentication": {},
+                  "dead-interval": {
+                    "minimal": {}
+                  },
+                  "bfd": {},
+                  "network-type": "point-to-point"
+                },
+                {
+                  "interface-name": "l3-PI-TERESINA-TECNET-CE01",
+                  "authentication": {},
+                  "cost": 120,
+                  "dead-interval": {
+                    "minimal": {}
+                  },
+                  "bfd": {},
+                  "network-type": "point-to-point"
+                },
+                {
+                  "interface-name": "l3-PI-THE-DIGITALNET-RENATO-CE01",
+                  "authentication": {},
+                  "cost": 120,
+                  "dead-interval": {
+                    "minimal": {}
+                  },
+                  "bfd": {},
+                  "network-type": "point-to-point"
+                },
+                {
+                  "interface-name": "loopback-0",
+                  "authentication": {},
+                  "dead-interval": {
+                    "minimal": {}
+                  },
+                  "bfd": {}
+                }
+              ]
+            }
+          ],
+          "router-id": "10.254.254.45",
+          "timers": {
+            "lsa-arrival": {},
+            "throttle": {
+              "lsa-originate": {}
+            }
+          },
+          "maximum": {}
+        }
+      ],
+      "router-rtm:static": {
+        "address-family": {
+          "ipv4": {}
+        }
+      }
+    },
+    "dmos-base:ip": {},
+    "dmos-cpu-dos-protect:cpu-dos-protect": {},
+    "dmos-assistant-task:assistant-task": [
+      {
+        "task-name": "backup",
+        "action": {
+          "cli-file": "backup.cli"
+        },
+        "schedule": {
+          "recursive": {
+            "hour": "4"
+          }
+        }
+      }
+    ],
+    "dmos-dot1q:dot1q": {
+      "vlan": [
+        {
+          "vlan-id": 40,
+          "name": "GERENCIA-CRS305-MELO",
+          "interface": [
+            {
+              "interface-name": "ten-gigabit-ethernet-1/1/11"
+            }
+          ]
+        },
+        {
+          "vlan-id": 99,
+          "name": "GERENCIA-CRS-NETSYSTEM",
+          "interface": [
+            {
+              "interface-name": "lag-11"
+            }
+          ]
+        },
+        {
+          "vlan-id": 4000,
+          "name": "PI-TERESINA-PICARRA-PE01",
+          "interface": [
+            {
+              "interface-name": "lag-1",
+              "tagged-untagged": "untagged"
+            }
+          ]
+        },
+        {
+          "vlan-id": 4001,
+          "name": "PI-ALTOS-PE01",
+          "interface": [
+            {
+              "interface-name": "lag-2",
+              "tagged-untagged": "untagged"
+            }
+          ]
+        },
+        {
+          "vlan-id": 4011,
+          "name": "PI-TERESINA-TECNET-CE01",
+          "interface": [
+            {
+              "interface-name": "lag-10",
+              "tagged-untagged": "untagged"
+            }
+          ]
+        },
+        {
+          "vlan-id": 4012,
+          "name": "PI-THE-DIGITALNET-RENATO-CE01",
+          "interface": [
+            {
+              "interface-name": "ten-gigabit-ethernet-1/1/3",
+              "tagged-untagged": "untagged"
+            }
+          ]
+        }
+      ]
+    },
+    "dmos-lag:link-aggregation": {
+      "interface": {
+        "lag": [
+          {
+            "lag-id": 1,
+            "description": "PI-TERESINA-PICARRA-PE01",
+            "interface-config": [
+              {
+                "interface-name": "hundred-gigabit-ethernet-1/1/1"
+              },
+              {
+                "interface-name": "hundred-gigabit-ethernet-1/1/2"
+              },
+              {
+                "interface-name": "hundred-gigabit-ethernet-1/1/3"
+              },
+              {
+                "interface-name": "hundred-gigabit-ethernet-1/1/4"
+              }
+            ],
+            "load-balance": "dynamic",
+            "mode": "active",
+            "mc-lag-if": {}
+          },
+          {
+            "lag-id": 2,
+            "description": "PI-ALTOS-PE01",
+            "interface-config": [
+              {
+                "interface-name": "hundred-gigabit-ethernet-1/1/5"
+              },
+              {
+                "interface-name": "hundred-gigabit-ethernet-1/1/6"
+              }
+            ],
+            "load-balance": "dynamic",
+            "mode": "active",
+            "mc-lag-if": {}
+          },
+          {
+            "lag-id": 10,
+            "description": "PI-TERESINA-TECNET-CE01",
+            "interface-config": [
+              {
+                "interface-name": "ten-gigabit-ethernet-1/1/1"
+              },
+              {
+                "interface-name": "ten-gigabit-ethernet-1/1/2"
+              }
+            ],
+            "load-balance": "dynamic",
+            "mode": "active",
+            "mc-lag-if": {}
+          },
+          {
+            "lag-id": 11,
+            "description": "IP-PORTALNETSYSTEM-GRP",
+            "interface-config": [
+              {
+                "interface-name": "ten-gigabit-ethernet-1/1/17"
+              },
+              {
+                "interface-name": "ten-gigabit-ethernet-1/1/18"
+              }
+            ],
+            "load-balance": "dynamic",
+            "mode": "active",
+            "mc-lag-if": {}
+          },
+          {
+            "lag-id": 32,
+            "description": "ISP-ULTRANET-RODOLFO",
+            "interface-config": [
+              {
+                "interface-name": "ten-gigabit-ethernet-1/1/19"
+              },
+              {
+                "interface-name": "ten-gigabit-ethernet-1/1/20"
+              }
+            ],
+            "load-balance": "dynamic",
+            "mode": "active",
+            "mc-lag-if": {}
+          }
+        ]
+      }
+    },
+    "dmos-licensing-app:license": [
+      {
+        "name": "mpls",
+        "enabled": true,
+        "key": "***"
+      },
+      {
+        "name": "speed-100g-ports",
+        "enabled": true,
+        "key": "***"
+      }
+    ]
+  }
+}
