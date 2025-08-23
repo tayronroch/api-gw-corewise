@@ -1,0 +1,11 @@
+{
+  "name": "api-gw-corewise",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "smoke": "newman run src/postman_collection.json --env-var base_url=http://localhost:8000"
+  },
+  "devDependencies": {
+    "newman": "^6.2.1"
+  }
+}

@@ -1,0 +1,12 @@
+# Ambiente Python
+.venv/
+venv/
+
+# Ambiente Node
+node_modules/
+
+# Ambiente React
+.next/
+
+# Ambiente Vue
+.nuxt/

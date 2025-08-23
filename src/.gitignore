@@ -1,0 +1,4 @@
+# Ambiente Python
+.venv/
+.node_modules/
+

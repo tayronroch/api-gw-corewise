@@ -1,0 +1,102 @@
+{
+  "info": {
+    "name": "CoreWise API - Smoke Tests",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Smoke tests para endpoints públicos (health e ping)."
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://localhost:8000" }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Live",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/health/live/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('Content-Type is JSON', function() { pm.expect(pm.response.headers.get('Content-Type') || '').to.match(/json/i); });",
+                  "const json = pm.response.json();",
+                  "pm.test('Live payload shape', function () {",
+                  "  pm.expect(json).to.have.property('status', 'ok');",
+                  "  pm.expect(json).to.have.property('service');",
+                  "  pm.expect(json).to.have.property('mode');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Ready",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/health/ready/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('Content-Type is JSON', function() { pm.expect(pm.response.headers.get('Content-Type') || '').to.match(/json/i); });",
+                  "const json = pm.response.json();",
+                  "pm.test('Ready payload shape', function () {",
+                  "  pm.expect(json).to.have.property('status');",
+                  "  pm.expect(['ready','degraded']).to.include(json.status);",
+                  "  pm.expect(json).to.have.property('dependencies');",
+                  "  pm.expect(json.dependencies).to.have.property('database');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "API v1",
+      "item": [
+        {
+          "name": "Ping",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/api/v1/ping/"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code 200', function () { pm.response.to.have.status(200); });",
+                  "pm.test('Content-Type is JSON', function() { pm.expect(pm.response.headers.get('Content-Type') || '').to.match(/json/i); });",
+                  "const json = pm.response.json();",
+                  "pm.test('Ping payload shape', function () {",
+                  "  pm.expect(json).to.have.property('status', 'ok');",
+                  "  pm.expect(json).to.have.property('message', 'pong');",
+                  "  pm.expect(json).to.have.property('version', 1);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
