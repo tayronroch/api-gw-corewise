@@ -331,3 +331,94 @@ class LogoutView(APIView):
                 correlation_id=getattr(request, 'correlation_id', ''),
             )
             return Response({'detail': 'Invalid refresh token'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UserProfileView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    @extend_schema(
+        summary="Perfil do Usuário",
+        description="Retorna informações do perfil do usuário autenticado",
+        tags=['users'],
+        responses={200: "Dados do perfil", 401: "Não autenticado"}
+    )
+    def get(self, request: HttpRequest):
+        user = request.user
+        profile_data = {
+            'id': user.id,
+            'username': user.username,
+            'email': user.email,
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'is_staff': user.is_staff,
+            'is_superuser': user.is_superuser,
+            'date_joined': user.date_joined.isoformat(),
+            'last_login': user.last_login.isoformat() if user.last_login else None,
+        }
+        
+        AuditEvent.objects.create(
+            user=user,
+            action='PROFILE_VIEW',
+            ip=_client_ip(request),
+            user_agent=_user_agent(request),
+            path=request.path,
+            method='GET',
+            status_code=200,
+            success=True,
+            metadata={},
+            correlation_id=getattr(request, 'correlation_id', ''),
+        )
+        
+        return Response(profile_data, status=status.HTTP_200_OK)
+
+    @extend_schema(
+        summary="Atualizar Perfil",
+        description="Atualiza informações do perfil do usuário",
+        tags=['users'],
+        responses={200: "Perfil atualizado", 400: "Dados inválidos", 401: "Não autenticado"}
+    )
+    def put(self, request: HttpRequest):
+        user = request.user
+        data = request.data
+        
+        # Campos permitidos para atualização
+        allowed_fields = ['first_name', 'last_name', 'email']
+        updated_fields = []
+        
+        for field in allowed_fields:
+            if field in data:
+                setattr(user, field, data[field])
+                updated_fields.append(field)
+        
+        if updated_fields:
+            try:
+                user.save()
+                AuditEvent.objects.create(
+                    user=user,
+                    action='PROFILE_UPDATE',
+                    ip=_client_ip(request),
+                    user_agent=_user_agent(request),
+                    path=request.path,
+                    method='PUT',
+                    status_code=200,
+                    success=True,
+                    metadata={'updated_fields': updated_fields},
+                    correlation_id=getattr(request, 'correlation_id', ''),
+                )
+                return Response({'message': 'Profile updated successfully'}, status=status.HTTP_200_OK)
+            except Exception as e:
+                AuditEvent.objects.create(
+                    user=user,
+                    action='PROFILE_UPDATE',
+                    ip=_client_ip(request),
+                    user_agent=_user_agent(request),
+                    path=request.path,
+                    method='PUT',
+                    status_code=400,
+                    success=False,
+                    metadata={'error': str(e)},
+                    correlation_id=getattr(request, 'correlation_id', ''),
+                )
+                return Response({'detail': 'Error updating profile'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        return Response({'detail': 'No valid fields to update'}, status=status.HTTP_400_BAD_REQUEST)

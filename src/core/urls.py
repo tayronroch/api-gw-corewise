@@ -50,6 +50,10 @@ urlpatterns = [
     path('auth/login', views.LoginView.as_view(), name='auth-login'),
     path('auth/refresh', views.RefreshView.as_view(), name='auth-refresh'),
     path('auth/logout', views.LogoutView.as_view(), name='auth-logout'),
+    
+    # User Profile Endpoints
+    # ==========================================
+    path('users/profile/', views.UserProfileView.as_view(), name='user-profile'),
 ]
 
 # URLs com namespace

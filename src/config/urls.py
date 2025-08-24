@@ -22,7 +22,7 @@ urlpatterns = [
     path('api/topology/', include('modules.topology.urls')),
     path('api/networking/', include('modules.networking.urls')),
     # MPLS Analyzer - APIs REST documentadas
-    path('api/mpls-analyzer/api/', include('modules.mpls_analyzer.api_urls')),
+    path('api/mpls-analyzer/', include('modules.mpls_analyzer.api_urls')),
     # MPLS Analyzer - Interface web completa
     path('mpls-analyzer/', include('modules.mpls_analyzer.urls')),
     # Core APIs (Auth, Audit, etc.)

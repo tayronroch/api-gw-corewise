@@ -15,6 +15,7 @@ urlpatterns = [
     path('fix-malformed-json/', views.fix_malformed_json, name='fix_malformed_json'),
     path('customer-report/', views.customer_report_view, name='customer_report_view'),
     path('api/search/', views.api_search, name='api_search'),
+    path('api/unified-search/', views.unified_search, name='unified_search'),
     path('api/vpn-report/', views.vpn_report, name='vpn_report'),
     path('api/customer-interface-report/', views.customer_interface_report, name='customer_interface_report'),
     path('api/customer-report/', views.customer_report, name='customer_report'),

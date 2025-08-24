@@ -31,7 +31,7 @@ from . import views
 @permission_classes([IsAuthenticated])
 def api_search_documented(request):
     """Busca inteligente por configurações MPLS"""
-    return views.api_search(request)
+    return views.api_search(request._request)
 
 @extend_schema(
     summary="Relatório VPN",
@@ -52,7 +52,7 @@ def api_search_documented(request):
 @permission_classes([IsAuthenticated])
 def vpn_report_documented(request):
     """Relatório detalhado de VPN"""
-    return views.vpn_report(request)
+    return views.vpn_report(request._request)
 
 @extend_schema(
     summary="Relatório de Interfaces por Cliente",
@@ -73,7 +73,7 @@ def vpn_report_documented(request):
 @permission_classes([IsAuthenticated])
 def customer_interface_report_documented(request):
     """Relatório de interfaces por cliente"""
-    return views.customer_interface_report(request)
+    return views.customer_interface_report(request._request)
 
 @extend_schema(
     summary="Relatório de Cliente",
@@ -94,7 +94,7 @@ def customer_interface_report_documented(request):
 @permission_classes([IsAuthenticated])
 def customer_report_documented(request):
     """Relatório completo de cliente"""
-    return views.customer_report(request)
+    return views.customer_report(request._request)
 
 @extend_schema(
     summary="Relatório Excel",
@@ -115,10 +115,12 @@ def customer_report_documented(request):
 @permission_classes([IsAuthenticated])
 def customer_report_excel_documented(request):
     """Exporta relatório em Excel"""
-    return views.customer_report_excel(request)
+    return views.customer_report_excel(request._request)
 
 urlpatterns = [
     path('search/', api_search_documented, name='mpls-api-search'),
+    path('search/suggestions/', api_search_documented, name='mpls-api-search-suggestions'),  # Sugestões usam mesma lógica de busca
+    path('reports/customers/', customer_report_documented, name='mpls-api-customer-report'),  # URL esperada pelo frontend
     path('vpn-report/', vpn_report_documented, name='mpls-vpn-report'),
     path('customer-interface-report/', customer_interface_report_documented, name='mpls-customer-interface-report'),
     path('customer-report/', customer_report_documented, name='mpls-customer-report'),

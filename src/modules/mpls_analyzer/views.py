@@ -227,6 +227,211 @@ def vpn_report(request):
     return JsonResponse({'results': results})
 
 
+def unified_search(request):
+    """
+    API endpoint para busca unificada que aceita VPN ID, nome do cliente ou hostname
+    e retorna dados formatados em texto
+    """
+    query = request.GET.get('query', '').strip()
+    
+    if not query:
+        return JsonResponse({'results': [], 'message': 'Query parameter is required'})
+    
+    results = []
+    
+    # Busca por VPN ID se for numérico
+    if query.isdigit():
+        vpn_id = int(query)
+        vpn_results = _search_by_vpn_id(vpn_id)
+        results.extend(vpn_results)
+    
+    # Busca por nome do cliente
+    if not results:
+        client_results = _search_by_client_name(query)
+        results.extend(client_results)
+    
+    # Busca por hostname do equipamento
+    if not results:
+        hostname_results = _search_by_hostname(query)
+        results.extend(hostname_results)
+    
+    # Formatar resultados no formato texto solicitado
+    formatted_results = []
+    for result in results:
+        formatted_text = _format_search_result(result)
+        formatted_results.append({
+            'formatted_text': formatted_text,
+            'raw_data': result
+        })
+    
+    # Registra auditoria da busca
+    log_audit_action(
+        user=request.user,
+        action='unified_search',
+        description=f'Busca unificada: {query}',
+        request=request,
+        search_query=query,
+        results_count=len(results),
+        additional_data={
+            'search_type': 'unified_search',
+            'query': query
+        }
+    )
+    
+    return JsonResponse({
+        'results': formatted_results,
+        'total_count': len(formatted_results),
+        'query': query
+    })
+
+
+def _search_by_vpn_id(vpn_id):
+    """Busca por VPN ID"""
+    vpns = (
+        Vpn.objects.filter(vpn_id=vpn_id)
+        .select_related('vpws_group__mpls_config__equipment')
+        .prefetch_related('customer_services')
+    )
+    
+    results = []
+    for vpn in vpns:
+        equipment = vpn.vpws_group.mpls_config.equipment
+        customers = [cs.name for cs in vpn.customer_services.all()]
+        
+        # Buscar o equipamento do destino (neighbor)
+        neighbor_equipment = Equipment.objects.filter(ip_address=vpn.neighbor_ip).first()
+        
+        result = {
+            'vpn_id': vpn.vpn_id,
+            'customer_name': customers[0] if customers else 'Cliente não identificado',
+            'equipment_hostname': equipment.name,
+            'location': equipment.location or 'Local não identificado',
+            'loopback_ip': equipment.ip_address,
+            'neighbor_ip': vpn.neighbor_ip,
+            'neighbor_hostname': neighbor_equipment.name if neighbor_equipment else vpn.neighbor_hostname or 'Destino não identificado',
+            'interface': vpn.access_interface or 'Interface não identificada',
+            'interface_type': 'physical - 10G',  # Assumindo padrão, pode ser derivado da interface
+            'encapsulation': vpn.encapsulation or 'Não identificado',
+            'pw_type': 'vlan',  # Padrão, pode ser derivado
+            'customers': customers
+        }
+        results.append(result)
+    
+    return results
+
+
+def _search_by_client_name(client_name):
+    """Busca por nome do cliente"""
+    customer_services = (
+        CustomerService.objects.filter(
+            Q(name__iexact=client_name) | Q(name__icontains=client_name)
+        )
+        .select_related('vpn__vpws_group__mpls_config__equipment')
+        .prefetch_related('vpn__customer_services')
+    )
+    
+    results = []
+    seen_vpn_ids = set()
+    
+    for service in customer_services:
+        vpn = service.vpn
+        if vpn.id in seen_vpn_ids:
+            continue
+        seen_vpn_ids.add(vpn.id)
+        
+        equipment = vpn.vpws_group.mpls_config.equipment
+        customers = [cs.name for cs in vpn.customer_services.all()]
+        
+        # Buscar o equipamento do destino
+        neighbor_equipment = Equipment.objects.filter(ip_address=vpn.neighbor_ip).first()
+        
+        result = {
+            'vpn_id': vpn.vpn_id,
+            'customer_name': service.name,
+            'equipment_hostname': equipment.name,
+            'location': equipment.location or 'Local não identificado',
+            'loopback_ip': equipment.ip_address,
+            'neighbor_ip': vpn.neighbor_ip,
+            'neighbor_hostname': neighbor_equipment.name if neighbor_equipment else vpn.neighbor_hostname or 'Destino não identificado',
+            'interface': vpn.access_interface or 'Interface não identificada',
+            'interface_type': 'physical - 10G',
+            'encapsulation': vpn.encapsulation or 'Não identificado',
+            'pw_type': 'vlan',
+            'customers': customers
+        }
+        results.append(result)
+    
+    return results
+
+
+def _search_by_hostname(hostname):
+    """Busca por hostname do equipamento"""
+    equipment = Equipment.objects.filter(
+        Q(name__iexact=hostname) | Q(name__icontains=hostname)
+    ).prefetch_related(
+        'mpls_configs__vpws_groups__vpns__customer_services'
+    ).first()
+    
+    if not equipment:
+        return []
+    
+    results = []
+    
+    # Buscar todas as VPNs associadas a este equipamento
+    for mpls_config in equipment.mpls_configs.all():
+        for vpws_group in mpls_config.vpws_groups.all():
+            for vpn in vpws_group.vpns.all():
+                customers = [cs.name for cs in vpn.customer_services.all()]
+                
+                # Buscar o equipamento do destino
+                neighbor_equipment = Equipment.objects.filter(ip_address=vpn.neighbor_ip).first()
+                
+                result = {
+                    'vpn_id': vpn.vpn_id,
+                    'customer_name': customers[0] if customers else 'Cliente não identificado',
+                    'equipment_hostname': equipment.name,
+                    'location': equipment.location or 'Local não identificado',
+                    'loopback_ip': equipment.ip_address,
+                    'neighbor_ip': vpn.neighbor_ip,
+                    'neighbor_hostname': neighbor_equipment.name if neighbor_equipment else vpn.neighbor_hostname or 'Destino não identificado',
+                    'interface': vpn.access_interface or 'Interface não identificada',
+                    'interface_type': 'physical - 10G',
+                    'encapsulation': vpn.encapsulation or 'Não identificado',
+                    'pw_type': 'vlan',
+                    'customers': customers
+                }
+                results.append(result)
+    
+    return results
+
+
+def _format_search_result(result):
+    """
+    Formatar resultado no formato texto solicitado:
+    ULTRANET
+    MA-CANABRAVA-PE01
+    📍 MA-CANABRAVA
+    🌐 10.254.254.47
+    🔗 VPN 3502 → 10.254.254.29 (PI-PARNAIBA-PE01)
+    👥 Destino: PI-PARNAIBA-PE01
+    🔌 Interface: ten-gigabit-ethernet-1/1/4 (physical - 10G)
+    📊 Encapsulamento: Qinq qinq:209 210
+    PW: vlan (3502)
+    """
+    formatted = []
+    formatted.append(result['customer_name'])
+    formatted.append(result['equipment_hostname'])
+    formatted.append(f"📍 {result['location']}")
+    formatted.append(f"🌐 {result['loopback_ip']}")
+    formatted.append(f"🔗 VPN {result['vpn_id']} → {result['neighbor_ip']} ({result['neighbor_hostname']})")
+    formatted.append(f"👥 Destino: {result['neighbor_hostname']}")
+    formatted.append(f"🔌 Interface: {result['interface']} ({result['interface_type']})")
+    formatted.append(f"📊 Encapsulamento: {result['encapsulation']}")
+    formatted.append(f"PW: {result['pw_type']} ({result['vpn_id']})")
+    
+    return '\n'.join(formatted)
+
+
 # =============================================================================
 # CONFIGURAÇÕES DE SEGURANÇA
 # =============================================================================
@@ -311,9 +516,9 @@ def security_settings_view(request):
 
 def _resolve_equipment_by_loopback(loopback_ip: str):
     try:
-        equip = Equipment.objects.get(ip_address=loopback_ip)
-        return equip.name
-    except Equipment.DoesNotExist:
+        equip = Equipment.objects.filter(ip_address=loopback_ip).first()
+        return equip.name if equip else ''
+    except Exception:
         return ''
 
 
@@ -536,11 +741,19 @@ def customer_report(request):
             
             # Adiciona cliente e serviço
             vpn_groups[vpn_id]['customers'].add(service.name)
-            vpn_groups[vpn_id]['services'].append({
-                'name': service.name,
-                'type': service.service_type,
-                'bandwidth': service.bandwidth
-            })
+            # Verifica se o serviço já existe para evitar duplicatas
+            service_key = f"{service.name}_{service.service_type}_{service.bandwidth}"
+            service_exists = any(
+                f"{s['name']}_{s['type']}_{s['bandwidth']}" == service_key 
+                for s in vpn_groups[vpn_id]['services']
+            )
+            
+            if not service_exists:
+                vpn_groups[vpn_id]['services'].append({
+                    'name': service.name,
+                    'type': service.service_type,
+                    'bandwidth': service.bandwidth
+                })
             
             # Busca detalhes da interface de acesso
             access_interface_details = None
@@ -568,9 +781,9 @@ def customer_report(request):
             
             # Busca equipamento vizinho
             try:
-                neighbor_equipment = Equipment.objects.get(ip_address=vpn.neighbor_ip)
-                neighbor_hostname = neighbor_equipment.name
-            except Equipment.DoesNotExist:
+                neighbor_equipment = Equipment.objects.filter(ip_address=vpn.neighbor_ip).first()
+                neighbor_hostname = neighbor_equipment.name if neighbor_equipment else (vpn.neighbor_hostname or 'N/A')
+            except Exception:
                 neighbor_hostname = vpn.neighbor_hostname or 'N/A'
             
             # Cria dados do lado atual
@@ -599,7 +812,7 @@ def customer_report(request):
             if opposite_vpn:
                 # Se encontrou VPN oposta, busca seus detalhes
                 try:
-                    opposite_equipment = Equipment.objects.get(ip_address=opposite_vpn.vpws_group.mpls_config.equipment.ip_address)
+                    opposite_equipment = Equipment.objects.filter(ip_address=opposite_vpn.vpws_group.mpls_config.equipment.ip_address).first()
                     opposite_interface_details = None
                     
                     if opposite_vpn.access_interface:
@@ -748,11 +961,19 @@ def customer_report_excel(request):
             
             # Adiciona cliente e serviço
             vpn_groups[vpn_id]['customers'].add(service.name)
-            vpn_groups[vpn_id]['services'].append({
-                'name': service.name,
-                'type': service.service_type,
-                'bandwidth': service.bandwidth
-            })
+            # Verifica se o serviço já existe para evitar duplicatas
+            service_key = f"{service.name}_{service.service_type}_{service.bandwidth}"
+            service_exists = any(
+                f"{s['name']}_{s['type']}_{s['bandwidth']}" == service_key 
+                for s in vpn_groups[vpn_id]['services']
+            )
+            
+            if not service_exists:
+                vpn_groups[vpn_id]['services'].append({
+                    'name': service.name,
+                    'type': service.service_type,
+                    'bandwidth': service.bandwidth
+                })
             
             # Busca detalhes da interface de acesso
             access_interface_details = None
@@ -780,9 +1001,9 @@ def customer_report_excel(request):
             
             # Busca equipamento vizinho
             try:
-                neighbor_equipment = Equipment.objects.get(ip_address=vpn.neighbor_ip)
-                neighbor_hostname = neighbor_equipment.name
-            except Equipment.DoesNotExist:
+                neighbor_equipment = Equipment.objects.filter(ip_address=vpn.neighbor_ip).first()
+                neighbor_hostname = neighbor_equipment.name if neighbor_equipment else (vpn.neighbor_hostname or 'N/A')
+            except Exception:
                 neighbor_hostname = vpn.neighbor_hostname or 'N/A'
             
             # Cria dados do lado atual
@@ -810,7 +1031,7 @@ def customer_report_excel(request):
             
             if opposite_vpn:
                 try:
-                    opposite_equipment = Equipment.objects.get(ip_address=opposite_vpn.vpws_group.mpls_config.equipment.ip_address)
+                    opposite_equipment = Equipment.objects.filter(ip_address=opposite_vpn.vpws_group.mpls_config.equipment.ip_address).first()
                     opposite_interface_details = None
                     
                     if opposite_vpn.access_interface:
@@ -1178,8 +1399,8 @@ def search_view(request):
 
             # Equipamento remoto
             try:
-                neighbor_equipment = Equipment.objects.get(ip_address=vpn.neighbor_ip)
-            except Equipment.DoesNotExist:
+                neighbor_equipment = Equipment.objects.filter(ip_address=vpn.neighbor_ip).first()
+            except Exception:
                 neighbor_equipment = None
 
             # Detalhes da interface
@@ -1613,6 +1834,9 @@ def api_search(request):
                 'description': v.description,
                 'group_name': v.vpws_group.group_name,
                 'customers': customers,
+                'location': equip.location or '',
+                'last_backup': equip.last_backup.isoformat() if equip.last_backup else None,
+                'highlights': [f'VPN ID: {v.vpn_id}', f'Customer: {", ".join(customers)}'] if customers else [f'VPN ID: {v.vpn_id}'],
             })
         if vpn_results:
             return JsonResponse({'results': vpn_results})
@@ -1648,9 +1872,46 @@ def api_search(request):
             'description': v.description,
             'group_name': v.vpws_group.group_name,
             'customers': customers,
+            'location': equip.location or '',
+            'last_backup': equip.last_backup.isoformat() if equip.last_backup else None,
+            'highlights': [f'VPN ID: {v.vpn_id}', f'Customer: {", ".join(customers)}'] if customers else [f'VPN ID: {v.vpn_id}'],
         })
         if len(vpn_results) >= 10:
             break
+
+    # Se não encontrou VPNs por cliente, fazer busca geral por equipamentos
+    if not vpn_results:
+        equipment_qs = (
+            Equipment.objects.filter(
+                Q(name__icontains=query) |
+                Q(location__icontains=query) |
+                Q(ip_address__icontains=query)
+            )
+            .prefetch_related('mpls_configs')[:10]
+        )
+        
+        equipment_results = []
+        for equipment in equipment_qs:
+            latest_config = equipment.mpls_configs.first()
+            equipment_results.append({
+                'type': 'equipment',
+                'equipment_name': equipment.name,
+                'equipment_id': equipment.id,
+                'loopback_ip': equipment.ip_address,
+                'location': equipment.location or '',
+                'last_backup': equipment.last_backup.isoformat() if equipment.last_backup else None,
+                'highlights': [f'Equipment: {equipment.name}', f'Location: {equipment.location}'] if equipment.location else [f'Equipment: {equipment.name}'],
+                'vpn_id': 0,  # Para compatibilidade
+                'neighbor_ip': '',
+                'neighbor_hostname': '',
+                'access_interface': '',
+                'encapsulation': '',
+                'description': '',
+                'group_name': '',
+                'customers': [],
+            })
+        
+        return JsonResponse({'results': equipment_results})
 
     return JsonResponse({'results': vpn_results})
 

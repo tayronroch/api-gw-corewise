@@ -5,7 +5,7 @@ class MPLSRouter:
     - Disallow migrations for this app to preserve the bundled schema.
     """
 
-    app_label = 'modules.mpls_analyzer'
+    app_label = 'mpls_analyzer'
     db_alias = 'mpls'
 
     def db_for_read(self, model, **hints):
