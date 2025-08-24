@@ -76,12 +76,94 @@ class Equipment(models.Model):
         return self.name
 
 
+class EquipmentJsonBackup(models.Model):
+    """Armazena o JSON completo do equipamento Datacom DMOS"""
+    equipment = models.ForeignKey(Equipment, on_delete=models.CASCADE, related_name='json_backups')
+    backup_date = models.DateTimeField()
+    json_data = models.JSONField(help_text="JSON completo do equipamento DMOS")
+    file_name = models.CharField(max_length=255, blank=True)
+    file_size = models.PositiveIntegerField(default=0)
+    processed_at = models.DateTimeField(auto_now_add=True)
+    
+    # Campos extraídos para busca rápida
+    total_interfaces = models.PositiveIntegerField(default=0)
+    total_lags = models.PositiveIntegerField(default=0)  
+    total_vpns = models.PositiveIntegerField(default=0)
+    
+    class Meta:
+        ordering = ['-backup_date']
+        unique_together = ['equipment', 'backup_date']
+        indexes = [
+            models.Index(fields=['equipment', '-backup_date']),
+            models.Index(fields=['backup_date']),
+        ]
+    
+    def __str__(self):
+        return f"{self.equipment.name} JSON - {self.backup_date.strftime('%Y-%m-%d %H:%M')}"
+    
+    def extract_summary_data(self):
+        """Extrai dados de resumo do JSON para busca rápida"""
+        if not self.json_data:
+            return
+        
+        data = self.json_data.get('data', {})
+        
+        # Contar LAGs
+        link_agg = data.get('lacp:link-aggregation', {})
+        lags = link_agg.get('interface', {}).get('lag', [])
+        self.total_lags = len(lags) if lags else 0
+        
+        # Contar interfaces físicas
+        interfaces_data = data.get('interfaces', {})  # Pode variar dependendo da estrutura
+        self.total_interfaces = len(interfaces_data) if interfaces_data else 0
+        
+        # Contar VPNs (se existir na estrutura JSON)
+        vpn_data = data.get('vpn', {})
+        self.total_vpns = len(vpn_data) if vpn_data else 0
+        
+    def get_lags_data(self):
+        """Retorna dados estruturados das LAGs"""
+        if not self.json_data:
+            return []
+        
+        data = self.json_data.get('data', {})
+        link_agg = data.get('lacp:link-aggregation', {})
+        lags = link_agg.get('interface', {}).get('lag', [])
+        
+        lag_data = []
+        for lag in lags:
+            lag_info = {
+                'lag_id': lag.get('lag-id'),
+                'description': lag.get('interface-lag-config', {}).get('description', ''),
+                'mode': lag.get('interface-lag-config', {}).get('mode', ''),
+                'load_balance': lag.get('interface-lag-config', {}).get('load-balance', ''),
+                'members': [m.get('interface-name') for m in lag.get('interface-config', [])]
+            }
+            lag_data.append(lag_info)
+        
+        return lag_data
+    
+    def save(self, *args, **kwargs):
+        # Extrair dados de resumo antes de salvar
+        self.extract_summary_data()
+        super().save(*args, **kwargs)
+
+
 class MplsConfiguration(models.Model):
     equipment = models.ForeignKey(Equipment, on_delete=models.CASCADE, related_name='mpls_configs')
     backup_date = models.DateTimeField()
     raw_config = models.TextField()
     processed_at = models.DateTimeField(auto_now_add=True)
     search_vector = SearchVectorField(null=True, blank=True)
+    
+    # Relacionamento com o JSON completo
+    json_backup = models.ForeignKey(
+        EquipmentJsonBackup, 
+        on_delete=models.SET_NULL, 
+        null=True, 
+        blank=True,
+        help_text="Referência ao JSON completo de onde foram extraídos estes dados"
+    )
     
     class Meta:
         ordering = ['-backup_date']

@@ -10,6 +10,8 @@ from rest_framework import status
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 from drf_spectacular.types import OpenApiTypes
 from . import views
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view, permission_classes
 
 # Wrapper para converter function-based views em DRF APIViews para documentação
 @extend_schema(
@@ -138,6 +140,75 @@ def equipment_vpns_report_documented(request):
     """Relatório de VPNs por equipamento"""
     return views.equipment_vpns_report(request._request)
 
+# Documentação para o endpoint de atualização (import JSONs)
+@extend_schema(
+    summary="Importa backups JSON",
+    description=(
+        "Dispara a importação dos arquivos JSON coletados via SSH e atualiza o banco. "
+        "Por padrão lê de modules/mpls_analyzer/update. Requer permissão de manager/admin."
+    ),
+    tags=['mpls-admin'],
+    parameters=[
+        OpenApiParameter(
+            name='path',
+            type=OpenApiTypes.STR,
+            location=OpenApiParameter.QUERY,
+            description='Diretório alternativo contendo .json (opcional)',
+            required=False
+        ),
+        OpenApiParameter(
+            name='remove_on_success',
+            type=OpenApiTypes.BOOL,
+            location=OpenApiParameter.QUERY,
+            description='Remove o arquivo após importação bem-sucedida (default: false)',
+            required=False
+        ),
+    ],
+    responses={200: "Resumo ImportStats"}
+)
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def import_jsons_update_documented(request):
+    return views.import_jsons_update(request._request)
+
+
+@extend_schema(
+    summary="Coletar e importar JSONs",
+    description=(
+        "Conecta em todos os equipamentos com as credenciais fornecidas, coleta a configuração em JSON "
+        "(comando configurável) e importa no banco. Retorna um log_id para acompanhamento."
+    ),
+    tags=['mpls-admin'],
+    parameters=[
+        OpenApiParameter(
+            name='username',
+            type=OpenApiTypes.STR,
+            location=OpenApiParameter.QUERY,
+            description='Login para SSH nos equipamentos (pode ir no corpo também)',
+            required=False
+        ),
+        OpenApiParameter(
+            name='password',
+            type=OpenApiTypes.STR,
+            location=OpenApiParameter.QUERY,
+            description='Senha para SSH (recomendado enviar no corpo POST)',
+            required=False
+        ),
+        OpenApiParameter(
+            name='remove_on_success',
+            type=OpenApiTypes.BOOL,
+            location=OpenApiParameter.QUERY,
+            description='Remove JSON após importar (opcional)',
+            required=False
+        ),
+    ],
+    responses={200: "Objeto com log_id"}
+)
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def collect_and_import_update_documented(request):
+    return views.collect_and_import_update(request._request)
+
 urlpatterns = [
     path('search/', api_search_documented, name='mpls-api-search'),
     path('search/suggestions/', api_search_documented, name='mpls-api-search-suggestions'),  # Sugestões usam mesma lógica de busca
@@ -147,4 +218,8 @@ urlpatterns = [
     path('customer-interface-report/', customer_interface_report_documented, name='mpls-customer-interface-report'),
     path('customer-report/', customer_report_documented, name='mpls-customer-report'),
     path('customer-report/excel/', customer_report_excel_documented, name='mpls-customer-report-excel'),
+    # Admin/update endpoints
+    path('update/import-jsons/', import_jsons_update_documented, name='mpls-update-import-jsons'),
+    path('update/collect-and-import/', collect_and_import_update_documented, name='mpls-collect-and-import'),
+    path('update/status/<int:log_id>/', views.update_status, name='mpls-update-status'),
 ]

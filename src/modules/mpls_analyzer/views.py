@@ -8,7 +8,7 @@ from django.db.models import Q, Count
 from django.core.paginator import Paginator
 from django_ratelimit.decorators import ratelimit
  
-# MFA temporarily disabled for development
+# MFA DESATIVADO TEMPORARIAMENTE PARA DEV
 # from django_otp import user_has_device
 # from django_otp.plugins.otp_totp.models import TOTPDevice
  
@@ -116,8 +116,8 @@ def customer_interface_report(request):
         search_query=equipment_name or '',
         results_count=len(results),
         additional_data={
-            'report_type': 'customer_interface_report',
-            'equipment_name': equipment_name or 'all'
+        'report_type': 'customer_interface_report',
+        'equipment_name': equipment_name or 'all'
         }
     )
     
@@ -756,28 +756,37 @@ def customer_report(request):
                 })
             
             # Busca detalhes da interface de acesso
-            access_interface_details = None
+            interface_details = {}
             if vpn.access_interface:
                 try:
                     interface = Interface.objects.get(
                         mpls_config=vpn.vpws_group.mpls_config,
                         name=vpn.access_interface
                     )
-                    access_interface_details = {
+                    interface_details = {
                         'name': interface.name,
                         'description': interface.description,
                         'type': interface.interface_type,
                         'speed': interface.speed,
-                        'is_customer': interface.is_customer_interface
+                        'is_customer': interface.is_customer_interface,
+                        'lag_members': []
                     }
                     
                     # Se é LAG, busca membros
                     if interface.interface_type == 'lag':
                         members = list(interface.members.values_list('member_interface_name', flat=True))
-                        access_interface_details['lag_members'] = members
+                        interface_details['lag_members'] = members
                         
                 except Interface.DoesNotExist:
-                    pass
+                    # Interface não encontrada, criar estrutura básica com fallback
+                    interface_details = {
+                        'name': vpn.access_interface,
+                        'description': 'Interface não encontrada no banco',
+                        'type': 'lag' if vpn.access_interface.startswith('lag-') else 'physical',
+                        'speed': _infer_speed_from_name(vpn.access_interface),
+                        'is_customer': True,
+                        'lag_members': []
+                    }
             
             # Busca equipamento vizinho
             try:
@@ -797,8 +806,7 @@ def customer_report(request):
                     'hostname': neighbor_hostname,
                     'loopback_ip': vpn.neighbor_ip
                 },
-                'access_interface': vpn.access_interface,
-                'access_interface_details': access_interface_details,
+                'interface': interface_details,
                 'vpws_group': vpn.vpws_group.group_name,  # Nome do grupo VPWS do próprio lado
                 'encapsulation_details': _extract_encapsulation_details(vpn.encapsulation, vpn.encapsulation_type)
             }
@@ -813,7 +821,7 @@ def customer_report(request):
                 # Se encontrou VPN oposta, busca seus detalhes
                 try:
                     opposite_equipment = Equipment.objects.filter(ip_address=opposite_vpn.vpws_group.mpls_config.equipment.ip_address).first()
-                    opposite_interface_details = None
+                    opposite_interface_details = {}
                     
                     if opposite_vpn.access_interface:
                         try:
@@ -826,7 +834,8 @@ def customer_report(request):
                                 'description': opposite_interface.description,
                                 'type': opposite_interface.interface_type,
                                 'speed': opposite_interface.speed,
-                                'is_customer': opposite_interface.is_customer_interface
+                                'is_customer': opposite_interface.is_customer_interface,
+                                'lag_members': []
                             }
                             
                             if opposite_interface.interface_type == 'lag':
@@ -834,7 +843,15 @@ def customer_report(request):
                                 opposite_interface_details['lag_members'] = members
                                 
                         except Interface.DoesNotExist:
-                            pass
+                            # Interface não encontrada, criar estrutura básica com fallback
+                            opposite_interface_details = {
+                                'name': opposite_vpn.access_interface,
+                                'description': 'Interface não encontrada no banco',
+                                'type': 'lag' if opposite_vpn.access_interface.startswith('lag-') else 'physical',
+                                'speed': _infer_speed_from_name(opposite_vpn.access_interface),
+                                'is_customer': True,
+                                'lag_members': []
+                            }
                     
                     opposite_side_data = {
                         'equipment': {
@@ -846,8 +863,7 @@ def customer_report(request):
                             'hostname': vpn.vpws_group.mpls_config.equipment.name,
                             'loopback_ip': vpn.vpws_group.mpls_config.equipment.ip_address
                         },
-                        'access_interface': opposite_vpn.access_interface,
-                        'access_interface_details': opposite_interface_details,
+                        'interface': opposite_interface_details,
                         'vpws_group': opposite_vpn.vpws_group.group_name,  # Nome do grupo VPWS do próprio lado
                         'encapsulation_details': _extract_encapsulation_details(opposite_vpn.encapsulation, opposite_vpn.encapsulation_type)
                     }
@@ -1281,6 +1297,28 @@ def _format_encapsulation_for_excel(encapsulation_details):
         return f"Encapsulation Dot1q: {raw}"
     
     return 'N/A'
+
+
+def _infer_speed_from_name(interface_name):
+    """Infere velocidade da interface baseado no nome"""
+    if not interface_name:
+        return ''
+    
+    name_lower = interface_name.lower()
+    if 'hundred-gigabit' in name_lower:
+        return '100G'
+    elif 'ten-gigabit' in name_lower:
+        return '10G'
+    elif 'twenty-five-g' in name_lower:
+        return '25G'
+    elif 'forty-gigabit' in name_lower:
+        return '40G'
+    elif 'gigabit-ethernet' in name_lower:
+        return '1G'
+    elif name_lower.startswith('lag-'):
+        return 'LAG'
+    else:
+        return ''
 
 
 def _extract_encapsulation_details(encapsulation, encapsulation_type):
@@ -1997,7 +2035,7 @@ def equipment_vpns_report(request):
             neighbor_equipment = Equipment.objects.filter(ip_address=vpn.neighbor_ip).first()
             
             # Buscar detalhes da interface se existir
-            interface_details = None
+            interface_details = {}
             if vpn.access_interface:
                 try:
                     interface = Interface.objects.get(
@@ -2010,7 +2048,8 @@ def equipment_vpns_report(request):
                         'type': interface.interface_type or 'unknown',
                         'speed': interface.speed or '',
                         'is_customer': interface.is_customer_interface,
-                        'found_in_db': True
+                        'found_in_db': True,
+                        'lag_members': []
                     }
                     
                     # Se é LAG, busca membros
@@ -2019,33 +2058,16 @@ def equipment_vpns_report(request):
                         interface_details['lag_members'] = members
                         
                 except Interface.DoesNotExist:
-                    # Interface não encontrada, tentar buscar por pattern similar
-                    similar_interface = Interface.objects.filter(
-                        mpls_config=vpn.vpws_group.mpls_config,
-                        name__icontains=vpn.access_interface.split('/')[-1]  # Busca pela última parte
-                    ).first()
-                    
-                    if similar_interface:
-                        interface_details = {
-                            'name': vpn.access_interface,
-                            'description': f'Similar to {similar_interface.name}: {similar_interface.description}',
-                            'type': similar_interface.interface_type or 'unknown',
-                            'speed': similar_interface.speed or '',
-                            'is_customer': similar_interface.is_customer_interface,
-                            'found_in_db': False,
-                            'note': 'Interface inferida de interface similar no banco'
-                        }
-                    else:
-                        # Interface não encontrada no banco, criar dados básicos
-                        interface_details = {
-                            'name': vpn.access_interface,
-                            'description': f'Interface {vpn.access_interface}',
-                            'type': 'unknown',
-                            'speed': '',
-                            'is_customer': None,
-                            'found_in_db': False,
-                            'note': 'Interface não mapeada no banco de dados'
-                        }
+                    # Interface não encontrada, criar estrutura básica com fallback
+                    interface_details = {
+                        'name': vpn.access_interface,
+                        'description': 'Interface não encontrada no banco',
+                        'type': 'lag' if vpn.access_interface.startswith('lag-') else 'physical',
+                        'speed': _infer_speed_from_name(vpn.access_interface),
+                        'is_customer': True,
+                        'found_in_db': False,
+                        'lag_members': []
+                    }
             
             # Extrair detalhes do encapsulamento
             encapsulation_details = _extract_encapsulation_details(vpn.encapsulation, vpn.encapsulation_type)
@@ -2053,8 +2075,7 @@ def equipment_vpns_report(request):
             vpn_data = {
                 'vpn_id': vpn.vpn_id,
                 'description': vpn.description,
-                'interface': vpn.access_interface,
-                'interface_details': interface_details,
+                'interface': interface_details,
                 'encapsulation': vpn.encapsulation,
                 'encapsulation_type': vpn.encapsulation_type,
                 'encapsulation_details': encapsulation_details,
@@ -3084,6 +3105,262 @@ def export_access_logs(request):
     
     wb.save(response)
     return response
+
+
+# ==============================
+# Admin: Importar JSONs (API)
+# ==============================
+def import_jsons_update(request):
+    """Dispara a importação dos JSONs para atualizar o banco.
+
+    - Requer método POST e usuário manager/admin (is_manager).
+    - Lê "path" (opcional) e "remove_on_success" de query/body.
+    """
+    from pathlib import Path
+    from django.conf import settings
+    from modules.mpls_analyzer.security import is_manager
+    from modules.mpls_analyzer.services.import_jsons import import_jsons_from_dir
+
+    if request.method != 'POST':
+        return JsonResponse({'success': False, 'error': 'Método não permitido'}, status=405)
+
+    if not is_manager(request.user):
+        return JsonResponse({'success': False, 'error': 'Acesso negado'}, status=403)
+
+    # Leitura de parâmetros (query ou body simples)
+    path_param = request.GET.get('path') or request.POST.get('path')
+    remove_flag = request.GET.get('remove_on_success') or request.POST.get('remove_on_success')
+    remove_on_success = str(remove_flag).lower() in {'1', 'true', 'yes'}
+
+    default_dir = Path(settings.BASE_DIR) / 'modules' / 'mpls_analyzer' / 'update'
+    input_dir = Path(path_param) if path_param else default_dir
+
+    # Executa import e prepara resposta
+    try:
+        stats = import_jsons_from_dir(input_dir, verbose=True, remove_on_success=remove_on_success)
+        payload = {
+            'success': True,
+            'path': str(input_dir),
+            'stats': {
+                'total': stats.total,
+                'success': stats.success,
+                'skipped': stats.skipped,
+                'errors': stats.errors,
+                'total_size': stats.total_size,
+                'total_lags': stats.total_lags,
+                'total_interfaces': stats.total_interfaces,
+                'total_vpns': stats.total_vpns,
+            }
+        }
+
+        # Auditoria no Core
+        try:
+            from core.security import _audit
+            _audit(
+                request,
+                'mpls_import_jsons',
+                success=True,
+                metadata={'dir': str(input_dir), **payload['stats']}
+            )
+        except Exception:
+            pass
+
+        return JsonResponse(payload)
+
+    except FileNotFoundError as e:
+        try:
+            from core.security import _audit
+            _audit(request, 'mpls_import_jsons', success=False, status_code=400, metadata={'error': str(e), 'dir': str(input_dir)})
+        except Exception:
+            pass
+        return JsonResponse({'success': False, 'error': str(e)}, status=400)
+    except Exception as e:
+        try:
+            from core.security import _audit
+            _audit(request, 'mpls_import_jsons', success=False, status_code=500, metadata={'error': str(e), 'dir': str(input_dir)})
+        except Exception:
+            pass
+        return JsonResponse({'success': False, 'error': 'Erro interno'}, status=500)
+
+
+# ==============================
+# Admin: Coletar + Importar (API)
+# ==============================
+def collect_and_import_update(request):
+    """Coleta JSONs via SSH usando login/senha e importa para o banco.
+
+    - POST body/query: username, password, remove_on_success (opcional)
+    - Apenas manager/admin pode executar.
+    - Roda em background e retorna log_id para acompanhamento.
+    """
+    from django.utils import timezone
+    from modules.mpls_analyzer.security import is_manager
+    from modules.mpls_analyzer.models import BackupProcessLog
+    from modules.mpls_analyzer.services.import_jsons import import_jsons_from_dir
+    from django.conf import settings
+    from pathlib import Path
+    import threading
+    import subprocess
+    import os
+    from datetime import datetime
+
+    if request.method != 'POST':
+        return JsonResponse({'success': False, 'error': 'Método não permitido'}, status=405)
+
+    if not is_manager(request.user):
+        return JsonResponse({'success': False, 'error': 'Acesso negado'}, status=403)
+
+    username = request.POST.get('username') or request.GET.get('username')
+    password = request.POST.get('password') or request.GET.get('password')
+    remove_flag = request.GET.get('remove_on_success') or request.POST.get('remove_on_success')
+    remove_on_success = str(remove_flag).lower() in {'1', 'true', 'yes'}
+
+    if not username or not password:
+        return JsonResponse({'success': False, 'error': 'Username e password são obrigatórios'}, status=400)
+
+    # Cria log do processo
+    log = BackupProcessLog.objects.create(
+        started_at=timezone.now(),
+        status='running',
+        processed_files=0,
+        total_files=0,
+        errors='',
+        user=request.user,
+    )
+
+    def _worker(log_id):
+        try:
+            # Caminho dos scripts (dentro do módulo)
+            scripts_dir = Path(settings.BASE_DIR) / 'modules' / 'mpls_analyzer' / 'update'
+            scan_script = scripts_dir / 'scan-network.py'
+            backup_script = scripts_dir / 'easy-bkp-optimized.py'
+
+            env = os.environ.copy()
+            env['DEVICE_USERNAME'] = username
+            env['DEVICE_PASSWORD'] = password
+
+            # 1) Scan de rede para atualizar banco-de-dados.json
+            if scan_script.exists():
+                subprocess.run(['python', str(scan_script)], check=True, env=env, cwd=str(scripts_dir))
+
+            # 2) Backup coletando JSONs para a pasta backup_YYYY-MM-DD
+            if backup_script.exists():
+                subprocess.run(['python', str(backup_script)], check=True, env=env, cwd=str(scripts_dir))
+
+            backup_dir = scripts_dir / f"backup_{datetime.now().strftime('%Y-%m-%d')}"
+
+            # 2.1) Se necessário, tentar capturar faltantes em novas passagens
+            try:
+                import json, time
+                devices_path = scripts_dir / 'banco-de-dados.json'
+                if devices_path.exists():
+                    devices = json.loads(devices_path.read_text(encoding='utf-8'))
+                    expected = {f"{d.get('name')}.json" for d in devices if d.get('name')}
+                    have = {p.name for p in backup_dir.glob('*.json')}
+                    missing = sorted(list(expected - have))
+
+                    # Repassagens para faltantes (até 2 tentativas)
+                    attempts = 0
+                    while missing and attempts < 2 and backup_script.exists():
+                        attempts += 1
+                        # Cria JSON temporário só com faltantes
+                        tmp_list = [
+                            d for d in devices
+                            if f"{d.get('name')}.json" in missing
+                        ]
+                        tmp_file = scripts_dir / 'banco-de-dados-missing.json'
+                        tmp_file.write_text(json.dumps(tmp_list, ensure_ascii=False), encoding='utf-8')
+                        # Executa backup para faltantes
+                        env2 = env.copy()
+                        env2['DEVICES_JSON'] = tmp_file.name
+                        subprocess.run(['python', str(backup_script)], check=True, env=env2, cwd=str(scripts_dir))
+                        # Recalcula faltantes
+                        have = {p.name for p in backup_dir.glob('*.json')}
+                        missing = sorted(list(expected - have))
+                        # Pequena espera entre tentativas
+                        time.sleep(2)
+            except Exception:
+                pass
+
+            # 3) Importar JSONs coletados
+            stats = import_jsons_from_dir(backup_dir, verbose=True, remove_on_success=False)
+
+            # 3.1) Se houve erros, tentar correção automática e reprocessar
+            if stats.errors > 0:
+                smart_fix_script = scripts_dir / 'smart-json-fix.py'
+                if smart_fix_script.exists():
+                    try:
+                        subprocess.run(['python', str(smart_fix_script)], check=True, cwd=str(scripts_dir))
+                        # Reimporta após correção
+                        stats2 = import_jsons_from_dir(backup_dir, verbose=True, remove_on_success=False)
+                        # Se remove_on_success solicitado, remover agora
+                        if remove_on_success:
+                            import_jsons_from_dir(backup_dir, verbose=False, remove_on_success=True)
+                        # Atualiza resumo com tentativa de correção
+                        summary = (
+                            f"import1: {stats.success}/{stats.total}, "
+                            f"fix_reimport: {stats2.success}/{stats2.total}, errs: {stats2.errors}"
+                        )
+                        stats = stats2
+                    except Exception as fx:
+                        # Falha na correção: mantém stats originais
+                        summary = f"import1: {stats.success}/{stats.total}, fix_failed: {fx}"
+                else:
+                    summary = f"import1: {stats.success}/{stats.total}, errs: {stats.errors} (no smart-fix)"
+            else:
+                # Se pediu remoção, remove agora com uma passada rápida
+                if remove_on_success:
+                    import_jsons_from_dir(backup_dir, verbose=False, remove_on_success=True)
+                summary = f"import: {stats.success}/{stats.total}, errs: {stats.errors}"
+            log.status = 'completed'
+            log.finished_at = timezone.now()
+            log.errors = summary
+            log.save()
+            # Auditoria no Core
+            try:
+                from core.security import _audit
+                _audit(
+                    request,
+                    'mpls_collect_import',
+                    success=True,
+                    metadata={'log_id': str(log_id), 'imported': stats.success, 'total': stats.total}
+                )
+            except Exception:
+                pass
+        except Exception as e:
+            log.status = 'failed'
+            log.finished_at = timezone.now()
+            log.errors = str(e)
+            log.save()
+            try:
+                from core.security import _audit
+                _audit(request, 'mpls_collect_import', success=False, status_code=500, metadata={'log_id': str(log_id), 'error': str(e)})
+            except Exception:
+                pass
+
+    # Inicia thread de background
+    thread = threading.Thread(target=_worker, args=(log.id,), name=f"MPLS-CollectImport-{log.id}")
+    thread.daemon = True
+    thread.start()
+
+    return JsonResponse({'success': True, 'log_id': str(log.id)})
+
+
+def update_status(request, log_id):
+    """Status simples do processo de update (por log_id)."""
+    from modules.mpls_analyzer.models import BackupProcessLog
+    try:
+        log = BackupProcessLog.objects.get(id=log_id)
+        return JsonResponse({
+            'status': log.status,
+            'started_at': log.started_at.isoformat() if log.started_at else None,
+            'finished_at': log.finished_at.isoformat() if log.finished_at else None,
+            'processed_files': log.processed_files,
+            'total_files': log.total_files,
+            'errors': log.errors,
+        })
+    except BackupProcessLog.DoesNotExist:
+        return JsonResponse({'error': 'log não encontrado'}, status=404)
 
 
 @require_mfa

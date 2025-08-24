@@ -1,0 +1,1267 @@
+{
+  "data": {
+    "tailf-aaa:aaa": {
+      "authentication": {
+        "users": {
+          "user": [
+            {
+              "name": "direct.noc.cgr",
+              "password": "$1$6/2M4Irm$6N18E1Zs6NMNBS/dMuJzu0",
+              "dmos-aaa:group": "admin"
+            }
+          ]
+        },
+        "dmos-aaa:authentication-order": [
+          "local",
+          "tacacs"
+        ]
+      },
+      "dmos-aaa:server": {
+        "tacacs": [
+          {
+            "name": "TACACS-SERVER",
+            "host": "170.84.145.15",
+            "enable": {
+              "authentication": [
+                null
+              ],
+              "authorization": [
+                null
+              ],
+              "accounting": [
+                null
+              ]
+            },
+            "shared-secret": "$7$n6lWidoyGaGFeegVu4rL04CcIaIDTNvU",
+            "source": {
+              "interface": "loopback-0"
+            }
+          }
+        ]
+      }
+    },
+    "router-mpls:mpls": {
+      "ldp-config": {
+        "ldp": {
+          "lsr-id": [
+            {
+              "interface-name": "loopback-0",
+              "interface": [
+                {
+                  "interface-name": "l3-PI-CAMPOMAIOR-PE01"
+                },
+                {
+                  "interface-name": "l3-PI-SIGEFREDOPACHECO-PE01"
+                }
+              ],
+              "neighbor": [
+                {
+                  "targeted": "10.254.254.1"
+                },
+                {
+                  "targeted": "10.254.254.10"
+                },
+                {
+                  "targeted": "10.254.254.21"
+                },
+                {
+                  "targeted": "10.254.254.22"
+                },
+                {
+                  "targeted": "10.254.254.24"
+                },
+                {
+                  "targeted": "10.254.254.25"
+                },
+                {
+                  "targeted": "10.254.254.62"
+                },
+                {
+                  "targeted": "10.254.254.63"
+                },
+                {
+                  "targeted": "10.254.254.0"
+                },
+                {
+                  "targeted": "10.254.254.88"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "l2-vpn:l2vpn-config": {
+        "l2vpn": {
+          "vpws-group": [
+            {
+              "group-name": "MA-TIMON-PORTALRR-ROBERTO-CE01",
+              "vpn": [
+                {
+                  "vpn-name": "791",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.10",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 791
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 791
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "ten-gigabit-ethernet-1/1/1",
+                      "dot1q": 791
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "group-name": "PI-ALTOS-PE01"
+            },
+            {
+              "group-name": "PI-CAMPOMAIOR-PE01",
+              "vpn": [
+                {
+                  "vpn-name": "2424",
+                  "qinq": [
+                    null
+                  ],
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.22",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 2424
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 2424
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "ten-gigabit-ethernet-1/1/1",
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {
+                        "dot1q": [
+                          800,
+                          801,
+                          802,
+                          803,
+                          804,
+                          805,
+                          806,
+                          807,
+                          808,
+                          2420,
+                          2421,
+                          2422,
+                          2423
+                        ]
+                      }
+                    }
+                  ]
+                },
+                {
+                  "vpn-name": "3007",
+                  "description": "L2L-ALCANTARANET-CRA-TEN1/1/7",
+                  "qinq": [
+                    null
+                  ],
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.22",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 3007
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 3007
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "gigabit-ethernet-1/1/1",
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {
+                        "dot1q": [
+                          2421,
+                          2423
+                        ]
+                      }
+                    }
+                  ]
+                },
+                {
+                  "vpn-name": "3010",
+                  "description": "L2L-PORTALRR-ALCANTARANET-CRA",
+                  "qinq": [
+                    null
+                  ],
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.22",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 3010
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 3010
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "ten-gigabit-ethernet-1/1/1",
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {
+                        "dot1q": [
+                          2426
+                        ]
+                      }
+                    }
+                  ]
+                },
+                {
+                  "vpn-name": "417",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.22",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 417
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 417
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "ten-gigabit-ethernet-1/1/1",
+                      "dot1q": 417
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "group-name": "PI-CAPITAODECAMPOS-PE01",
+              "vpn": [
+                {
+                  "vpn-name": "2041",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.24",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 2041
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 2041
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "ten-gigabit-ethernet-1/1/1",
+                      "dot1q": 2041
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "group-name": "PI-JUAZEIRODOPIAUI-PE01",
+              "vpn": [
+                {
+                  "vpn-name": "2425",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.63",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 2425
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 2425
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "ten-gigabit-ethernet-1/1/1",
+                      "dot1q": 2425
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "group-name": "PI-MILTONBRANDAO-PE01",
+              "vpn": [
+                {
+                  "vpn-name": "3101",
+                  "description": "L2L-PORTALRR-MILTONBRANDAO",
+                  "qinq": [
+                    null
+                  ],
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.88",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 3101
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 3101
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "ten-gigabit-ethernet-1/1/1",
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {
+                        "dot1q": [
+                          10,
+                          11,
+                          12,
+                          13,
+                          14,
+                          15,
+                          16,
+                          17,
+                          18,
+                          19,
+                          20,
+                          21,
+                          22,
+                          23,
+                          24,
+                          25,
+                          26,
+                          27,
+                          28,
+                          29,
+                          30,
+                          31,
+                          32,
+                          33,
+                          34,
+                          35,
+                          36,
+                          37,
+                          38,
+                          39,
+                          40,
+                          41,
+                          42,
+                          43,
+                          44,
+                          45,
+                          46,
+                          47,
+                          48,
+                          49,
+                          50,
+                          51,
+                          52,
+                          53,
+                          54,
+                          55,
+                          56,
+                          57,
+                          58,
+                          59,
+                          60,
+                          61,
+                          62,
+                          63,
+                          64,
+                          65,
+                          66,
+                          67,
+                          68,
+                          69,
+                          70,
+                          71,
+                          72,
+                          73,
+                          74,
+                          75,
+                          76,
+                          77,
+                          78,
+                          79,
+                          80,
+                          81,
+                          82,
+                          83,
+                          84,
+                          85,
+                          86,
+                          87,
+                          88,
+                          89,
+                          90,
+                          91,
+                          92,
+                          93,
+                          94,
+                          95,
+                          96,
+                          97,
+                          98,
+                          99,
+                          100,
+                          101,
+                          102,
+                          103,
+                          104,
+                          105,
+                          106,
+                          107,
+                          108,
+                          109,
+                          110
+                        ]
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "group-name": "PI-PIRIPIRI-PE01",
+              "vpn": [
+                {
+                  "vpn-name": "2042",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.25",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 2042
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 2042
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "ten-gigabit-ethernet-1/1/1",
+                      "dot1q": 2042
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "group-name": "PI-SIGEFREDOPACHECO-PE01",
+              "vpn": [
+                {
+                  "vpn-name": "160",
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.62",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 160
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 160
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "ten-gigabit-ethernet-1/1/2",
+                      "dot1q": 160
+                    }
+                  ]
+                },
+                {
+                  "vpn-name": "3114",
+                  "description": "L2L-PORTALRR-SIGEFREDOPACHECO",
+                  "qinq": [
+                    null
+                  ],
+                  "neighbor": [
+                    {
+                      "neighbor-ip": "10.254.254.62",
+                      "pw-type": {
+                        "type": "vlan",
+                        "service-delimiting": 3114
+                      },
+                      "pw-load-balance": {
+                        "flow-label": "both"
+                      },
+                      "pw-id": 3114
+                    }
+                  ],
+                  "access-interface": [
+                    {
+                      "interface-name": "ten-gigabit-ethernet-1/1/2",
+                      "dmos-mpls-l2vpn-vpws:encapsulation": {
+                        "dot1q": [
+                          2114
+                        ]
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "dmos-mpls-rsvp-te:rsvp": {
+        "interface": [
+          {
+            "interface-name": "l3-PI-CAMPOMAIOR-PE01"
+          },
+          {
+            "interface-name": "l3-PI-SIGEFREDOPACHECO-PE01"
+          }
+        ]
+      }
+    },
+    "snmp:snmp": {
+      "agent": {
+        "enabled": true,
+        "ip": "10.254.254.61",
+        "version": {
+          "v2c": [
+            null
+          ]
+        }
+      },
+      "system": {
+        "contact": "flavio@directtelecom.com.br",
+        "location": "PI-JATOBADOPIAUI"
+      },
+      "community": [
+        {
+          "index": "MwSolucoes",
+          "sec-name": "MwSolucoes"
+        }
+      ],
+      "notify": [
+        {
+          "name": "std_v1_trap",
+          "tag": "std_v1_trap"
+        },
+        {
+          "name": "std_v2_inform",
+          "tag": "std_v2_inform",
+          "type": "inform"
+        },
+        {
+          "name": "std_v2_trap",
+          "tag": "std_v2_trap"
+        },
+        {
+          "name": "std_v3_inform",
+          "tag": "std_v3_inform",
+          "type": "inform"
+        },
+        {
+          "name": "std_v3_trap",
+          "tag": "std_v3_trap"
+        }
+      ],
+      "vacm": {
+        "group": [
+          {
+            "name": "MwSolucoes",
+            "member": [
+              {
+                "sec-name": "MwSolucoes",
+                "sec-model": [
+                  "v2c"
+                ]
+              }
+            ],
+            "access": [
+              {
+                "context": "",
+                "sec-model": "v2c",
+                "sec-level": "no-auth-no-priv",
+                "read-view": "root",
+                "write-view": "root"
+              }
+            ]
+          }
+        ],
+        "view": [
+          {
+            "name": "root",
+            "subtree": [
+              {
+                "oids": "1.3",
+                "included": [
+                  null
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "dmos-base:config": {
+      "dmos-clock:clock": {
+        "timezone": {
+          "name": "BRA",
+          "offset": -3
+        }
+      },
+      "dmos-sys-config:system": {
+        "hostname": "PI-JATOBADOPIAUI-PE01"
+      },
+      "dmos-sntp-interface:sntp": {
+        "client": [
+          null
+        ],
+        "server": [
+          {
+            "address": "170.84.145.7"
+          }
+        ]
+      },
+      "dmos-ssh-server:ssh-server": {
+        "port": 5620
+      },
+      "switchport-native-vlan:switchport": {
+        "interface": [
+          {
+            "interface-name": "lag-1",
+            "native-vlan": {
+              "vlan-id": 4000
+            }
+          },
+          {
+            "interface-name": "lag-2",
+            "native-vlan": {
+              "vlan-id": 4001
+            }
+          }
+        ]
+      },
+      "dmos-vrf-app:vrf-node-config": {
+        "vrf": [
+          {
+            "name": "global",
+            "description": "System VRF for global entries"
+          },
+          {
+            "name": "mgmt",
+            "description": "System VRF for mgmt interface"
+          }
+        ]
+      },
+      "interface": {
+        "dmos-interface-ethernet:gigabit-ethernet": [
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 1,
+            "description": "CUSTOMER-ISP-ALCANTARANET-CAMPOMAIOR-L2L-VL2421,2423",
+            "shutdown": false,
+            "negotiation": true,
+            "duplex": "full",
+            "speed": "1G",
+            "advertising-abilities": [
+              "10Mfull",
+              "100Mfull",
+              "1Gfull"
+            ],
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 2,
+            "shutdown": false,
+            "negotiation": true,
+            "duplex": "full",
+            "speed": "1G",
+            "advertising-abilities": [
+              "10Mfull",
+              "100Mfull",
+              "1Gfull"
+            ],
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 3,
+            "shutdown": false,
+            "negotiation": true,
+            "duplex": "full",
+            "speed": "1G",
+            "advertising-abilities": [
+              "10Mfull",
+              "100Mfull",
+              "1Gfull"
+            ],
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 4,
+            "shutdown": false,
+            "negotiation": true,
+            "duplex": "full",
+            "speed": "1G",
+            "advertising-abilities": [
+              "10Mfull",
+              "100Mfull",
+              "1Gfull"
+            ],
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 5,
+            "shutdown": false,
+            "negotiation": true,
+            "duplex": "full",
+            "speed": "1G",
+            "advertising-abilities": [
+              "10Mfull",
+              "100Mfull",
+              "1Gfull"
+            ],
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 6,
+            "shutdown": false,
+            "negotiation": true,
+            "duplex": "full",
+            "speed": "1G",
+            "advertising-abilities": [
+              "10Mfull",
+              "100Mfull",
+              "1Gfull"
+            ],
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 7,
+            "shutdown": false,
+            "negotiation": true,
+            "duplex": "full",
+            "speed": "1G",
+            "advertising-abilities": [
+              "10Mfull",
+              "100Mfull",
+              "1Gfull"
+            ],
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 8,
+            "shutdown": false,
+            "negotiation": true,
+            "duplex": "full",
+            "speed": "1G",
+            "advertising-abilities": [
+              "10Mfull",
+              "100Mfull",
+              "1Gfull"
+            ],
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 9,
+            "shutdown": false,
+            "negotiation": true,
+            "duplex": "full",
+            "speed": "1G",
+            "advertising-abilities": [
+              "10Mfull",
+              "100Mfull",
+              "1Gfull"
+            ],
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 10,
+            "shutdown": false,
+            "negotiation": true,
+            "duplex": "full",
+            "speed": "1G",
+            "advertising-abilities": [
+              "10Mfull",
+              "100Mfull",
+              "1Gfull"
+            ],
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 11,
+            "shutdown": false,
+            "negotiation": true,
+            "duplex": "full",
+            "speed": "1G",
+            "advertising-abilities": [
+              "10Mfull",
+              "100Mfull",
+              "1Gfull"
+            ],
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 12,
+            "shutdown": false,
+            "negotiation": true,
+            "duplex": "full",
+            "speed": "1G",
+            "advertising-abilities": [
+              "10Mfull",
+              "100Mfull",
+              "1Gfull"
+            ],
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 13,
+            "shutdown": false,
+            "negotiation": true,
+            "duplex": "full",
+            "speed": "1G",
+            "advertising-abilities": [
+              "10Mfull",
+              "100Mfull",
+              "1Gfull"
+            ],
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 14,
+            "shutdown": false,
+            "negotiation": true,
+            "duplex": "full",
+            "speed": "1G",
+            "advertising-abilities": [
+              "10Mfull",
+              "100Mfull",
+              "1Gfull"
+            ],
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 15,
+            "shutdown": false,
+            "negotiation": true,
+            "duplex": "full",
+            "speed": "1G",
+            "advertising-abilities": [
+              "10Mfull",
+              "100Mfull",
+              "1Gfull"
+            ],
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 16,
+            "shutdown": false,
+            "negotiation": true,
+            "duplex": "full",
+            "speed": "1G",
+            "advertising-abilities": [
+              "10Mfull",
+              "100Mfull",
+              "1Gfull"
+            ],
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 17,
+            "shutdown": false,
+            "negotiation": true,
+            "duplex": "full",
+            "speed": "1G",
+            "advertising-abilities": [
+              "10Mfull",
+              "100Mfull",
+              "1Gfull"
+            ],
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 18,
+            "shutdown": false,
+            "negotiation": true,
+            "duplex": "full",
+            "speed": "1G",
+            "advertising-abilities": [
+              "10Mfull",
+              "100Mfull",
+              "1Gfull"
+            ],
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 19,
+            "shutdown": false,
+            "negotiation": true,
+            "duplex": "full",
+            "speed": "1G",
+            "advertising-abilities": [
+              "10Mfull",
+              "100Mfull",
+              "1Gfull"
+            ],
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 20,
+            "shutdown": false,
+            "negotiation": true,
+            "duplex": "full",
+            "speed": "1G",
+            "advertising-abilities": [
+              "10Mfull",
+              "100Mfull",
+              "1Gfull"
+            ],
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 21,
+            "shutdown": false,
+            "negotiation": true,
+            "duplex": "full",
+            "speed": "1G",
+            "advertising-abilities": [
+              "10Mfull",
+              "100Mfull",
+              "1Gfull"
+            ],
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 22,
+            "shutdown": false,
+            "negotiation": true,
+            "duplex": "full",
+            "speed": "1G",
+            "advertising-abilities": [
+              "10Mfull",
+              "100Mfull",
+              "1Gfull"
+            ],
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 23,
+            "shutdown": false,
+            "negotiation": true,
+            "duplex": "full",
+            "speed": "1G",
+            "advertising-abilities": [
+              "10Mfull",
+              "100Mfull",
+              "1Gfull"
+            ],
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 24,
+            "shutdown": false,
+            "negotiation": true,
+            "duplex": "full",
+            "speed": "1G",
+            "advertising-abilities": [
+              "10Mfull",
+              "100Mfull",
+              "1Gfull"
+            ],
+            "mdix": "normal"
+          }
+        ],
+        "dmos-interface-ethernet:ten-gigabit-ethernet": [
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 1,
+            "description": "CUSTOMER-ISP-PORTALRR-L2L-791,2424,3007,417,2041..",
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 2,
+            "description": "CUSTOMER-ISP-PORTALRR-L2L-SIGEFREDO-VL160",
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 3,
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 4,
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "10G",
+            "mdix": "normal"
+          }
+        ],
+        "dmos-interface-ethernet:forty-gigabit-ethernet": [
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 1,
+            "description": "PI-CAMPOMAIOR-PE01-40GE-01",
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "40G",
+            "mdix": "normal"
+          },
+          {
+            "chassis-id": 1,
+            "slot-id": 1,
+            "port-id": 2,
+            "description": "PI-SIGEFREDOPACHECO-PE01-40GE-01",
+            "shutdown": false,
+            "negotiation": false,
+            "duplex": "full",
+            "speed": "40G",
+            "mdix": "normal"
+          }
+        ],
+        "dmos-ip-application:l3": [
+          {
+            "name": "PI-CAMPOMAIOR-PE01",
+            "ip-mtu": 9000,
+            "lower-layer-if": {
+              "vlan": 4000
+            },
+            "ipv4": {
+              "address": {
+                "ip": "10.254.251.122/30"
+              }
+            }
+          },
+          {
+            "name": "PI-SIGEFREDOPACHECO-PE01",
+            "ip-mtu": 9000,
+            "lower-layer-if": {
+              "vlan": 4001
+            },
+            "ipv4": {
+              "address": {
+                "ip": "10.254.251.125/30"
+              }
+            }
+          }
+        ],
+        "dmos-ip-application:mgmt": [
+          {
+            "id": "1/1/1",
+            "vrf": "mgmt",
+            "ipv4": {
+              "address": {
+                "ip": "192.168.0.25/24"
+              }
+            }
+          }
+        ],
+        "dmos-ip-application:loopback": [
+          {
+            "id": "0",
+            "ipv4": {
+              "address": [
+                {
+                  "ip": "10.254.254.61/32"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "dmos-base:router": {
+      "router-ospf:ospf": [
+        {
+          "process-id": 1,
+          "vrf": "global",
+          "mpls-te": {
+            "router-id": "loopback-0"
+          },
+          "redistribute": [
+            {
+              "protocol": "connected"
+            }
+          ],
+          "area": [
+            {
+              "area-id": "0",
+              "interface": [
+                {
+                  "interface-name": "l3-PI-CAMPOMAIOR-PE01",
+                  "cost": 3,
+                  "network-type": "point-to-point"
+                },
+                {
+                  "interface-name": "l3-PI-SIGEFREDOPACHECO-PE01",
+                  "network-type": "point-to-point"
+                },
+                {
+                  "interface-name": "loopback-0"
+                }
+              ]
+            }
+          ],
+          "router-id": "10.254.254.61"
+        }
+      ]
+    },
+    "dmos-assistant-task:assistant-task": [
+      {
+        "task-name": "backup",
+        "action": {
+          "cli-file": "backup.cli"
+        },
+        "schedule": {
+          "recursive": {
+            "hour": "4"
+          }
+        }
+      }
+    ],
+    "dmos-dot1q:dot1q": {
+      "vlan": [
+        {
+          "vlan-id": 4000,
+          "name": "PI-CAMPOMAIOR-PE01",
+          "interface": [
+            {
+              "interface-name": "lag-1",
+              "tagged-untagged": "untagged"
+            }
+          ]
+        },
+        {
+          "vlan-id": 4001,
+          "name": "PI-SIGEFREDOPACHECO-PE01",
+          "interface": [
+            {
+              "interface-name": "lag-2",
+              "tagged-untagged": "untagged"
+            }
+          ]
+        }
+      ]
+    },
+    "dmos-lag:link-aggregation": {
+      "interface": {
+        "lag": [
+          {
+            "lag-id": 1,
+            "description": "PI-CAMPOMAIOR-PE01",
+            "interface-config": [
+              {
+                "interface-name": "forty-gigabit-ethernet-1/1/1"
+              }
+            ],
+            "load-balance": "dynamic",
+            "mode": "active"
+          },
+          {
+            "lag-id": 2,
+            "description": "PI-SIGEFREDOPACHECO-PE01",
+            "interface-config": [
+              {
+                "interface-name": "forty-gigabit-ethernet-1/1/2"
+              }
+            ],
+            "load-balance": "dynamic",
+            "mode": "active"
+          }
+        ]
+      }
+    },
+    "dmos-licensing-app:license": [
+      {
+        "name": "mpls",
+        "enabled": true,
+        "key": "***"
+      }
+    ]
+  }
+}

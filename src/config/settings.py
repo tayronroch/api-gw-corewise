@@ -121,6 +121,10 @@ DATABASES = {
     },
 }
 
+# Comando padrão para coleta de configuração DMOS em JSON
+# Pode ser sobrescrito via variável de ambiente DMOS_JSON_COMMAND
+DMOS_JSON_COMMAND = os.environ.get('DMOS_JSON_COMMAND', 'show running-config json')
+
 # Router para enviar consultas do app 'mpls_analyzer' ao DB 'mpls'
 DATABASE_ROUTERS = [
     'core.db_router.MPLSRouter',

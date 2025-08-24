@@ -25,7 +25,16 @@ class MPLSRouter:
         return None
 
     def allow_migrate(self, db, app_label, model_name=None, **hints):
-        # Impede migrações para o app mpls_analyzer para preservar o schema original
+        # Permite migrações específicas para novos modelos do mpls_analyzer
         if app_label == self.app_label:
+            if db == self.db_alias:
+                # Permitir migrações para novos modelos que não fazem parte do schema original
+                allowed_models = [
+                    'equipmentjsonbackup',  # Novo modelo para armazenar JSONs completos
+                ]
+                if model_name and model_name.lower() in allowed_models:
+                    return True
+                # Bloquear migrações dos modelos originais para preservar o schema
+                return False
             return False
         return None
