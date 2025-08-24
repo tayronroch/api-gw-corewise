@@ -117,10 +117,32 @@ def customer_report_excel_documented(request):
     """Exporta relatório em Excel"""
     return views.customer_report_excel(request._request)
 
+@extend_schema(
+    summary="Relatório de VPNs por Equipamento",
+    description="Retorna todas as VPNs configuradas em um equipamento específico",
+    tags=['mpls-reports'],
+    parameters=[
+        OpenApiParameter(
+            name='equipment',
+            type=OpenApiTypes.STR,
+            location=OpenApiParameter.QUERY,
+            description='Nome do equipamento (ex: CE-TIANGUA-PE01)',
+            required=True
+        )
+    ],
+    responses={200: "Lista completa de VPNs do equipamento"}
+)
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def equipment_vpns_report_documented(request):
+    """Relatório de VPNs por equipamento"""
+    return views.equipment_vpns_report(request._request)
+
 urlpatterns = [
     path('search/', api_search_documented, name='mpls-api-search'),
     path('search/suggestions/', api_search_documented, name='mpls-api-search-suggestions'),  # Sugestões usam mesma lógica de busca
     path('reports/customers/', customer_report_documented, name='mpls-api-customer-report'),  # URL esperada pelo frontend
+    path('reports/equipment/', equipment_vpns_report_documented, name='mpls-api-equipment-report'),  # Nova URL para VPNs por equipamento
     path('vpn-report/', vpn_report_documented, name='mpls-vpn-report'),
     path('customer-interface-report/', customer_interface_report_documented, name='mpls-customer-interface-report'),
     path('customer-report/', customer_report_documented, name='mpls-customer-report'),

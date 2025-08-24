@@ -1891,8 +1891,10 @@ def api_search(request):
         )
         
         equipment_results = []
+        vpn_results_from_equipment = []
+        
         for equipment in equipment_qs:
-            latest_config = equipment.mpls_configs.first()
+            # Adiciona o equipamento aos resultados
             equipment_results.append({
                 'type': 'equipment',
                 'equipment_name': equipment.name,
@@ -1909,11 +1911,209 @@ def api_search(request):
                 'description': '',
                 'group_name': '',
                 'customers': [],
+                'total_vpns': 0  # Será preenchido abaixo
             })
+            
+            # Busca VPNs deste equipamento para incluir nos resultados
+            vpns_from_eq = Vpn.objects.filter(
+                vpws_group__mpls_config__equipment=equipment
+            ).select_related('vpws_group__mpls_config__equipment').prefetch_related('customer_services')[:5]  # Máximo 5 VPNs por equipamento na busca
+            
+            # Atualiza o total de VPNs no equipamento
+            total_vpns = Vpn.objects.filter(vpws_group__mpls_config__equipment=equipment).count()
+            equipment_results[-1]['total_vpns'] = total_vpns
+            
+            for vpn in vpns_from_eq:
+                customers = [cs.name for cs in vpn.customer_services.all()]
+                vpn_results_from_equipment.append({
+                    'type': 'vpn',
+                    'vpn_id': vpn.vpn_id,
+                    'equipment_name': equipment.name,
+                    'equipment_id': equipment.id,
+                    'loopback_ip': equipment.ip_address,
+                    'neighbor_ip': vpn.neighbor_ip,
+                    'neighbor_hostname': vpn.neighbor_hostname,
+                    'access_interface': vpn.access_interface,
+                    'encapsulation': vpn.encapsulation,
+                    'encapsulation_type': vpn.encapsulation_type,
+                    'description': vpn.description,
+                    'group_name': vpn.vpws_group.group_name,
+                    'customers': customers,
+                    'location': equipment.location or '',
+                    'last_backup': equipment.last_backup.isoformat() if equipment.last_backup else None,
+                    'highlights': [f'VPN {vpn.vpn_id} on {equipment.name}', f'Neighbor: {vpn.neighbor_hostname}'],
+                    'pw_type': vpn.pw_type,
+                    'pw_id': vpn.pw_id
+                })
         
-        return JsonResponse({'results': equipment_results})
+        # Combina resultados: equipamentos primeiro, depois suas VPNs
+        combined_results = equipment_results + vpn_results_from_equipment
+        return JsonResponse({'results': combined_results})
 
     return JsonResponse({'results': vpn_results})
+
+
+@require_mfa
+def equipment_vpns_report(request):
+    """API endpoint para buscar todas as VPNs de um equipamento específico"""
+    equipment_query = request.GET.get('equipment', '').strip()
+    
+    if not equipment_query:
+        return JsonResponse({'error': 'Nome do equipamento é obrigatório'}, status=400)
+    
+    try:
+        # Busca o equipamento
+        equipment = Equipment.objects.filter(
+            Q(name__iexact=equipment_query) | Q(name__icontains=equipment_query)
+        ).first()
+        
+        if not equipment:
+            return JsonResponse({'error': f'Equipamento "{equipment_query}" não encontrado'}, status=404)
+        
+        # Buscar todas as VPNs deste equipamento
+        vpns = Vpn.objects.filter(
+            vpws_group__mpls_config__equipment=equipment
+        ).select_related(
+            'vpws_group__mpls_config__equipment'
+        ).prefetch_related('customer_services').order_by('vpn_id')
+        
+        # Estrutura de retorno
+        equipment_data = {
+            'equipment': {
+                'hostname': equipment.name,
+                'ip_address': equipment.ip_address,
+                'location': equipment.location,
+                'last_backup': equipment.last_backup.isoformat() if equipment.last_backup else None,
+                'total_vpns': vpns.count()
+            },
+            'vpns': []
+        }
+        
+        for vpn in vpns:
+            # Buscar clientes desta VPN
+            customers = list(vpn.customer_services.values_list('name', flat=True).distinct())
+            
+            # Buscar equipamento vizinho
+            neighbor_equipment = Equipment.objects.filter(ip_address=vpn.neighbor_ip).first()
+            
+            # Buscar detalhes da interface se existir
+            interface_details = None
+            if vpn.access_interface:
+                try:
+                    interface = Interface.objects.get(
+                        mpls_config=vpn.vpws_group.mpls_config,
+                        name=vpn.access_interface
+                    )
+                    interface_details = {
+                        'name': interface.name,
+                        'description': interface.description or '',
+                        'type': interface.interface_type or 'unknown',
+                        'speed': interface.speed or '',
+                        'is_customer': interface.is_customer_interface,
+                        'found_in_db': True
+                    }
+                    
+                    # Se é LAG, busca membros
+                    if interface.interface_type == 'lag':
+                        members = list(interface.members.values_list('member_interface_name', flat=True))
+                        interface_details['lag_members'] = members
+                        
+                except Interface.DoesNotExist:
+                    # Interface não encontrada, tentar buscar por pattern similar
+                    similar_interface = Interface.objects.filter(
+                        mpls_config=vpn.vpws_group.mpls_config,
+                        name__icontains=vpn.access_interface.split('/')[-1]  # Busca pela última parte
+                    ).first()
+                    
+                    if similar_interface:
+                        interface_details = {
+                            'name': vpn.access_interface,
+                            'description': f'Similar to {similar_interface.name}: {similar_interface.description}',
+                            'type': similar_interface.interface_type or 'unknown',
+                            'speed': similar_interface.speed or '',
+                            'is_customer': similar_interface.is_customer_interface,
+                            'found_in_db': False,
+                            'note': 'Interface inferida de interface similar no banco'
+                        }
+                    else:
+                        # Interface não encontrada no banco, criar dados básicos
+                        interface_details = {
+                            'name': vpn.access_interface,
+                            'description': f'Interface {vpn.access_interface}',
+                            'type': 'unknown',
+                            'speed': '',
+                            'is_customer': None,
+                            'found_in_db': False,
+                            'note': 'Interface não mapeada no banco de dados'
+                        }
+            
+            # Extrair detalhes do encapsulamento
+            encapsulation_details = _extract_encapsulation_details(vpn.encapsulation, vpn.encapsulation_type)
+            
+            vpn_data = {
+                'vpn_id': vpn.vpn_id,
+                'description': vpn.description,
+                'interface': vpn.access_interface,
+                'interface_details': interface_details,
+                'encapsulation': vpn.encapsulation,
+                'encapsulation_type': vpn.encapsulation_type,
+                'encapsulation_details': encapsulation_details,
+                'pw_type': vpn.pw_type,
+                'pw_id': vpn.pw_id,
+                'vpws_group': vpn.vpws_group.group_name,
+                'neighbor': {
+                    'ip': vpn.neighbor_ip,
+                    'hostname': vpn.neighbor_hostname,
+                    'equipment_name': neighbor_equipment.name if neighbor_equipment else vpn.neighbor_hostname,
+                    'location': neighbor_equipment.location if neighbor_equipment else None
+                },
+                'customers': customers,
+                'services': []
+            }
+            
+            # Adicionar serviços únicos para esta VPN
+            for customer in customers:
+                customer_services = vpn.customer_services.filter(name=customer)
+                for service in customer_services:
+                    service_key = f"{service.name}_{service.service_type}_{service.bandwidth}"
+                    service_exists = any(
+                        f"{s['name']}_{s['type']}_{s['bandwidth']}" == service_key 
+                        for s in vpn_data['services']
+                    )
+                    
+                    if not service_exists:
+                        vpn_data['services'].append({
+                            'name': service.name,
+                            'type': service.service_type,
+                            'bandwidth': service.bandwidth
+                        })
+            
+            equipment_data['vpns'].append(vpn_data)
+        
+        # Registra auditoria
+        log_audit_action(
+            user=request.user,
+            action='equipment_report',
+            description=f'Relatório de equipamento gerado: {equipment.name}',
+            request=request,
+            search_query=equipment_query,
+            results_count=len(equipment_data['vpns']),
+            additional_data={
+                'report_type': 'equipment_vpns_report',
+                'equipment_name': equipment.name,
+                'total_vpns': len(equipment_data['vpns'])
+            }
+        )
+        
+        return JsonResponse(equipment_data)
+        
+    except Exception as e:
+        import traceback
+        print(f"Erro na view equipment_vpns_report: {str(e)}")
+        print(traceback.format_exc())
+        return JsonResponse({
+            'error': f'Erro interno do servidor: {str(e)}'
+        }, status=500)
 
 
 # Funções auxiliares para verificação de permissões
