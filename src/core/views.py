@@ -118,6 +118,12 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer, Toke
 from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import RegisterSerializer
 from .audit_models import AuditEvent
+from rest_framework import serializers
+
+
+class LogoutSerializer(serializers.Serializer):
+    """Serializer para logout - requer refresh token"""
+    refresh = serializers.CharField(help_text="Refresh token para blacklist")
 
 
 def _client_ip(request: HttpRequest) -> str:
@@ -138,6 +144,7 @@ class RegisterView(APIView):
         summary="Registro de Usuário",
         description="Criação de nova conta de usuário no sistema",
         tags=['authentication'],
+        request=RegisterSerializer,
         responses={201: "Usuário criado com sucesso", 400: "Dados inválidos"}
     )
     def post(self, request: HttpRequest):
@@ -179,6 +186,7 @@ class LoginView(APIView):
         summary="Login JWT",
         description="Autenticação de usuário e obtenção de tokens JWT",
         tags=['authentication'],
+        request=TokenObtainPairSerializer,
         responses={200: "Login bem-sucedido", 401: "Credenciais inválidas", 429: "Muitas tentativas"}
     )
     @ratelimit(key='ip', rate=os.environ.get('LOGIN_RATE_LIMIT', '5/m'), method='POST', block=False)
@@ -243,6 +251,7 @@ class RefreshView(APIView):
         summary="Refresh Token",
         description="Renovação de token JWT usando refresh token",
         tags=['authentication'],
+        request=TokenRefreshSerializer,
         responses={200: "Token renovado", 401: "Refresh token inválido"}
     )
     def post(self, request: HttpRequest):
@@ -283,6 +292,7 @@ class LogoutView(APIView):
         summary="Logout",
         description="Logout de usuário com blacklist do refresh token",
         tags=['authentication'],
+        request=LogoutSerializer,
         responses={204: "Logout realizado", 400: "Token inválido"}
     )
     def post(self, request: HttpRequest):

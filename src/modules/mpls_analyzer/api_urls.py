@@ -10,8 +10,12 @@ from rest_framework import status
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 from drf_spectacular.types import OpenApiTypes
 from . import views
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.decorators import api_view, permission_classes
+from .serializers import (
+    SearchResponseSerializer, CustomerReportResponseSerializer, 
+    EquipmentVPNsResponseSerializer, EquipmentJsonBackupResponseSerializer,
+    ImportStatsSerializer, CollectAndImportRequestSerializer,
+    ImportJsonsRequestSerializer, ErrorResponseSerializer
+)
 
 # Wrapper para converter function-based views em DRF APIViews para documentação
 @extend_schema(
@@ -27,7 +31,10 @@ from rest_framework.decorators import api_view, permission_classes
             required=True
         )
     ],
-    responses={200: "Lista de resultados da busca"}
+    responses={
+        200: SearchResponseSerializer,
+        400: ErrorResponseSerializer
+    }
 )
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -175,9 +182,9 @@ def equipment_vpns_report_documented(request):
         )
     ],
     responses={
-        200: "JSON backup completo ou filtrado do equipamento",
-        404: "Equipamento não encontrado ou sem backup JSON",
-        400: "Parâmetro equipment é obrigatório"
+        200: EquipmentJsonBackupResponseSerializer,
+        404: ErrorResponseSerializer,
+        400: ErrorResponseSerializer
     }
 )
 @api_view(['GET'])
@@ -194,23 +201,8 @@ def equipment_json_backup_documented(request):
         "Por padrão lê de modules/mpls_analyzer/update. Requer permissão de manager/admin."
     ),
     tags=['mpls-admin'],
-    parameters=[
-        OpenApiParameter(
-            name='path',
-            type=OpenApiTypes.STR,
-            location=OpenApiParameter.QUERY,
-            description='Diretório alternativo contendo .json (opcional)',
-            required=False
-        ),
-        OpenApiParameter(
-            name='remove_on_success',
-            type=OpenApiTypes.BOOL,
-            location=OpenApiParameter.QUERY,
-            description='Remove o arquivo após importação bem-sucedida (default: false)',
-            required=False
-        ),
-    ],
-    responses={200: "Resumo ImportStats"}
+    request=ImportJsonsRequestSerializer,
+    responses={200: ImportStatsSerializer}
 )
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -225,30 +217,8 @@ def import_jsons_update_documented(request):
         "(comando configurável) e importa no banco. Retorna um log_id para acompanhamento."
     ),
     tags=['mpls-admin'],
-    parameters=[
-        OpenApiParameter(
-            name='username',
-            type=OpenApiTypes.STR,
-            location=OpenApiParameter.QUERY,
-            description='Login para SSH nos equipamentos (pode ir no corpo também)',
-            required=False
-        ),
-        OpenApiParameter(
-            name='password',
-            type=OpenApiTypes.STR,
-            location=OpenApiParameter.QUERY,
-            description='Senha para SSH (recomendado enviar no corpo POST)',
-            required=False
-        ),
-        OpenApiParameter(
-            name='remove_on_success',
-            type=OpenApiTypes.BOOL,
-            location=OpenApiParameter.QUERY,
-            description='Remove JSON após importar (opcional)',
-            required=False
-        ),
-    ],
-    responses={200: "Objeto com log_id"}
+    request=CollectAndImportRequestSerializer,
+    responses={200: ImportStatsSerializer}
 )
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
