@@ -68,7 +68,7 @@ class ServiceEndpoint(models.Model):
     method = models.CharField(max_length=10, choices=HTTP_METHODS)
     description = models.TextField(blank=True)
     requires_auth = models.BooleanField(default=True)
-    rate_limit = models.IntegerField(default=1000)
+    rate_limit = models.IntegerField(default=10000)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
