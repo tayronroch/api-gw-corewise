@@ -27,7 +27,8 @@ from base64 import b32encode
 from .models import (
     Equipment, CustomerService, Vpn, 
     BackupProcessLog, Interface, UserProfile,
-    AccessLog, AuditLog, SecuritySettings, LoginAttempt
+    AccessLog, AuditLog, SecuritySettings, LoginAttempt,
+    EquipmentJsonBackup
 )
  
 from django.views.decorators.http import require_GET
@@ -3471,3 +3472,198 @@ def export_audit_logs(request):
     
     wb.save(response)
     return response
+
+
+def _filter_json_data(json_data, sections=None, paths=None):
+    """Filtra dados JSON com base em seções ou paths específicos"""
+    if not json_data:
+        return json_data
+    
+    # Se não há filtros, retorna tudo
+    if not sections and not paths:
+        return json_data
+    
+    filtered_data = {}
+    
+    # Filtro por seções (ex: mpls, interfaces, aaa)
+    if sections:
+        section_list = [s.strip() for s in sections.split(',')]
+        data = json_data.get('data', {})
+        
+        # Mapear seções curtas para chaves completas
+        section_mapping = {
+            'mpls': ['router-mpls:mpls'],
+            'aaa': ['tailf-aaa:aaa'], 
+            'interfaces': ['dmos-base:config', 'dmos-dot1q:dot1q'],
+            'lag': ['dmos-lag:link-aggregation'],
+            'snmp': ['snmp:snmp'],
+            'router': ['dmos-base:router'],
+            'license': ['dmos-licensing-app:license'],
+            'assistant': ['dmos-assistant-task:assistant-task']
+        }
+        
+        filtered_data['data'] = {}
+        for section in section_list:
+            # Busca direta
+            if section in data:
+                filtered_data['data'][section] = data[section]
+            # Busca por mapeamento
+            elif section in section_mapping:
+                for mapped_key in section_mapping[section]:
+                    if mapped_key in data:
+                        filtered_data['data'][mapped_key] = data[mapped_key]
+            # Busca parcial (contains)
+            else:
+                for key in data:
+                    if section.lower() in key.lower():
+                        filtered_data['data'][key] = data[key]
+    
+    # Filtro por paths específicos (ex: data.router-mpls:mpls.ldp-config)
+    if paths:
+        path_list = [p.strip() for p in paths.split(',')]
+        if 'data' not in filtered_data:
+            filtered_data = {'data': {}}
+            
+        for path in path_list:
+            try:
+                # Navegar pelo path
+                parts = path.split('.')
+                current = json_data
+                
+                # Seguir o path
+                for part in parts[:-1]:  # Exceto a última parte
+                    if isinstance(current, dict) and part in current:
+                        current = current[part]
+                    else:
+                        break
+                else:
+                    # Se chegou até aqui, o path existe
+                    final_key = parts[-1]
+                    if isinstance(current, dict) and final_key in current:
+                        # Construir estrutura no filtered_data
+                        target = filtered_data
+                        for part in parts[:-1]:
+                            if part not in target:
+                                target[part] = {}
+                            target = target[part]
+                        target[final_key] = current[final_key]
+            except (KeyError, TypeError, IndexError):
+                continue
+    
+    return filtered_data if filtered_data else json_data
+
+
+@require_GET
+@require_mfa
+def equipment_json_backup(request):
+    """API endpoint para retornar o JSON backup completo ou filtrado de um equipamento"""
+    equipment_param = request.GET.get('equipment')
+    sections = request.GET.get('sections')  # Ex: mpls,interfaces,aaa
+    paths = request.GET.get('paths')  # Ex: data.router-mpls:mpls.ldp-config
+    metadata_only = request.GET.get('metadata_only', '').lower() == 'true'
+    
+    if not equipment_param:
+        return JsonResponse({
+            'error': 'Parameter equipment is required',
+            'message': 'Provide equipment name or ID',
+            'examples': {
+                'basic': '?equipment=MA-BREJO-PE01',
+                'sections': '?equipment=MA-BREJO-PE01&sections=mpls,aaa',
+                'paths': '?equipment=MA-BREJO-PE01&paths=data.router-mpls:mpls.ldp-config',
+                'metadata_only': '?equipment=MA-BREJO-PE01&metadata_only=true'
+            }
+        }, status=400)
+    
+    try:
+        # Buscar equipamento por nome ou ID
+        if equipment_param.isdigit():
+            equipment = Equipment.objects.get(id=int(equipment_param))
+        else:
+            equipment = Equipment.objects.get(name=equipment_param)
+        
+        # Buscar o backup JSON mais recente
+        json_backup = equipment.json_backups.first()
+        
+        if not json_backup:
+            return JsonResponse({
+                'error': 'No JSON backup found',
+                'message': f'No JSON backup available for equipment {equipment.name}',
+                'equipment': {
+                    'id': equipment.id,
+                    'name': equipment.name,
+                    'ip_address': str(equipment.ip_address),
+                    'location': equipment.location,
+                    'last_backup': equipment.last_backup.isoformat() if equipment.last_backup else None
+                }
+            }, status=404)
+        
+        # Preparar dados de resposta base
+        response_data = {
+            'equipment': {
+                'id': equipment.id,
+                'name': equipment.name,
+                'ip_address': str(equipment.ip_address),
+                'location': equipment.location,
+                'equipment_type': equipment.equipment_type,
+                'status': equipment.status,
+                'last_backup': equipment.last_backup.isoformat() if equipment.last_backup else None
+            },
+            'backup_info': {
+                'backup_date': json_backup.backup_date.isoformat(),
+                'file_name': json_backup.file_name,
+                'file_size': json_backup.file_size,
+                'processed_at': json_backup.processed_at.isoformat(),
+                'total_interfaces': json_backup.total_interfaces,
+                'total_lags': json_backup.total_lags,
+                'total_vpns': json_backup.total_vpns
+            }
+        }
+        
+        # Adicionar seções disponíveis se JSON existe
+        if json_backup.json_data and 'data' in json_backup.json_data:
+            response_data['available_sections'] = list(json_backup.json_data['data'].keys())
+        
+        # Se apenas metadata, não incluir json_data
+        if not metadata_only:
+            # Aplicar filtros se especificados
+            if sections or paths:
+                filtered_json = _filter_json_data(json_backup.json_data, sections, paths)
+                response_data['json_data'] = filtered_json
+                response_data['filters_applied'] = {
+                    'sections': sections.split(',') if sections else None,
+                    'paths': paths.split(',') if paths else None
+                }
+            else:
+                response_data['json_data'] = json_backup.json_data
+        
+        # Registrar auditoria
+        log_audit_action(
+            user=request.user,
+            action='config_download', 
+            description=f'JSON backup acessado: {equipment.name}',
+            request=request,
+            target_object_type='Equipment',
+            target_object_id=equipment.id,
+            additional_data={
+                'backup_date': json_backup.backup_date.isoformat(),
+                'file_name': json_backup.file_name,
+                'file_size': json_backup.file_size,
+                'sections_filter': sections,
+                'paths_filter': paths,
+                'metadata_only': metadata_only
+            }
+        )
+        
+        return JsonResponse(response_data, json_dumps_params={'indent': 2, 'ensure_ascii': False})
+        
+    except Equipment.DoesNotExist:
+        return JsonResponse({
+            'error': 'Equipment not found',
+            'message': f'Equipment {equipment_param} not found in database'
+        }, status=404)
+    
+    except Exception as e:
+        return JsonResponse({
+            'error': 'Internal server error',
+            'message': str(e)
+        }, status=500)

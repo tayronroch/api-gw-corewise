@@ -140,6 +140,52 @@ def equipment_vpns_report_documented(request):
     """Relatório de VPNs por equipamento"""
     return views.equipment_vpns_report(request._request)
 
+@extend_schema(
+    summary="JSON Backup Completo ou Filtrado do Equipamento",
+    description="Retorna o backup JSON completo ou seções específicas de um equipamento DMOS",
+    tags=['mpls-equipment'],
+    parameters=[
+        OpenApiParameter(
+            name='equipment',
+            type=OpenApiTypes.STR,
+            location=OpenApiParameter.QUERY,
+            description='Nome ou ID do equipamento (ex: MA-BREJO-PE01 ou 8)',
+            required=True
+        ),
+        OpenApiParameter(
+            name='sections',
+            type=OpenApiTypes.STR,
+            location=OpenApiParameter.QUERY,
+            description='Seções específicas separadas por vírgula (ex: mpls,aaa,interfaces)',
+            required=False
+        ),
+        OpenApiParameter(
+            name='paths',
+            type=OpenApiTypes.STR,
+            location=OpenApiParameter.QUERY,
+            description='Paths específicos separados por vírgula (ex: data.router-mpls:mpls.ldp-config)',
+            required=False
+        ),
+        OpenApiParameter(
+            name='metadata_only',
+            type=OpenApiTypes.BOOL,
+            location=OpenApiParameter.QUERY,
+            description='Retorna apenas metadados sem o JSON (default: false)',
+            required=False
+        )
+    ],
+    responses={
+        200: "JSON backup completo ou filtrado do equipamento",
+        404: "Equipamento não encontrado ou sem backup JSON",
+        400: "Parâmetro equipment é obrigatório"
+    }
+)
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def equipment_json_backup_documented(request):
+    """JSON backup completo do equipamento"""
+    return views.equipment_json_backup(request._request)
+
 # Documentação para o endpoint de atualização (import JSONs)
 @extend_schema(
     summary="Importa backups JSON",
@@ -214,11 +260,12 @@ urlpatterns = [
     path('search/suggestions/', api_search_documented, name='mpls-api-search-suggestions'),  # Sugestões usam mesma lógica de busca
     path('reports/customers/', customer_report_documented, name='mpls-api-customer-report'),  # URL esperada pelo frontend
     path('reports/equipment/', equipment_vpns_report_documented, name='mpls-api-equipment-report'),  # Nova URL para VPNs por equipamento
+    path('equipment/json-backup/', equipment_json_backup_documented, name='mpls-api-equipment-json-backup'),  # Novo endpoint para JSON backup completo
     path('vpn-report/', vpn_report_documented, name='mpls-vpn-report'),
     path('customer-interface-report/', customer_interface_report_documented, name='mpls-customer-interface-report'),
     path('customer-report/', customer_report_documented, name='mpls-customer-report'),
     path('customer-report/excel/', customer_report_excel_documented, name='mpls-customer-report-excel'),
-    # Admin/update endpoints
+    # Admin/update endpoints POST - update do banco de dados
     path('update/import-jsons/', import_jsons_update_documented, name='mpls-update-import-jsons'),
     path('update/collect-and-import/', collect_and_import_update_documented, name='mpls-collect-and-import'),
     path('update/status/<int:log_id>/', views.update_status, name='mpls-update-status'),

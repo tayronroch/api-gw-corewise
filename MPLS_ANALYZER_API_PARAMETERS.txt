@@ -1,0 +1,158 @@
+# MPLS ANALYZER - API PARAMETERS DOCUMENTATION
+
+## ENDPOINT: /api/mpls-analyzer/equipment/json-backup/
+
+### DESCRIÇÃO
+Retorna o backup JSON completo ou seções específicas de um equipamento DMOS com suporte a filtros seletivos.
+
+### PARÂMETROS OBRIGATÓRIOS
+
+**equipment** (string) - OBRIGATÓRIO
+- Descrição: Nome ou ID do equipamento
+- Exemplos: 
+  - MA-BREJO-PE01
+  - 8
+- Formato: String (nome) ou Number (ID)
+
+### PARÂMETROS OPCIONAIS
+
+**sections** (string) - OPCIONAL
+- Descrição: Seções específicas separadas por vírgula para filtrar o JSON
+- Formato: Lista de seções separadas por vírgula (sem espaços após vírgula)
+- Seções disponíveis:
+  - mpls          → router-mpls:mpls
+  - aaa           → tailf-aaa:aaa
+  - interfaces    → dmos-base:config, dmos-dot1q:dot1q
+  - lag           → dmos-lag:link-aggregation
+  - snmp          → snmp:snmp
+  - router        → dmos-base:router
+  - license       → dmos-licensing-app:license
+  - assistant     → dmos-assistant-task:assistant-task
+
+**paths** (string) - OPCIONAL
+- Descrição: Paths específicos no JSON separados por vírgula
+- Formato: Caminho completo usando notação de ponto
+- Exemplos:
+  - data.router-mpls:mpls.ldp-config
+  - data.tailf-aaa:aaa.authentication
+  - data.snmp:snmp.community
+
+**metadata_only** (boolean) - OPCIONAL
+- Descrição: Retorna apenas metadados do equipamento sem incluir json_data
+- Valores aceitos: true, false
+- Default: false
+
+### EXEMPLOS DE USO
+
+1. **JSON Completo:**
+   GET /api/mpls-analyzer/equipment/json-backup/?equipment=MA-BREJO-PE01
+
+2. **Apenas Metadados:**
+   GET /api/mpls-analyzer/equipment/json-backup/?equipment=MA-BREJO-PE01&metadata_only=true
+
+3. **Filtro por Seções:**
+   GET /api/mpls-analyzer/equipment/json-backup/?equipment=MA-BREJO-PE01&sections=mpls,aaa
+
+4. **Filtro por Seções Múltiplas:**
+   GET /api/mpls-analyzer/equipment/json-backup/?equipment=MA-BREJO-PE01&sections=mpls,interfaces,snmp
+
+5. **Filtro por Path Específico:**
+   GET /api/mpls-analyzer/equipment/json-backup/?equipment=MA-BREJO-PE01&paths=data.router-mpls:mpls.ldp-config
+
+6. **Combinando Filtros:**
+   GET /api/mpls-analyzer/equipment/json-backup/?equipment=MA-BREJO-PE01&sections=mpls&paths=data.tailf-aaa:aaa
+
+7. **Busca por ID:**
+   GET /api/mpls-analyzer/equipment/json-backup/?equipment=8&sections=mpls
+
+### ESTRUTURA DE RESPOSTA
+
+```json
+{
+  "equipment": {
+    "id": 8,
+    "name": "MA-BREJO-PE01",
+    "ip_address": "10.254.254.37",
+    "location": "MA-BREJO-PE",
+    "equipment_type": "PE",
+    "status": "active",
+    "last_backup": "2025-08-22T03:00:00+00:00"
+  },
+  "backup_info": {
+    "backup_date": "2025-08-24T21:05:01.955578+00:00",
+    "file_name": "MA-BREJO-PE01.json",
+    "file_size": 28689,
+    "processed_at": "2025-08-24T21:05:01.955578+00:00",
+    "total_interfaces": 0,
+    "total_lags": 0,
+    "total_vpns": 0
+  },
+  "available_sections": [
+    "tailf-aaa:aaa",
+    "router-mpls:mpls",
+    "snmp:snmp",
+    "dmos-base:config",
+    "dmos-base:router",
+    "dmos-assistant-task:assistant-task",
+    "dmos-dot1q:dot1q",
+    "dmos-lag:link-aggregation",
+    "dmos-licensing-app:license"
+  ],
+  "filters_applied": {
+    "sections": ["mpls", "aaa"],
+    "paths": null
+  },
+  "json_data": {
+    "data": {
+      // Dados JSON filtrados ou completos
+    }
+  }
+}
+```
+
+### CÓDIGOS DE RESPOSTA
+
+**200 OK**
+- JSON backup retornado com sucesso
+- Dados completos ou filtrados conforme parâmetros
+
+**400 Bad Request**
+- Parâmetro equipment não fornecido
+- Retorna exemplos de uso válidos
+
+**404 Not Found**
+- Equipamento não encontrado no banco
+- Equipamento existe mas não possui backup JSON
+
+**500 Internal Server Error**
+- Erro interno do servidor
+- Problema na consulta ou processamento
+
+### SEÇÕES MAPEADAS AUTOMATICAMENTE
+
+O sistema mapeia automaticamente seções curtas para as chaves completas do DMOS:
+
+- **mpls** → router-mpls:mpls
+- **aaa** → tailf-aaa:aaa  
+- **interfaces** → dmos-base:config + dmos-dot1q:dot1q
+- **lag** → dmos-lag:link-aggregation
+- **snmp** → snmp:snmp
+- **router** → dmos-base:router
+- **license** → dmos-licensing-app:license
+- **assistant** → dmos-assistant-task:assistant-task
+
+### BUSCA FLEXÍVEL
+
+O sistema também suporta:
+- **Busca direta**: Se a seção existe exatamente como fornecida
+- **Busca por mapeamento**: Usando os aliases curtos acima
+- **Busca parcial**: Busca por substring na chave (case-insensitive)
+
+### AUDITORIA
+
+Todas as consultas são auditadas com:
+- Usuário que fez a requisição
+- Equipamento consultado
+- Filtros aplicados
+- Data/hora do acesso
+- Dados do backup acessado
