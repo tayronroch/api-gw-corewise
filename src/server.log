@@ -1,91 +1,13 @@
-nohup: ignorando entrada
-Exception in thread django-main-thread:
-Traceback (most recent call last):
-  File "/home/tayron/Documentos/GitHub/MetroEngnir/backend/venv/lib/python3.12/site-packages/django/urls/resolvers.py", line 720, in url_patterns
-    iter(patterns)
-TypeError: 'module' object is not iterable
+Watching for file changes with StatReloader
+System check identified some issues:
 
-The above exception was the direct cause of the following exception:
+WARNINGS:
+?: (axes.W002) You do not have 'axes.middleware.AxesMiddleware' in your settings.MIDDLEWARE.
+?: (axes.W003) You do not have 'axes.backends.AxesStandaloneBackend' or a subclass in your settings.AUTHENTICATION_BACKENDS.
+	HINT: AxesModelBackend was renamed to AxesStandaloneBackend in django-axes version 5.0.
+?: (axes.W004) You have a deprecated setting AXES_LOCK_OUT_BY_COMBINATION_USER_AND_IP configured in your project settings
+?: (axes.W004) You have a deprecated setting AXES_ONLY_USER_FAILURES configured in your project settings
+?: (axes.W004) You have a deprecated setting AXES_USE_USER_AGENT configured in your project settings
 
-Traceback (most recent call last):
-  File "/usr/lib/python3.12/threading.py", line 1075, in _bootstrap_inner
-    self.run()
-  File "/usr/lib/python3.12/threading.py", line 1012, in run
-    self._target(*self._args, **self._kwargs)
-  File "/home/tayron/Documentos/GitHub/MetroEngnir/backend/venv/lib/python3.12/site-packages/django/utils/autoreload.py", line 64, in wrapper
-    fn(*args, **kwargs)
-  File "/home/tayron/Documentos/GitHub/MetroEngnir/backend/venv/lib/python3.12/site-packages/django/core/management/commands/runserver.py", line 134, in inner_run
-    self.check(**check_kwargs)
-  File "/home/tayron/Documentos/GitHub/MetroEngnir/backend/venv/lib/python3.12/site-packages/django/core/management/base.py", line 492, in check
-    all_issues = checks.run_checks(
-                 ^^^^^^^^^^^^^^^^^^
-  File "/home/tayron/Documentos/GitHub/MetroEngnir/backend/venv/lib/python3.12/site-packages/django/core/checks/registry.py", line 89, in run_checks
-    new_errors = check(app_configs=app_configs, databases=databases)
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tayron/Documentos/GitHub/MetroEngnir/backend/venv/lib/python3.12/site-packages/django/core/checks/urls.py", line 16, in check_url_config
-    return check_resolver(resolver)
-           ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tayron/Documentos/GitHub/MetroEngnir/backend/venv/lib/python3.12/site-packages/django/core/checks/urls.py", line 26, in check_resolver
-    return check_method()
-           ^^^^^^^^^^^^^^
-  File "/home/tayron/Documentos/GitHub/MetroEngnir/backend/venv/lib/python3.12/site-packages/django/urls/resolvers.py", line 532, in check
-    messages.extend(check_resolver(pattern))
-                    ^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tayron/Documentos/GitHub/MetroEngnir/backend/venv/lib/python3.12/site-packages/django/core/checks/urls.py", line 26, in check_resolver
-    return check_method()
-           ^^^^^^^^^^^^^^
-  File "/home/tayron/Documentos/GitHub/MetroEngnir/backend/venv/lib/python3.12/site-packages/django/urls/resolvers.py", line 531, in check
-    for pattern in self.url_patterns:
-                   ^^^^^^^^^^^^^^^^^
-  File "/home/tayron/Documentos/GitHub/MetroEngnir/backend/venv/lib/python3.12/site-packages/django/utils/functional.py", line 47, in __get__
-    res = instance.__dict__[self.name] = self.func(instance)
-                                         ^^^^^^^^^^^^^^^^^^^
-  File "/home/tayron/Documentos/GitHub/MetroEngnir/backend/venv/lib/python3.12/site-packages/django/urls/resolvers.py", line 728, in url_patterns
-    raise ImproperlyConfigured(msg.format(name=self.urlconf_name)) from e
-django.core.exceptions.ImproperlyConfigured: The included URLconf '<module 'users.urls' from '/home/tayron/Documentos/GitHub/MetroEngnir/backend/users/urls.py'>' does not appear to have any patterns in it. If you see the 'urlpatterns' variable with valid patterns in the file then the issue is probably caused by a circular import.
-Performing system checks...
-
-Exception in thread django-main-thread:
-Traceback (most recent call last):
-  File "/home/tayron/Documentos/GitHub/MetroEngnir/backend/venv/lib/python3.12/site-packages/django/urls/resolvers.py", line 720, in url_patterns
-    iter(patterns)
-TypeError: 'module' object is not iterable
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/usr/lib/python3.12/threading.py", line 1075, in _bootstrap_inner
-    self.run()
-  File "/usr/lib/python3.12/threading.py", line 1012, in run
-    self._target(*self._args, **self._kwargs)
-  File "/home/tayron/Documentos/GitHub/MetroEngnir/backend/venv/lib/python3.12/site-packages/django/utils/autoreload.py", line 64, in wrapper
-    fn(*args, **kwargs)
-  File "/home/tayron/Documentos/GitHub/MetroEngnir/backend/venv/lib/python3.12/site-packages/django/core/management/commands/runserver.py", line 134, in inner_run
-    self.check(**check_kwargs)
-  File "/home/tayron/Documentos/GitHub/MetroEngnir/backend/venv/lib/python3.12/site-packages/django/core/management/base.py", line 492, in check
-    all_issues = checks.run_checks(
-                 ^^^^^^^^^^^^^^^^^^
-  File "/home/tayron/Documentos/GitHub/MetroEngnir/backend/venv/lib/python3.12/site-packages/django/core/checks/registry.py", line 89, in run_checks
-    new_errors = check(app_configs=app_configs, databases=databases)
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tayron/Documentos/GitHub/MetroEngnir/backend/venv/lib/python3.12/site-packages/django/core/checks/urls.py", line 16, in check_url_config
-    return check_resolver(resolver)
-           ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tayron/Documentos/GitHub/MetroEngnir/backend/venv/lib/python3.12/site-packages/django/core/checks/urls.py", line 26, in check_resolver
-    return check_method()
-           ^^^^^^^^^^^^^^
-  File "/home/tayron/Documentos/GitHub/MetroEngnir/backend/venv/lib/python3.12/site-packages/django/urls/resolvers.py", line 532, in check
-    messages.extend(check_resolver(pattern))
-                    ^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/tayron/Documentos/GitHub/MetroEngnir/backend/venv/lib/python3.12/site-packages/django/core/checks/urls.py", line 26, in check_resolver
-    return check_method()
-           ^^^^^^^^^^^^^^
-  File "/home/tayron/Documentos/GitHub/MetroEngnir/backend/venv/lib/python3.12/site-packages/django/urls/resolvers.py", line 531, in check
-    for pattern in self.url_patterns:
-                   ^^^^^^^^^^^^^^^^^
-  File "/home/tayron/Documentos/GitHub/MetroEngnir/backend/venv/lib/python3.12/site-packages/django/utils/functional.py", line 47, in __get__
-    res = instance.__dict__[self.name] = self.func(instance)
-                                         ^^^^^^^^^^^^^^^^^^^
-  File "/home/tayron/Documentos/GitHub/MetroEngnir/backend/venv/lib/python3.12/site-packages/django/urls/resolvers.py", line 728, in url_patterns
-    raise ImproperlyConfigured(msg.format(name=self.urlconf_name)) from e
-django.core.exceptions.ImproperlyConfigured: The included URLconf '<module 'engineering.urls' from '/home/tayron/Documentos/GitHub/MetroEngnir/backend/engineering/urls.py'>' does not appear to have any patterns in it. If you see the 'urlpatterns' variable with valid patterns in the file then the issue is probably caused by a circular import.
+System check identified 5 issues (0 silenced).
+Error: That port is already in use.
