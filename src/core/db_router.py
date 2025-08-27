@@ -31,6 +31,7 @@ class MPLSRouter:
                 # Permitir migrações para novos modelos que não fazem parte do schema original
                 allowed_models = [
                     'equipmentjsonbackup',  # Novo modelo para armazenar JSONs completos
+                    'customerindex',        # Novo modelo para índice otimizado de clientes
                 ]
                 if model_name and model_name.lower() in allowed_models:
                     return True

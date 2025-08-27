@@ -28,7 +28,7 @@ from .models import (
     Equipment, CustomerService, Vpn, 
     BackupProcessLog, Interface, UserProfile,
     AccessLog, AuditLog, SecuritySettings, LoginAttempt,
-    EquipmentJsonBackup
+    EquipmentJsonBackup, CustomerIndex
 )
  
 from django.views.decorators.http import require_GET
@@ -3665,5 +3665,255 @@ def equipment_json_backup(request):
     except Exception as e:
         return JsonResponse({
             'error': 'Internal server error',
+            'message': str(e)
+        }, status=500)
+
+
+# ========================================
+# NOVOS ENDPOINTS OTIMIZADOS PARA CLIENTES
+# ========================================
+
+@require_GET
+@require_mfa
+def api_search_customers_optimized(request):
+    """Busca otimizada por nome de cliente usando CustomerIndex"""
+    query = request.GET.get('q', '').strip()
+    limit = int(request.GET.get('limit', 50))
+    
+    if not query or len(query) < 2:
+        return JsonResponse({
+            'error': 'Query too short',
+            'message': 'Query deve ter pelo menos 2 caracteres'
+        }, status=400)
+    
+    if limit > 100:
+        limit = 100  # Máximo de 100 resultados
+    
+    try:
+        from .search_utils import AdvancedSearchEngine
+        engine = AdvancedSearchEngine()
+        
+        customers = engine.search_customers_by_name(query, limit)
+        
+        results = []
+        for customer in customers:
+            results.append({
+                'id': customer.id,
+                'name': customer.customer_name,
+                'normalized_name': customer.customer_name_normalized,
+                'total_occurrences': customer.total_occurrences,
+                'equipment_count': len(customer.equipment_names) if customer.equipment_names else 0,
+                'vpn_count': len(customer.vpn_ids) if customer.vpn_ids else 0,
+                'interface_count': sum(len(interfaces) for interfaces in customer.interfaces_data.values()) if customer.interfaces_data else 0,
+                'last_updated': customer.last_updated.isoformat() if customer.last_updated else None,
+                'equipments': customer.equipment_names[:5] if customer.equipment_names else [],  # Primeiros 5
+                'vpn_ids': customer.vpn_ids[:10] if customer.vpn_ids else [],  # Primeiras 10
+            })
+        
+        # Log da busca
+        log_audit_action(
+            request.user,
+            'customer_search',
+            f'Busca otimizada por cliente: "{query}"',
+            get_client_ip(request),
+            request.META.get('HTTP_USER_AGENT', ''),
+            {
+                'query': query,
+                'results_count': len(results),
+                'search_type': 'optimized_customer_index'
+            }
+        )
+        
+        return JsonResponse({
+            'query': query,
+            'results': results,
+            'total_found': len(results),
+            'search_type': 'optimized_customer_index',
+            'performance_note': 'Usando índice otimizado CustomerIndex'
+        })
+        
+    except Exception as e:
+        return JsonResponse({
+            'error': 'Search failed',
+            'message': str(e)
+        }, status=500)
+
+
+@require_GET
+@require_mfa
+def api_customer_details_optimized(request, customer_id):
+    """Retorna detalhes completos de um cliente específico"""
+    try:
+        customer = CustomerIndex.objects.get(id=customer_id)
+        
+        # Log do acesso
+        log_audit_action(
+            request.user,
+            'customer_detail_view',
+            f'Visualização detalhada do cliente: {customer.customer_name}',
+            get_client_ip(request),
+            request.META.get('HTTP_USER_AGENT', ''),
+            {
+                'customer_id': customer_id,
+                'customer_name': customer.customer_name
+            }
+        )
+        
+        return JsonResponse({
+            'id': customer.id,
+            'name': customer.customer_name,
+            'normalized_name': customer.customer_name_normalized,
+            'clean_name': customer.customer_name_clean,
+            'total_occurrences': customer.total_occurrences,
+            'last_updated': customer.last_updated.isoformat() if customer.last_updated else None,
+            
+            # Equipamentos
+            'equipments': customer.equipment_names or [],
+            'equipment_count': len(customer.equipment_names) if customer.equipment_names else 0,
+            
+            # VPNs
+            'vpn_ids': customer.vpn_ids or [],
+            'vpn_count': len(customer.vpn_ids) if customer.vpn_ids else 0,
+            
+            # Interfaces por equipamento
+            'interfaces_data': customer.interfaces_data or {},
+            'total_interfaces': sum(len(interfaces) for interfaces in customer.interfaces_data.values()) if customer.interfaces_data else 0,
+            
+            # Descrições e contextos
+            'descriptions': customer.descriptions or [],
+            'contexts': customer.contexts or [],
+            
+            # Arquivos fonte
+            'source_files': customer.source_files or [],
+        })
+        
+    except CustomerIndex.DoesNotExist:
+        return JsonResponse({
+            'error': 'Customer not found',
+            'message': f'Cliente ID {customer_id} não encontrado no índice'
+        }, status=404)
+    
+    except Exception as e:
+        return JsonResponse({
+            'error': 'Internal server error',
+            'message': str(e)
+        }, status=500)
+
+
+@require_GET
+@require_mfa
+def api_customer_configurations_optimized(request, customer_id):
+    """Retorna configurações MPLS relacionadas a um cliente específico"""
+    try:
+        customer = CustomerIndex.objects.get(id=customer_id)
+        
+        from .search_utils import AdvancedSearchEngine
+        engine = AdvancedSearchEngine()
+        
+        # Busca configurações relacionadas
+        configurations = engine.get_related_configurations(customer)
+        
+        results = []
+        for config in configurations:
+            # Busca snippets relevantes
+            highlights = []
+            if customer.descriptions:
+                for desc in customer.descriptions[:3]:  # Máximo 3 descrições
+                    snippets = engine.extract_search_highlights(config.raw_config, desc, max_snippets=2)
+                    highlights.extend(snippets)
+            
+            results.append({
+                'id': config.id,
+                'equipment': {
+                    'name': config.equipment.name,
+                    'ip_address': config.equipment.ip_address,
+                    'location': config.equipment.location,
+                    'type': config.equipment.equipment_type
+                },
+                'backup_date': config.backup_date.isoformat() if config.backup_date else None,
+                'highlights': highlights[:5],  # Máximo 5 highlights
+            })
+        
+        # Log do acesso
+        log_audit_action(
+            request.user,
+            'customer_configurations_view',
+            f'Configurações do cliente: {customer.customer_name}',
+            get_client_ip(request),
+            request.META.get('HTTP_USER_AGENT', ''),
+            {
+                'customer_id': customer_id,
+                'customer_name': customer.customer_name,
+                'configurations_found': len(results)
+            }
+        )
+        
+        return JsonResponse({
+            'customer': {
+                'id': customer.id,
+                'name': customer.customer_name,
+            },
+            'configurations': results,
+            'total_found': len(results),
+        })
+        
+    except CustomerIndex.DoesNotExist:
+        return JsonResponse({
+            'error': 'Customer not found',
+            'message': f'Cliente ID {customer_id} não encontrado no índice'
+        }, status=404)
+    
+    except Exception as e:
+        return JsonResponse({
+            'error': 'Internal server error',
+            'message': str(e)
+        }, status=500)
+
+
+@require_GET
+@require_mfa
+def api_search_customers_by_vpn_optimized(request, vpn_id):
+    """Busca clientes por VPN ID usando índice otimizado"""
+    try:
+        from .search_utils import AdvancedSearchEngine
+        engine = AdvancedSearchEngine()
+        
+        customers = engine.search_customers_by_vpn_id(vpn_id)
+        
+        results = []
+        for customer in customers:
+            results.append({
+                'id': customer.id,
+                'name': customer.customer_name,
+                'total_occurrences': customer.total_occurrences,
+                'equipment_count': len(customer.equipment_names) if customer.equipment_names else 0,
+                'vpn_count': len(customer.vpn_ids) if customer.vpn_ids else 0,
+                'equipments': customer.equipment_names or [],
+                'all_vpn_ids': customer.vpn_ids or [],
+            })
+        
+        # Log da busca
+        log_audit_action(
+            request.user,
+            'vpn_customer_search',
+            f'Busca de clientes por VPN ID: {vpn_id}',
+            get_client_ip(request),
+            request.META.get('HTTP_USER_AGENT', ''),
+            {
+                'vpn_id': vpn_id,
+                'customers_found': len(results)
+            }
+        )
+        
+        return JsonResponse({
+            'vpn_id': vpn_id,
+            'customers': results,
+            'total_found': len(results),
+            'search_type': 'optimized_vpn_index'
+        })
+        
+    except Exception as e:
+        return JsonResponse({
+            'error': 'Search failed',
             'message': str(e)
         }, status=500)

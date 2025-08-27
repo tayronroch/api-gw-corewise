@@ -294,6 +294,132 @@ class CustomerService(models.Model):
         return self.name
 
 
+class CustomerIndex(models.Model):
+    """Índice otimizado para busca rápida por clientes/nomes nos JSONs DMOS"""
+    
+    # Dados do cliente
+    customer_name = models.CharField(max_length=300, db_index=True, help_text="Nome original do cliente")
+    customer_name_normalized = models.CharField(max_length=300, db_index=True, help_text="Nome normalizado (lowercase, sem acentos)")
+    customer_name_clean = models.CharField(max_length=300, db_index=True, help_text="Nome limpo para busca (só alfanumérico)")
+    
+    # VPN relacionadas (extraídas dos JSONs)
+    vpn_ids = models.JSONField(default=list, help_text="Lista de VPN IDs onde este cliente aparece")
+    
+    # Equipamentos onde aparece
+    equipment_names = models.JSONField(default=list, help_text="Lista de nomes de equipamentos")
+    
+    # Interfaces relacionadas (físicas + LAGs)
+    interfaces_data = models.JSONField(default=dict, help_text="Mapeamento equipamento -> interfaces")
+    
+    # Descrições e contextos encontrados
+    descriptions = models.JSONField(default=list, help_text="Todas as descrições onde cliente aparece")
+    contexts = models.JSONField(default=list, help_text="Contextos: LAG descriptions, group names, etc.")
+    
+    # Metadados de controle
+    total_occurrences = models.IntegerField(default=0, help_text="Total de vezes que cliente aparece")
+    last_updated = models.DateTimeField(auto_now=True)
+    source_files = models.JSONField(default=list, help_text="Arquivos JSON onde foi encontrado")
+    
+    class Meta:
+        db_table = "mpls_analyzer_customer_index"
+        ordering = ['-total_occurrences', 'customer_name_normalized']
+        indexes = [
+            models.Index(fields=['customer_name_normalized']),
+            models.Index(fields=['customer_name_clean']),
+            models.Index(fields=['customer_name']),
+            models.Index(fields=['total_occurrences']),
+            models.Index(fields=['last_updated']),
+        ]
+    
+    def __str__(self):
+        return f"{self.customer_name} ({self.total_occurrences} ocorrências)"
+    
+    @staticmethod
+    def normalize_name(name):
+        """Normaliza nome para busca (remove acentos, lowercase)"""
+        import unicodedata
+        import re
+        
+        if not name:
+            return ""
+        
+        # Remove acentos
+        normalized = unicodedata.normalize('NFD', name)
+        normalized = ''.join(c for c in normalized if unicodedata.category(c) != 'Mn')
+        
+        # Lowercase
+        normalized = normalized.lower()
+        
+        return normalized
+    
+    @staticmethod  
+    def clean_name(name):
+        """Limpa nome para busca (só alfanumérico + espaços)"""
+        import re
+        
+        if not name:
+            return ""
+        
+        # Mantém só letras, números e espaços
+        cleaned = re.sub(r'[^a-zA-Z0-9\s]', '', name)
+        # Remove espaços múltiplos
+        cleaned = re.sub(r'\s+', ' ', cleaned).strip()
+        
+        return cleaned.lower()
+    
+    def add_occurrence(self, equipment_name, vpn_id=None, interface_name=None, description="", context_type="", source_file=""):
+        """Adiciona uma nova ocorrência do cliente"""
+        
+        # Adiciona VPN ID se não existir
+        if vpn_id and vpn_id not in self.vpn_ids:
+            vpn_ids = list(self.vpn_ids)
+            vpn_ids.append(vpn_id)
+            self.vpn_ids = vpn_ids
+        
+        # Adiciona equipamento se não existir  
+        if equipment_name not in self.equipment_names:
+            equipment_names = list(self.equipment_names)
+            equipment_names.append(equipment_name)
+            self.equipment_names = equipment_names
+        
+        # Adiciona interface por equipamento
+        if interface_name:
+            interfaces_data = dict(self.interfaces_data)
+            if equipment_name not in interfaces_data:
+                interfaces_data[equipment_name] = []
+            if interface_name not in interfaces_data[equipment_name]:
+                interfaces_data[equipment_name].append(interface_name)
+            self.interfaces_data = interfaces_data
+        
+        # Adiciona descrição se não existir
+        if description and description not in self.descriptions:
+            descriptions = list(self.descriptions)  
+            descriptions.append(description)
+            self.descriptions = descriptions
+        
+        # Adiciona contexto
+        if context_type:
+            contexts = list(self.contexts)
+            context_entry = {
+                'type': context_type,
+                'equipment': equipment_name,
+                'description': description,
+                'vpn_id': vpn_id,
+                'interface': interface_name
+            }
+            contexts.append(context_entry)
+            self.contexts = contexts
+        
+        # Adiciona arquivo fonte
+        if source_file and source_file not in self.source_files:
+            source_files = list(self.source_files)
+            source_files.append(source_file)
+            self.source_files = source_files
+            
+        # Incrementa contador
+        self.total_occurrences += 1
+
+
 class BackupProcessLog(models.Model):
     started_at = models.DateTimeField()
     finished_at = models.DateTimeField(null=True, blank=True)

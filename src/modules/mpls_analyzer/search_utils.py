@@ -3,7 +3,7 @@ from django.db.models import Q
 # from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 # from django.contrib.postgres.aggregates import StringAgg
 import re
-from .models import MplsConfiguration, Equipment, CustomerService, Vpn
+from .models import MplsConfiguration, Equipment, CustomerService, Vpn, CustomerIndex
 
 
 class AdvancedSearchEngine:
@@ -197,6 +197,78 @@ class AdvancedSearchEngine:
         
         return snippets
     
+    def search_customers_by_name(self, query, limit=50):
+        """
+        Busca otimizada por nome de cliente usando CustomerIndex
+        Performance: O(log n) vs O(n) da busca tradicional
+        """
+        if not query or len(query) < 2:
+            return []
+        
+        # Normaliza query
+        query_normalized = CustomerIndex.normalize_name(query)
+        query_clean = CustomerIndex.clean_name(query)
+        
+        # Busca no índice otimizado
+        customers = CustomerIndex.objects.filter(
+            Q(customer_name_normalized__icontains=query_normalized) |
+            Q(customer_name_clean__icontains=query_clean) |
+            Q(customer_name__icontains=query)
+        ).order_by('-total_occurrences', 'customer_name_normalized')[:limit]
+        
+        return customers
+    
+    def search_customers_by_vpn_id(self, vpn_id):
+        """
+        Busca otimizada por VPN ID usando CustomerIndex
+        """
+        try:
+            vpn_id_int = int(vpn_id)
+        except (TypeError, ValueError):
+            return []
+        
+        return CustomerIndex.objects.filter(
+            vpn_ids__contains=vpn_id_int
+        ).order_by('-total_occurrences')
+    
+    def get_customer_details(self, customer_id):
+        """
+        Retorna detalhes completos de um cliente específico
+        """
+        try:
+            return CustomerIndex.objects.get(id=customer_id)
+        except CustomerIndex.DoesNotExist:
+            return None
+    
+    def get_related_configurations(self, customer_index):
+        """
+        Busca configurações MPLS relacionadas a um cliente do índice
+        """
+        if not customer_index:
+            return MplsConfiguration.objects.none()
+        
+        # Busca por equipamentos onde o cliente aparece
+        equipment_names = customer_index.equipment_names or []
+        vpn_ids = customer_index.vpn_ids or []
+        
+        queryset = MplsConfiguration.objects.none()
+        
+        # Busca por equipamentos
+        if equipment_names:
+            configs_by_equipment = MplsConfiguration.objects.filter(
+                equipment__name__in=equipment_names
+            ).select_related('equipment')
+            queryset = queryset.union(configs_by_equipment)
+        
+        # Busca por VPN IDs
+        if vpn_ids:
+            configs_by_vpn = MplsConfiguration.objects.filter(
+                vpws_groups__vpns__vpn_id__in=vpn_ids
+            ).select_related('equipment')
+            queryset = queryset.union(configs_by_vpn)
+        
+        return queryset.order_by('-backup_date').distinct()
+    
     def update_all_search_vectors(self):
         """Search vectors disabled for SQLite"""
         return 0
@@ -225,12 +297,22 @@ def smart_search(query, search_type='auto', **filters):
             search_type = 'interface'
         elif len(query) > 8 and re.match(r'^[A-Z0-9]+$', query):
             search_type = 'serial'
+        # Detecta busca por cliente (nomes com mais de 3 caracteres e letras)
+        elif len(query) > 3 and re.search(r'[a-zA-Z]', query) and not re.match(r'^\d+$', query):
+            # Tenta busca por cliente primeiro
+            customer_results = engine.search_customers_by_name(query)
+            if customer_results:
+                search_type = 'customer'
+            else:
+                search_type = 'full_text'
         else:
             search_type = 'full_text'
     
     # Executa busca baseada no tipo
     if search_type == 'full_text':
         return engine.search_full_text(query)
+    elif search_type == 'customer':
+        return engine.search_customers_by_name(query)
     elif search_type == 'ip':
         return engine.search_ip_addresses(query)
     elif search_type == 'mac':

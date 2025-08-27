@@ -225,16 +225,131 @@ def import_jsons_update_documented(request):
 def collect_and_import_update_documented(request):
     return views.collect_and_import_update(request._request)
 
+# NOVOS ENDPOINTS OTIMIZADOS PARA BUSCA POR CLIENTE
+
+@extend_schema(
+    summary="Busca Otimizada por Cliente",
+    description="Busca rápida por nome de cliente usando índice otimizado. Performance superior à busca tradicional.",
+    tags=['mpls-search'],
+    parameters=[
+        OpenApiParameter(
+            name='q',
+            type=OpenApiTypes.STR,
+            location=OpenApiParameter.QUERY,
+            description='Nome do cliente (busca parcial suportada)',
+            required=True
+        ),
+        OpenApiParameter(
+            name='limit',
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.QUERY,
+            description='Número máximo de resultados (default: 50)',
+            required=False
+        )
+    ],
+    responses={
+        200: "Lista de clientes encontrados no índice otimizado",
+        400: ErrorResponseSerializer
+    }
+)
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def search_customers_optimized(request):
+    """Busca otimizada por cliente usando CustomerIndex"""
+    return views.api_search_customers_optimized(request._request)
+
+@extend_schema(
+    summary="Detalhes do Cliente",
+    description="Retorna informações completas de um cliente específico com equipamentos, VPNs e interfaces",
+    tags=['mpls-search'],
+    parameters=[
+        OpenApiParameter(
+            name='customer_id',
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.PATH,
+            description='ID do cliente no índice',
+            required=True
+        )
+    ],
+    responses={
+        200: "Detalhes completos do cliente",
+        404: ErrorResponseSerializer
+    }
+)
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def customer_details_optimized(request, customer_id):
+    """Detalhes completos de um cliente específico"""
+    return views.api_customer_details_optimized(request._request, customer_id)
+
+@extend_schema(
+    summary="Configurações Relacionadas ao Cliente",
+    description="Retorna configurações MPLS relacionadas a um cliente específico",
+    tags=['mpls-search'],
+    parameters=[
+        OpenApiParameter(
+            name='customer_id',
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.PATH,
+            description='ID do cliente no índice',
+            required=True
+        )
+    ],
+    responses={
+        200: "Configurações MPLS relacionadas ao cliente",
+        404: ErrorResponseSerializer
+    }
+)
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def customer_configurations_optimized(request, customer_id):
+    """Configurações MPLS relacionadas a um cliente"""
+    return views.api_customer_configurations_optimized(request._request, customer_id)
+
+@extend_schema(
+    summary="Busca por VPN ID Otimizada",
+    description="Busca clientes por VPN ID usando índice otimizado",
+    tags=['mpls-search'],
+    parameters=[
+        OpenApiParameter(
+            name='vpn_id',
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.PATH,
+            description='ID da VPN',
+            required=True
+        )
+    ],
+    responses={
+        200: "Clientes que usam essa VPN",
+        400: ErrorResponseSerializer
+    }
+)
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def search_customers_by_vpn_optimized(request, vpn_id):
+    """Busca clientes por VPN ID"""
+    return views.api_search_customers_by_vpn_optimized(request._request, vpn_id)
+
 urlpatterns = [
+    # Busca tradicional
     path('search/', api_search_documented, name='mpls-api-search'),
-    path('search/suggestions/', api_search_documented, name='mpls-api-search-suggestions'),  # Sugestões usam mesma lógica de busca
-    path('reports/customers/', customer_report_documented, name='mpls-api-customer-report'),  # URL esperada pelo frontend
-    path('reports/equipment/', equipment_vpns_report_documented, name='mpls-api-equipment-report'),  # Nova URL para VPNs por equipamento
-    path('equipment/json-backup/', equipment_json_backup_documented, name='mpls-api-equipment-json-backup'),  # Novo endpoint para JSON backup completo
+    path('search/suggestions/', api_search_documented, name='mpls-api-search-suggestions'),
+    
+    # NOVOS ENDPOINTS OTIMIZADOS PARA CLIENTES
+    path('search/customers/', search_customers_optimized, name='mpls-api-search-customers-optimized'),
+    path('search/customers/vpn/<int:vpn_id>/', search_customers_by_vpn_optimized, name='mpls-api-search-customers-by-vpn'),
+    path('customers/<int:customer_id>/', customer_details_optimized, name='mpls-api-customer-details'),
+    path('customers/<int:customer_id>/configurations/', customer_configurations_optimized, name='mpls-api-customer-configurations'),
+    
+    # Relatórios tradicionais
+    path('reports/customers/', customer_report_documented, name='mpls-api-customer-report'),
+    path('reports/equipment/', equipment_vpns_report_documented, name='mpls-api-equipment-report'),
+    path('equipment/json-backup/', equipment_json_backup_documented, name='mpls-api-equipment-json-backup'),
     path('vpn-report/', vpn_report_documented, name='mpls-vpn-report'),
     path('customer-interface-report/', customer_interface_report_documented, name='mpls-customer-interface-report'),
     path('customer-report/', customer_report_documented, name='mpls-customer-report'),
     path('customer-report/excel/', customer_report_excel_documented, name='mpls-customer-report-excel'),
+    
     # Admin/update endpoints POST - update do banco de dados
     path('update/import-jsons/', import_jsons_update_documented, name='mpls-update-import-jsons'),
     path('update/collect-and-import/', collect_and_import_update_documented, name='mpls-collect-and-import'),
